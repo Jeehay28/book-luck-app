@@ -62,6 +62,10 @@ flutter:
     - assets/images/lightning.png
     - assets/images/layer_1.png
     - assets/images/warning.png
+    - assets/images/bookshelf.png
+    - assets/images/feed.png
+    - assets/images/home.png
+    - assets/images/my-page.png
 
 
   # The following line ensures that the Material Icons font is
