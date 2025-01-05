@@ -6,11 +6,14 @@ import 'package:book_luck_app/widgets/FourLeafCloverContainer.dart';
 import 'package:book_luck_app/widgets/ReadingTimeBar.dart';
 import 'package:book_luck_app/widgets/GoalCountdown.dart';
 import 'package:book_luck_app/widgets/BottomMenu.dart';
+import 'package:provider/provider.dart';
+import 'package:book_luck_app/providers/minutes_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final screenHeight = MediaQuery.of(context).size.height;
+    // final minutes = Provider.of<MinutesProvider>(context).minutes;
 
     return Scaffold(
       body: Padding(
