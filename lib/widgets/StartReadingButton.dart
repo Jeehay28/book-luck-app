@@ -4,29 +4,32 @@ import 'package:provider/provider.dart'; // Import the Provider package
 import 'package:book_luck_app/providers/minutes_provider.dart';
 
 class StartReadingButton extends StatefulWidget {
-  final double heightFactor;
+  // final double heightFactor;
+  final double bodyHeight;
+  final double bodyWidth;
 
-  const StartReadingButton({Key? key, required this.heightFactor})
-      : super(key: key);
+  const StartReadingButton({
+    Key? key,
+    // required this.heightFactor
+    required this.bodyHeight,
+    required this.bodyWidth,
+  }) : super(key: key);
 
   @override
   _StartReadingButtonState createState() => _StartReadingButtonState();
 }
 
 class _StartReadingButtonState extends State<StartReadingButton> {
-  // final double heightFactor;
-
   String _buttonText = "독서 시작하기"; // Initial text on button
-  String _countdownText = "00:00:00"; // Countdown text
   String _pauseText = "일시정지";
   late Timer _timer;
-  int _seconds = 0; // Countdown starting at 1 second
+  int _seconds = 300; // Countdown starting at 1 second
   bool _isCountdownStarted = false; // Flag to track countdown status
 
   // Start countdown
   void _startCountdown({int? previous}) {
     setState(() {
-      _seconds = previous ?? 1800; // Start from 00:00:00
+      _seconds = previous ?? 300; // Start from 00:00:00
       _buttonText = "00:00:00";
       _isCountdownStarted = true; // Start the countdown
     });
@@ -77,9 +80,16 @@ class _StartReadingButtonState extends State<StartReadingButton> {
     _timer.cancel();
     setState(() {
       _buttonText = "독서 시작하기"; // Reset to initial text
-      _seconds = 0;
+      _seconds = 300;
       _isCountdownStarted = false;
     });
+
+    _seconds = 300;
+    final minutes = ((_seconds % 3600) ~/ 60).toString().padLeft(2, '0');
+
+    final minutesProvider =
+        Provider.of<MinutesProvider>(context, listen: false);
+    minutesProvider.setMinutes(int.parse(minutes));
   }
 
   void _showPopup(BuildContext context, VoidCallback onConfirm) {
@@ -152,11 +162,12 @@ class _StartReadingButtonState extends State<StartReadingButton> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final mins = Provider.of<MinutesProvider>(context).minutes;
+    // final screenHeight = MediaQuery.of(context).size.height;
+    // final mins = Provider.of<MinutesProvider>(context).minutes;
 
     return Container(
-      height: screenHeight * widget.heightFactor, // Dynamic height
+      // height: screenHeight * widget.heightFactor, // Dynamic height
+      height: widget.bodyHeight * 0.1128,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.transparent,
@@ -169,7 +180,8 @@ class _StartReadingButtonState extends State<StartReadingButton> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF303030), // Button background color
-            fixedSize: Size(320, 56), // Button size
+            fixedSize: Size(0.8889 * widget.bodyWidth,
+                0.0790 * widget.bodyHeight), // Button size
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
@@ -181,7 +193,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 12),
+                padding: EdgeInsets.only(right: widget.bodyWidth * 0.0333),
                 child: Text(
                   _buttonText,
                   style: TextStyle(
@@ -198,7 +210,8 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.zero,
                             backgroundColor: Color(0xFFF82A54),
-                            fixedSize: Size(65, 32),
+                            fixedSize: Size(widget.bodyWidth * 0.1806,
+                                widget.bodyHeight * 0.0451),
                             shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8)),
@@ -212,13 +225,16 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 8), // Add space between buttons
+                        SizedBox(
+                            width: widget.bodyWidth *
+                                0.0222), // Add space between buttons
                         ElevatedButton(
                           onPressed: _pauseCountdown,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF4A4A4A),
                             padding: EdgeInsets.zero,
-                            fixedSize: Size(65, 32),
+                            fixedSize: Size(widget.bodyWidth * 0.1806,
+                                widget.bodyHeight * 0.0451),
                             shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8)),
@@ -235,12 +251,12 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                       ],
                     )
                   : Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Image.asset(
-                        'assets/images/right-arrow.png',
-                        height: 24,
-                        width: 24, // Image dimensions
-                      ),
+                      padding:
+                          EdgeInsets.only(right: widget.bodyWidth * 0.0333),
+                      child: Image.asset('assets/images/right-arrow.png',
+                          height: widget.bodyHeight * 0.0339,
+                          width: widget.bodyWidth * 0.0667 // Image dimensions
+                          ),
                     )
             ],
           ),

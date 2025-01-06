@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
 class BookluckContainer extends StatelessWidget {
-  final double heightFactor;
+  // final double heightFactor;
+  final double bodyHeight;
+  final double bodyWidth;
 
-  const BookluckContainer({
-    Key? key,
-    required this.heightFactor,
-  }) : super(key: key);
+  const BookluckContainer(
+      {Key? key, required this.bodyHeight, required this.bodyWidth})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      height: screenHeight * heightFactor, // 8.18% of screen height
+      // height: screenHeight * heightFactor, // 8.18% of screen height
+      height: 0.0818 * bodyHeight,
+      width: bodyWidth,
+
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.transparent,
@@ -24,14 +28,16 @@ class BookluckContainer extends StatelessWidget {
       ),
       child: Center(
         child: Container(
-          width: 328,
+          width: 0.8889 * bodyWidth,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(width: 20),
+              // const SizedBox(width: (bodyWidth * 0.0556)),
               Container(
-                height: 34,
+                // height: 34,
+                height: 0.480 * bodyHeight,
+                width: 0.2583 * bodyWidth,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.transparent,
@@ -45,10 +51,11 @@ class BookluckContainer extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(width: 144),
+              SizedBox(width: 0.4556 * bodyWidth),
               Container(
-                width: 43,
-                height: 34,
+                // width: 43,
+                width: 0.1194 * bodyWidth,
+                height: 0.480 * bodyHeight,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.transparent,
@@ -64,9 +71,10 @@ class BookluckContainer extends StatelessWidget {
                     Image.asset(
                       'assets/images/mail.png',
                       fit: BoxFit.contain,
-                      width: 24,
+                      // width: 24,
+                      width: 0.0667 * bodyWidth,
                     ),
-                    const SizedBox(width: 7),
+                    SizedBox(width: 0.0194 * bodyWidth),
                     const Text(
                       '1',
                       style: TextStyle(

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class BottomMenu extends StatelessWidget {
-  final double heightFactor;
+  final double bodyHeight;
+  final double bodyWidth;
 
   const BottomMenu({
     Key? key,
-    required this.heightFactor,
+    required this.bodyHeight,
+    required this.bodyWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
       // width: 360,
-      height: screenHeight * heightFactor, // 9.87% of screen height, 70,
+      height: 0.0987 * bodyHeight, // 9.87% of screen height, 70,
       // color: Colors.green,
       decoration: BoxDecoration(
         border: Border.all(
@@ -27,8 +27,8 @@ class BottomMenu extends StatelessWidget {
       ),
       child: Center(
           child: Container(
-        height: 50,
-        width: 320,
+        height: bodyHeight * 0.0705,
+        width: bodyWidth * 0.8889,
         child: Row(
           mainAxisAlignment:
               MainAxisAlignment.spaceAround, // Center the Row horizontally
@@ -38,7 +38,7 @@ class BottomMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset('assets/images/home.png',
-                    height: 24), // Image on top
+                    height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("홈", style: TextStyle(fontSize: 12)), // Text at the bottom
               ],
@@ -47,7 +47,7 @@ class BottomMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset('assets/images/bookshelf.png',
-                    height: 24), // Image on top
+                    height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("책장",
                     style: TextStyle(fontSize: 12)), // Text at the bottom
@@ -57,7 +57,7 @@ class BottomMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset('assets/images/feed.png',
-                    height: 24), // Image on top
+                    height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("피드",
                     style: TextStyle(fontSize: 12)), // Text at the bottom
@@ -67,7 +67,7 @@ class BottomMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset('assets/images/my-page.png',
-                    height: 24), // Image on top
+                    height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("마이페이지",
                     style: TextStyle(fontSize: 12)), // Text at the bottom

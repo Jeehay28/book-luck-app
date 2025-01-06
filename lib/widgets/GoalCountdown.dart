@@ -3,22 +3,21 @@ import 'package:provider/provider.dart';
 import 'package:book_luck_app/providers/minutes_provider.dart';
 
 class GoalCountdown extends StatelessWidget {
-  final double heightFactor;
-  // final int minutes; // Add minutes as a parameter
+  final double bodyHeight;
+  final double bodyWidth;
 
   const GoalCountdown({
     Key? key,
-    required this.heightFactor,
-    // required this.minutes, // Pass minutes to the widget
+    required this.bodyHeight,
+    required this.bodyWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final minutes = Provider.of<MinutesProvider>(context).minutes;
 
     return Container(
-      height: screenHeight * heightFactor, // 8.04% of screen height, 57,
+      height: 0.0804 * bodyHeight, // 8.04% of screen height, 57,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.transparent,
@@ -33,7 +32,8 @@ class GoalCountdown extends StatelessWidget {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFFFFFFFF), // Button background color
-              fixedSize: Size(320, 44), // Button size
+              // fixedSize: Size(320, 44), // Button size
+              fixedSize: Size(0.8889 * bodyWidth, 0.0621 * bodyHeight),
               shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.all(Radius.circular(8)), // Rounded corners
@@ -47,8 +47,8 @@ class GoalCountdown extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/images/lightning.png', // Path to the image
-                  height: 24,
-                  width: 24, // Image height
+                  height: 0.282 * bodyHeight,
+                  width: 0.0556 * bodyWidth, // Image height
                 ),
                 Text(
                   "목표까지 ${60 - minutes}분 남았어요!", // Add your desired button label here

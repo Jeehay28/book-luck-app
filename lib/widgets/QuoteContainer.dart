@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
 class QuoteContainer extends StatelessWidget {
-  final double heightFactor;
+  final double bodyHeight;
+  final double bodyWidth;
 
   const QuoteContainer({
     Key? key,
-    required this.heightFactor,
+    required this.bodyHeight,
+    required this.bodyWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
-        height: screenHeight * 0.1721, // 17.21% of screen height, 122,
+        height: 0.1721 * bodyHeight,
+        width: 0.8889 * bodyWidth, // 17.21% of screen height, 122,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.transparent, // Border color
@@ -27,7 +28,7 @@ class QuoteContainer extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
 
-            fixedSize: Size(320, 240),
+            fixedSize: Size(0.7778 * bodyWidth, 0.1326 * bodyHeight),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 side: BorderSide(
@@ -42,12 +43,12 @@ class QuoteContainer extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/images/warning.png', // Replace with your image path
-                  width: 24, // Set the width of the image
-                  height: 24, // Set the height of the image
+                  width: 0.0667 * bodyWidth, // Set the width of the image
+                  height: 0.0339 * bodyHeight, // Set the height of the image
                   fit: BoxFit.contain, // Adjust image fit if needed
                 ),
                 Text(
-                  '업데이트된 명언이 없습니다. \n업데이트 전까지 조그만 기다려주세요!',
+                  '업데이트된 명언이 없습니다. \n업데이트 전까지 조금금만 기다려주세요!',
                   style: TextStyle(
                     color: Color.fromRGBO(48, 48, 48, 0.6),
                     fontSize: 16,

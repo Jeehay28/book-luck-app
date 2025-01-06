@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Book Luck App',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        // primarySwatch: Colors.deepPurple,
+        scaffoldBackgroundColor: Colors.white, // Set default background color
       ),
       home:
           LandingPage(), // Removed const because LandingPage isn't a const widget

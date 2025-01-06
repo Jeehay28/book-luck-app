@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class FourLeafCloverContainer extends StatelessWidget {
-  final double heightFactor;
+  final double bodyHeight;
+  final double bodyWidth;
 
   const FourLeafCloverContainer({
     Key? key,
-    required this.heightFactor,
+    required this.bodyHeight,
+    required this.bodyWidth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
-      // width: 360,
-      height: screenHeight * heightFactor, // 35.54% of screen height, 252,
+      width: bodyWidth,
+      height: bodyHeight * 0.3554, // 35.54% of screen height, 252,
       // color: Colors.green,
       decoration: BoxDecoration(
         border: Border.all(
@@ -30,7 +30,8 @@ class FourLeafCloverContainer extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromRGBO(86, 105, 143, 0.04),
               // Button background color
-              fixedSize: Size(320, 240), // Button size
+              fixedSize:
+                  Size(bodyWidth * 0.8889, bodyHeight * 0.3385), // Button size
               shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.all(Radius.circular(8)), // Rounded corners
@@ -44,11 +45,9 @@ class FourLeafCloverContainer extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/layer_1.png', // Path to the image
-                  height: 121.32,
-                  width: 150, // Image height
-                ),
+                Image.asset('assets/images/layer_1.png', // Path to the image
+                    height: bodyHeight * 0.1711,
+                    width: bodyWidth * 0.4167),
               ],
             )),
       ),
