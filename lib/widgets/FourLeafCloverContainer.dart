@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FourLeafCloverContainer extends StatelessWidget {
   final double bodyHeight;
@@ -45,7 +46,8 @@ class FourLeafCloverContainer extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/layer_1.png', // Path to the image
+                SvgPicture.asset(
+                    'assets/images/layer_1.svg', // Path to the image
                     height: bodyHeight * 0.1711,
                     width: bodyWidth * 0.4167),
               ],

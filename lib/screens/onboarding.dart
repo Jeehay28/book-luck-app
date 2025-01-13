@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingPage extends StatefulWidget {
   @override
@@ -15,28 +16,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
       "bigText2": "들어가는 영역입니다.",
       "middleText1": "디스크립션이 들어가는 영역입니다.",
       "middleText2": "두 줄정도 들어가면 좋습니다.",
-      "logo": "assets/images/logo.png",
+      "logo": "assets/images/logo.svg",
     },
     {
       "bigText1": "기록에 관한 내용이",
       "bigText2": "들어가는 영역입니다.",
       "middleText1": "디스크립션이 들어가는 영역입니다.",
       "middleText2": "두 줄정도 들어가면 좋습니다.",
-      "logo": "assets/images/logo.png",
+      "logo": "assets/images/logo.svg",
     },
     {
       "bigText1": "타유저 인사이트 내용이",
       "bigText2": "들어가는 영역입니다.",
       "middleText1": "디스크립션이 들어가는 영역입니다.",
       "middleText2": "두 줄정도 들어가면 좋습니다.",
-      "logo": "assets/images/logo.png",
+      "logo": "assets/images/logo.svg",
     },
     {
       "bigText1": "(뱃지, 레벨업) 성취감 내용이 ",
       "bigText2": "들어가는 영역입니다.",
       "middleText1": "디스크립션이 들어가는 영역입니다.",
       "middleText2": "두 줄정도 들어가면 좋습니다.",
-      "logo": "assets/images/logo.png",
+      "logo": "assets/images/logo.svg",
     },
   ];
 
@@ -99,7 +100,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                       SizedBox(height: 30), // Add spacing between text and logo
                       // Display the logo after the text
-                      Image.asset(
+                      SvgPicture.asset(
                         data["logo"]!,
                         height: 150,
                       ),

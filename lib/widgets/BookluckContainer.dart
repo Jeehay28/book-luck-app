@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BookluckContainer extends StatelessWidget {
   // final double heightFactor;
@@ -33,29 +34,46 @@ class BookluckContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // const SizedBox(width: (bodyWidth * 0.0556)),
-              Container(
-                // height: 34,
-                height: 0.480 * bodyHeight,
-                width: 0.2583 * bodyWidth,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.transparent,
-                    width: 1,
-                  ),
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.all(Radius.circular(0)),
-                ),
-                child: Image.asset(
-                  'assets/images/bookluck.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(width: 0.4556 * bodyWidth),
-              Container(
+              Flexible(
+                  child: Container(
+                      // height: 34,
+                      height: 0.0480 * bodyHeight,
+                      width: 0.3139 * bodyWidth,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.all(Radius.circular(0)),
+                      ),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment
+                        //     .start, // Optional: Center contents horizontally
+                        crossAxisAlignment: CrossAxisAlignment
+                            .center, // Optional: Center contents vertically
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/bookluck.svg',
+                            width: 0.0444 * bodyWidth,
+                            height: 0.0226 * bodyHeight,
+                          ),
+                          Text(
+                            "BOOKLUCK",
+                            style: TextStyle(
+                              fontFamily: 'DOSIyagiBoldface',
+                              // fontSize: 0.005 * bodyWidth, // Adjust font size as needed
+                              fontWeight: FontWeight.normal, // Optional styling
+                            ),
+                          ),
+                        ],
+                      ))),
+              // SizedBox(width: 0.4556 * bodyWidth),
+              Flexible(
+                  child: Container(
                 // width: 43,
                 width: 0.1194 * bodyWidth,
-                height: 0.480 * bodyHeight,
+                height: 0.0480 * bodyHeight,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.transparent,
@@ -65,27 +83,30 @@ class BookluckContainer extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(0)),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/mail.png',
-                      fit: BoxFit.contain,
-                      // width: 24,
+                    SvgPicture.asset(
+                      'assets/images/mail.svg',
+                      // fit: BoxFit.contain,
+                      // // width: 24,
                       width: 0.0667 * bodyWidth,
+                      height: 0.0240 * bodyHeight,
+                      // color: const Color(0xFFFBD115),
                     ),
-                    SizedBox(width: 0.0194 * bodyWidth),
-                    const Text(
+                    // SizedBox(width: 0.0194 * bodyWidth), //7
+                    Text(
                       '1',
                       style: TextStyle(
-                        color: Color(0xFF303030),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF303030),
+                        fontSize: 0.0667 * bodyWidth,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ],
                 ),
-              ),
+              )),
             ],
           ),
         ),

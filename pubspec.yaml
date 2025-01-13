@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.5
-
+  flutter_svg: ^2.0.7 # Check for the latest version on pub.dev
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,19 +61,23 @@ flutter_icons:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/logo.png
-    - assets/images/kakao.png
-    - assets/images/apple.png
-    - assets/images/bookluck.png
-    - assets/images/mail.png
-    - assets/images/right-arrow.png
-    - assets/images/lightning.png
-    - assets/images/layer_1.png
-    - assets/images/warning.png
-    - assets/images/bookshelf.png
-    - assets/images/feed.png
-    - assets/images/home.png
-    - assets/images/my-page.png
+    - assets/images/logo.svg
+    - assets/images/kakao.svg
+    - assets/images/apple.svg
+    - assets/images/bookluck.svg
+    - assets/images/mail.svg
+    - assets/images/right-arrow.svg
+    - assets/images/lightning.svg
+    - assets/images/layer_1.svg
+    - assets/images/warning.svg
+    - assets/images/bookshelf.svg
+    - assets/images/feed.svg
+    - assets/images/home.svg
+    - assets/images/my-page.svg
+  fonts:
+    - family: DOSIyagiBoldface
+      fonts:
+        - asset: assets/fonts/DOSIyagiBoldface.ttf
 
 
   # The following line ensures that the Material Icons font is

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:book_luck_app/providers/minutes_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GoalCountdown extends StatelessWidget {
   final double bodyHeight;
@@ -45,10 +46,19 @@ class GoalCountdown extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/lightning.png', // Path to the image
-                  height: 0.282 * bodyHeight,
-                  width: 0.0556 * bodyWidth, // Image height
+                Container(
+                    width: 0.0282 * bodyWidth,
+                    height: 0.0556 * bodyHeight,
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      'assets/images/lightning.svg', // Path to the image
+                      height: 0.0176 * bodyHeight,
+                      width: 0.0463 * bodyWidth,
+                      // Set the color heret color
+                    ) // Centers the child within the container
+                    ),
+                SizedBox(
+                  width: 0.0056 * bodyWidth,
                 ),
                 Text(
                   "목표까지 ${60 - minutes}분 남았어요!", // Add your desired button label here

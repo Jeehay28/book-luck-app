@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'onboarding.dart'; // Import OnboardingPage
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -27,8 +28,8 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
-          'assets/images/logo.png', // Path to your logo
+        child: SvgPicture.asset(
+          'assets/images/logo.svg', // Path to your logo
           width: 150, // Adjust the size of the logo as needed
           height: 150,
         ),

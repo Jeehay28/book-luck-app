@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomMenu extends StatelessWidget {
   final double bodyHeight;
@@ -37,7 +38,7 @@ class BottomMenu extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/home.png',
+                SvgPicture.asset('assets/images/home.svg',
                     height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("홈", style: TextStyle(fontSize: 12)), // Text at the bottom
@@ -46,8 +47,10 @@ class BottomMenu extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/bookshelf.png',
-                    height: bodyHeight * 0.0339), // Image on top
+                SvgPicture.asset('assets/images/bookshelf.svg',
+                    height: bodyHeight * 0.0339,
+                    color: Color.fromARGB(48, 48, 48, 0)
+                        .withOpacity(0.3)), // Image on top
                 // Space between image and text
                 Text("책장",
                     style: TextStyle(fontSize: 12)), // Text at the bottom
@@ -56,7 +59,7 @@ class BottomMenu extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/feed.png',
+                SvgPicture.asset('assets/images/feed.svg',
                     height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("피드",
@@ -66,7 +69,7 @@ class BottomMenu extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/my-page.png',
+                SvgPicture.asset('assets/images/my-page.svg',
                     height: bodyHeight * 0.0339), // Image on top
                 // Space between image and text
                 Text("마이페이지",

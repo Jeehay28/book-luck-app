@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -39,17 +40,17 @@ class LoginPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/kakao.png', // Replace with your Kakao logo asset path
+                    SvgPicture.asset(
+                      'assets/images/kakao.svg', // Replace with your Kakao logo asset path
                       height: 24, // Adjust height to fit button
                     ),
                     SizedBox(height: 24), // Space between logo and text
                     Text(
                       "카카오로 시작하기",
                       style: TextStyle(
-                        color: Color(0xFF3B1E1E), // Text color
-                        fontSize: 18,
-                      ),
+                          color: Color(0xFF3B1E1E), // Text color
+                          fontSize: 16,
+                          fontFamily: "SUIT Variable"),
                     ),
                   ],
                 ),
@@ -76,16 +77,19 @@ class LoginPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/apple.png', // Replace with your Apple logo asset path
+                    SvgPicture.asset(
+                      'assets/images/apple.svg', // Replace with your Apple logo asset path
                       height: 24, // Adjust height to fit button
                     ),
-                    SizedBox(height: 24), // Space between logo and text
+                    SizedBox(
+                      height: 24,
+                      width: 4,
+                    ), // Space between logo and text
                     Text(
                       "Apple로 시작하기",
                       style: TextStyle(
                         color: Colors.white, // Text color
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -114,7 +118,7 @@ class LoginPage extends StatelessWidget {
                   "이메일로 시작하기",
                   style: TextStyle(
                     color: Color(0xFF303030), // Text color
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
               ),

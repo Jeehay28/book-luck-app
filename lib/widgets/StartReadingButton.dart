@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:provider/provider.dart'; // Import the Provider package
 import 'package:book_luck_app/providers/minutes_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class StartReadingButton extends StatefulWidget {
   // final double heightFactor;
@@ -253,7 +254,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                   : Padding(
                       padding:
                           EdgeInsets.only(right: widget.bodyWidth * 0.0333),
-                      child: Image.asset('assets/images/right-arrow.png',
+                      child: SvgPicture.asset('assets/images/right-arrow.svg',
                           height: widget.bodyHeight * 0.0339,
                           width: widget.bodyWidth * 0.0667 // Image dimensions
                           ),
