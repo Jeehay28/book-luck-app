@@ -199,7 +199,11 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                   _buttonText,
                   style: TextStyle(
                     color: Color(0xFFFFFFFF), // Text color
-                    fontSize: 18, // Text size
+                    fontFamily: 'Mabinogi_Classic',
+                    fontSize: 0.0500 * widget.bodyWidth, // Text size
+                    fontWeight: FontWeight.w500,
+                    height: 1.44, // Correct height as a ratio to the font size
+                    letterSpacing: -0.36,
                   ),
                 ),
               ),
@@ -253,10 +257,10 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                     )
                   : Padding(
                       padding:
-                          EdgeInsets.only(right: widget.bodyWidth * 0.0333),
+                          EdgeInsets.only(right: widget.bodyWidth * 0.0111),
                       child: SvgPicture.asset('assets/images/right-arrow.svg',
-                          height: widget.bodyHeight * 0.0339,
-                          width: widget.bodyWidth * 0.0667 // Image dimensions
+                          height: widget.bodyHeight * 0.0127,
+                          width: widget.bodyWidth * 0.0444 // Image dimensions
                           ),
                     )
             ],

@@ -6,10 +6,6 @@ import 'screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/minutes_provider.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
-
 void main() {
   runApp(
     MultiProvider(

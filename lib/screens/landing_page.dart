@@ -30,7 +30,7 @@ class _LandingPageState extends State<LandingPage> {
       body: Center(
         child: SvgPicture.asset(
           'assets/images/logo.svg', // Path to your logo
-          width: 150, // Adjust the size of the logo as needed
+          // width: 150, // Adjust the size of the logo as needed
           height: 150,
         ),
       ),

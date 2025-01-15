@@ -53,9 +53,9 @@ class ReadingtimeBar extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Color(0xFF303030),
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8), // Top-left corner radius
+                          topLeft: Radius.circular(4), // Top-left corner radius
                           bottomLeft:
-                              Radius.circular(8), // Bottom-left corner radius
+                              Radius.circular(4), // Bottom-left corner radius
                         ),
                       ),
                     ),
@@ -66,14 +66,14 @@ class ReadingtimeBar extends StatelessWidget {
                         color: Color.fromRGBO(48, 48, 48, 0.24),
                         borderRadius: BorderRadius.only(
                           topRight:
-                              Radius.circular(8), // Top-left corner radius
+                              Radius.circular(4), // Top-left corner radius
                           bottomRight:
-                              Radius.circular(8), // Bottom-left corner radius
+                              Radius.circular(4), // Bottom-left corner radius
                           topLeft: redWidth == 0
-                              ? Radius.circular(8)
+                              ? Radius.circular(4)
                               : Radius.circular(0), // Top-left corner radius
                           bottomLeft: redWidth == 0
-                              ? Radius.circular(8)
+                              ? Radius.circular(4)
                               : Radius.circular(0),
                         ),
                       ),
@@ -85,10 +85,56 @@ class ReadingtimeBar extends StatelessWidget {
                   width: bodyWidth * 0.8889, // Set the width for the container
                   height: bodyHeight * 0.0310,
                   child: Center(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("0분"), Text("30분"), Text("1시간")]),
-                  ))
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "0분",
+                        style: TextStyle(
+                          fontFamily: 'Mabinogi_Classic',
+                          fontSize:
+                              0.0444 * bodyWidth, // Optional: Adjust font size
+                          color: Color.fromARGB(48, 48, 48, 0)
+                            ..withOpacity(0.6),
+                          // Text size
+                          fontWeight: FontWeight.w400,
+                          height:
+                              1.4, // Correct height as a ratio to the font size
+                          letterSpacing: -0.32,
+                        ),
+                      ),
+                      Text(
+                        "30분",
+                        style: TextStyle(
+                          fontFamily: 'Mabinogi_Classic',
+                          fontSize:
+                              0.0444 * bodyWidth, // Optional: Adjust font size
+                          color: Color.fromARGB(48, 48, 48, 0)
+                            ..withOpacity(0.6),
+                          // Text size
+                          fontWeight: FontWeight.w400,
+                          height:
+                              1.4, // Correct height as a ratio to the font size
+                          letterSpacing: -0.32,
+                        ),
+                      ),
+                      Text(
+                        "1시간",
+                        style: TextStyle(
+                          fontFamily: 'Mabinogi_Classic',
+                          fontSize:
+                              0.0444 * bodyWidth, // Optional: Adjust font size
+                          color: Color.fromARGB(48, 48, 48, 0)
+                            ..withOpacity(0.6),
+                          // Text size
+                          fontWeight: FontWeight.w400,
+                          height:
+                              1.4, // Correct height as a ratio to the font size
+                          letterSpacing: -0.32,
+                        ),
+                      ),
+                    ],
+                  )))
             ]));
   }
 }

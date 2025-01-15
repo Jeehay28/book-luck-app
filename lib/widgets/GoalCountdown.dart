@@ -52,7 +52,7 @@ class GoalCountdown extends StatelessWidget {
                     alignment: Alignment.center,
                     child: SvgPicture.asset(
                       'assets/images/lightning.svg', // Path to the image
-                      height: 0.0176 * bodyHeight,
+                      // height: 0.0176 * bodyHeight,
                       width: 0.0463 * bodyWidth,
                       // Set the color heret color
                     ) // Centers the child within the container
@@ -64,7 +64,10 @@ class GoalCountdown extends StatelessWidget {
                   "목표까지 ${60 - minutes}분 남았어요!", // Add your desired button label here
                   style: TextStyle(
                     color: Color(0xFF303030), // Text color
-                    fontSize: 14, // Text size
+                    fontSize: 0.0389 * bodyWidth, // Text size
+                    fontWeight: FontWeight.w700,
+                    height: 1.42, // Correct height as a ratio to the font size
+                    letterSpacing: -0.28,
                   ),
                 ),
               ],

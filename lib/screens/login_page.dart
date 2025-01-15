@@ -4,12 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // var styleFrom = ElevatedButton.styleFrom(
-    //   elevation: 0,
-    //   backgroundColor: Color.fromRGBO(86, 105, 143, 0.06),
-    //   fixedSize: Size(320, 56),
-    //   minimumSize: Size(double.infinity, 50),
-    // );
     return GestureDetector(
       onTap: () {
         // Navigate to the '/home' screen when the screen is tapped
@@ -43,8 +37,12 @@ class LoginPage extends StatelessWidget {
                     SvgPicture.asset(
                       'assets/images/kakao.svg', // Replace with your Kakao logo asset path
                       height: 24, // Adjust height to fit button
+                      width: 24,
                     ),
-                    SizedBox(height: 24), // Space between logo and text
+                    SizedBox(
+                      height: 24,
+                      width: 4,
+                    ), // Space between logo and text
                     Text(
                       "카카오로 시작하기",
                       style: TextStyle(
@@ -80,6 +78,7 @@ class LoginPage extends StatelessWidget {
                     SvgPicture.asset(
                       'assets/images/apple.svg', // Replace with your Apple logo asset path
                       height: 24, // Adjust height to fit button
+                      width: 24,
                     ),
                     SizedBox(
                       height: 24,

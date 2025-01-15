@@ -46,7 +46,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/favicon-32x32.png" # Path to your app icon image
+  image_path: "assets/images/apple-icon.png" # Path to your app icon image
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -65,10 +65,12 @@ flutter:
     - assets/images/kakao.svg
     - assets/images/apple.svg
     - assets/images/bookluck.svg
+    - assets/images/bookluck_text.svg
     - assets/images/mail.svg
     - assets/images/right-arrow.svg
     - assets/images/lightning.svg
     - assets/images/layer_1.svg
+    - assets/images/layer_2.svg
     - assets/images/warning.svg
     - assets/images/bookshelf.svg
     - assets/images/feed.svg
@@ -78,7 +80,7 @@ flutter:
     - family: DOSIyagiBoldface
       fonts:
         - asset: assets/fonts/DOSIyagiBoldface.ttf
-
+        - asset: assets/fonts/Mabinogi_Classic_TTF.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
