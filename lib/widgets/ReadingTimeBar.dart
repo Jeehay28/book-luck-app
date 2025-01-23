@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:book_luck_app/providers/minutes_provider.dart';
@@ -91,12 +90,10 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "0분",
                         style: TextStyle(
-                          fontFamily: 'Mabinogi_Classic',
+                          fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
-                          color: Color.fromARGB(48, 48, 48, 0)
-                            ..withOpacity(0.6),
-                          // Text size
+                          color: Color.fromARGB(48, 48, 48, 0).withOpacity(0.6),
                           fontWeight: FontWeight.w400,
                           height:
                               1.4, // Correct height as a ratio to the font size
@@ -106,12 +103,10 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "30분",
                         style: TextStyle(
-                          fontFamily: 'Mabinogi_Classic',
+                          fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
-                          color: Color.fromARGB(48, 48, 48, 0)
-                            ..withOpacity(0.6),
-                          // Text size
+                          color: Color.fromARGB(48, 48, 48, 0).withOpacity(0.6),
                           fontWeight: FontWeight.w400,
                           height:
                               1.4, // Correct height as a ratio to the font size
@@ -121,7 +116,7 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "1시간",
                         style: TextStyle(
-                          fontFamily: 'Mabinogi_Classic',
+                          fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
                           color: Color.fromARGB(48, 48, 48, 0)

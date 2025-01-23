@@ -123,8 +123,8 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                         child: Text(
                           "계속 읽을래요",
                           style: TextStyle(
-                            color: Colors.white, // Text color
-                          ),
+                              color: Colors.white, // Text color
+                              fontFamily: 'SUITVariable'),
                         ),
                       ))),
             ),
@@ -147,12 +147,11 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                         child: FittedBox(
                           fit: BoxFit
                               .scaleDown, // Ensures the text fits inside the button
-
                           child: Text(
                             "끝낼께요.",
                             style: TextStyle(
-                              color: Colors.white, // Text color
-                            ),
+                                color: Colors.white, // Text color
+                                fontFamily: 'SUITVariable'),
                           ),
                         )))),
           ],
@@ -199,7 +198,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                   _buttonText,
                   style: TextStyle(
                     color: Color(0xFFFFFFFF), // Text color
-                    fontFamily: 'Mabinogi_Classic',
+                    fontFamily: 'SUITVariable',
                     fontSize: 0.0500 * widget.bodyWidth, // Text size
                     fontWeight: FontWeight.w500,
                     height: 1.44, // Correct height as a ratio to the font size
@@ -225,9 +224,12 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                           child: Text(
                             "종료하기",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
+                                color: Colors.white,
+                                fontSize: widget.bodyWidth * 0.0389,
+                                fontFamily: 'SUITVariable',
+                                fontWeight: FontWeight.w700,
+                                height: 1.42,
+                                letterSpacing: -0.028),
                           ),
                         ),
                         SizedBox(
@@ -248,9 +250,12 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                           child: Text(
                             _pauseText,
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
+                                color: Colors.white,
+                                fontSize: widget.bodyWidth * 0.0389,
+                                fontFamily: 'SUITVariable',
+                                fontWeight: FontWeight.w700,
+                                height: 1.42,
+                                letterSpacing: -0.028),
                           ),
                         ),
                       ],

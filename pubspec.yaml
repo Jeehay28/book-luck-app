@@ -80,7 +80,12 @@ flutter:
     - family: DOSIyagiBoldface
       fonts:
         - asset: assets/fonts/DOSIyagiBoldface.ttf
-        - asset: assets/fonts/Mabinogi_Classic_TTF.ttf
+    - family: MabinogiClassic
+      fonts:
+        - asset: assets/fonts/MabinogiClassic.ttf
+    - family: SUITVariable
+      fonts:
+        - asset: assets/fonts/SUIT-Variable.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

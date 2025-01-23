@@ -5,9 +5,6 @@ import 'package:book_luck_app/widgets/QuoteContainer.dart';
 import 'package:book_luck_app/widgets/FourLeafCloverContainer.dart';
 import 'package:book_luck_app/widgets/ReadingTimeBar.dart';
 import 'package:book_luck_app/widgets/GoalCountdown.dart';
-import 'package:book_luck_app/widgets/BottomMenu.dart';
-import 'package:provider/provider.dart';
-import 'package:book_luck_app/providers/minutes_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -23,16 +20,49 @@ class HomeScreen extends StatelessWidget {
         MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
         MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
 
-    return Scaffold(
-        body: SafeArea(
-      child: Padding(
-          padding: EdgeInsets.zero, // Add some padding for the sides
-          child: SizedBox(
-            height: bodyHeight,
+    // return Scaffold(
+    //   body: SafeArea(
+    //     child: Padding(
+    //         padding: EdgeInsets.zero, // Add some padding for the sides
+    //         child: SizedBox(
+    //           height: bodyHeight,
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             mainAxisAlignment:
+    //                 MainAxisAlignment.spaceBetween, // Distribute space
+    //             children: [
+    //               // 1) BOOKLUCK 로고 : 360 * 58 (8.18% of screen height)
+    //               BookluckContainer(
+    //                   bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+
+    //               // 2) 명언 박스 : 360 * 122 (17.21% of screen height)
+    //               QuoteContainer(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+
+    //               // 3) 네잎클로버 로고 : 360 *252 (35.54% of screen height)
+    //               FourLeafCloverContainer(
+    //                   bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+
+    //               // 4) 0분-30분-1시간 : 360 * 70 (9.87% of screen height)
+    //               ReadingtimeBar(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+
+    //               // 5) 목표까지 : 360 * 57 (8.04% of screen height)
+    //               GoalCountdown(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+
+    //               // 6) 독서시작하기 : 360 *80 (11.28% of screen height)
+    //               StartReadingButton(
+    //                   bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+
+    //             ],
+    //           ),
+    //         )),
+    //   ),
+    // );
+
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween, // Distribute space
               children: [
                 // 1) BOOKLUCK 로고 : 360 * 58 (8.18% of screen height)
                 BookluckContainer(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
@@ -53,12 +83,11 @@ class HomeScreen extends StatelessWidget {
                 // 6) 독서시작하기 : 360 *80 (11.28% of screen height)
                 StartReadingButton(
                     bodyHeight: bodyHeight, bodyWidth: bodyWidth),
-
-                // 7) 홈/책장/피드/마이페이지 : 360 * 104 (9.87% of screen height)
-                BottomMenu(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
               ],
             ),
-          )),
-    ));
+          ),
+        ),
+      ],
+    );
   }
 }

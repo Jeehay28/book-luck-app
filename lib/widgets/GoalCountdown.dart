@@ -64,6 +64,7 @@ class GoalCountdown extends StatelessWidget {
                   "목표까지 ${60 - minutes}분 남았어요!", // Add your desired button label here
                   style: TextStyle(
                     color: Color(0xFF303030), // Text color
+                    fontFamily: 'SUITVariable',
                     fontSize: 0.0389 * bodyWidth, // Text size
                     fontWeight: FontWeight.w700,
                     height: 1.42, // Correct height as a ratio to the font size
