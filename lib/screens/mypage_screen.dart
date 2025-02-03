@@ -14,7 +14,6 @@ class MyPageScreen extends StatelessWidget {
         MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
         MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
 
-    final currentRoute = ModalRoute.of(context)?.settings.name ?? '/';
     return Scaffold(
       body: SafeArea(
         child: Padding(

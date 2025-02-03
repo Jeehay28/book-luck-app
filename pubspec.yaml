@@ -76,6 +76,7 @@ flutter:
     - assets/images/feed.svg
     - assets/images/home.svg
     - assets/images/my-page.svg
+    - assets/images/search.svg
   fonts:
     - family: DOSIyagiBoldface
       fonts:

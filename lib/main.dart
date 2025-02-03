@@ -77,7 +77,8 @@ class _MainScreenState extends State<MainScreen> {
     final currentRoute = Provider.of<RouteProvider>(context).currentRoute;
 
     final bodyHeight = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
+        AppBar().preferredSize.height -
+        // MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom;
 
     return Scaffold(
