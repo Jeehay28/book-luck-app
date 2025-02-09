@@ -77,6 +77,16 @@ flutter:
     - assets/images/home.svg
     - assets/images/my-page.svg
     - assets/images/search.svg
+    - assets/images/heart.svg
+    - assets/images/dots.svg
+    - assets/images/sample-book-00.jpg
+    - assets/images/sample-book-01.jpg
+    - assets/images/sample-book-02.jpg
+    - assets/images/sample-book-03.jpg
+    
+
+
+
   fonts:
     - family: DOSIyagiBoldface
       fonts:

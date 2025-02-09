@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:book_luck_app/widgets/BookListContainer.dart';
 
 class BookshelfScreen extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class BookshelfScreen extends StatefulWidget {
 
 class _BookshelfScreenState extends State<BookshelfScreen> {
   String selectedCategory = "전체";
+  String selectedText = '위시리스트';
 
   @override
   Widget build(BuildContext context) {
@@ -82,48 +84,75 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                           crossAxisAlignment: CrossAxisAlignment
                               .center, // Vertically center content
                           children: [
-                            Container(
-                              height: 0.0677 * bodyHeight,
-                              child: Text(
-                                "위시리스트",
-                                style: TextStyle(
-                                  color: Color(0xFF303030),
-                                  fontFamily: 'SUITVariable',
-                                  fontSize: 0.0444 * bodyWidth, // Text size
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.5,
-                                  letterSpacing: -0.32,
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedText = '위시리스트';
+                                });
+                              },
+                              child: Container(
+                                height: 0.0677 * bodyHeight,
+                                child: Text(
+                                  "위시리스트",
+                                  style: TextStyle(
+                                    color: selectedText == "위시리스트"
+                                        ? Color(0xFF303030)
+                                        : Color(0xFF303030).withOpacity(0.4),
+                                    fontFamily: 'SUITVariable',
+                                    fontSize: 0.0444 * bodyWidth, // Text size
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.5,
+                                    letterSpacing: -0.32,
+                                  ),
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 0.0677 * bodyHeight,
-                              child: Text(
-                                "읽는 중",
-                                style: TextStyle(
-                                  color: Color(0xFF303030),
-                                  fontFamily: 'SUITVariable',
-                                  fontSize: 0.0444 * bodyWidth, // Text size
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.5,
-                                  letterSpacing: -0.32,
+                            GestureDetector(
+                              onTap: () => {
+                                setState(() {
+                                  selectedText = '읽는 중';
+                                })
+                              },
+                              child: Container(
+                                height: 0.0677 * bodyHeight,
+                                child: Text(
+                                  "읽는 중",
+                                  style: TextStyle(
+                                    color: selectedText == "읽는 중"
+                                        ? Color(0xFF303030)
+                                        : Color(0xFF303030).withOpacity(0.4),
+                                    fontFamily: 'SUITVariable',
+                                    fontSize: 0.0444 * bodyWidth, // Text size
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.5,
+                                    letterSpacing: -0.32,
+                                  ),
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 0.0677 * bodyHeight,
-                              child: Text(
-                                "다 읽은 책",
-                                style: TextStyle(
-                                  color: Color(0xFF303030),
-                                  fontFamily: 'SUITVariable',
-                                  fontSize: 0.0444 * bodyWidth, // Text size
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.5,
-                                  letterSpacing: -0.32,
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedText = "다 읽은 책";
+                                });
+                              },
+                              child: Container(
+                                height: 0.0677 * bodyHeight,
+                                child: Text(
+                                  "다 읽은 책",
+                                  style: TextStyle(
+                                    color: selectedText == '다 읽은 책'
+                                        ? Color(0xFF303030)
+                                        : Color(0xFF303030).withOpacity(0.4),
+                                    fontFamily: 'SUITVariable',
+                                    fontSize: 0.0444 * bodyWidth, // Text size
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.5,
+                                    letterSpacing: -0.32,
+                                  ),
                                 ),
                               ),
-                            ),
+                            )
                           ],
                         ))),
 
@@ -216,7 +245,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                           Text(
                             selectedCategory.isNotEmpty
                                 ? selectedCategory
-                                : '전체',
+                                : '전체 10',
                             style: TextStyle(
                               color: Color(0xFF303030),
                               fontSize: 0.0389 * bodyWidth,
@@ -231,13 +260,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                     )),
 
                 // Container 5 with specific height
-                Container(
-                  height: 0.0733 * bodyHeight, // 10% of the screen height
-                  color: Colors.purple,
-                  child: Center(
-                    child: Text('나머지'),
-                  ),
-                ),
+                BookListContainer(),
 
                 // You can also add other widgets inside these containers, such as buttons, images, etc.
               ],
