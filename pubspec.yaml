@@ -46,7 +46,10 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/apple-icon.png" # Path to your app icon image
+  web: true # if you're targeting web too
+  image_path: "web/icons/apple-touch-icon.png" # For iOS
+  android_icon: "web/icons/icon-192.png" # For Android
+  web_icon: "web/icons/icon-512.png" # For Web (optional)
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
