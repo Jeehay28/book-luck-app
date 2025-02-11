@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:book_luck_app/utils/mockData.dart';
 
-class FeedScreen extends StatelessWidget {
+class FeedScreen extends StatefulWidget {
+  @override
+  _FeedScreenState createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     final bodyHeight = MediaQuery.of(context).size.height -
@@ -14,57 +21,205 @@ class FeedScreen extends StatelessWidget {
         MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
         MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-            padding: EdgeInsets.zero, // Add some padding for the sides
-            child: SizedBox(
-              height: bodyHeight,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Distribute space
-                  children: [
-                    Text(
-                      "Feed", // Add your desired button label here
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // 표지
+                Container(
+                  height: bodyHeight * 0.0790,
+                  // color: Colors.blue,
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 0.0556 * bodyWidth),
+                    child: Text(
+                      "피드",
                       style: TextStyle(
-                        color: Color(0xFF303030), // Text color
+                        color: Color(0xFF303030),
                         fontFamily: 'SUITVariable',
-                        fontSize: 0.0389 * bodyWidth, // Text size
+                        fontSize: 0.0444 * bodyWidth, // Text size
                         fontWeight: FontWeight.w700,
-                        height:
-                            1.42, // Correct height as a ratio to the font size
-                        letterSpacing: -0.28,
+                        height: 1.5,
+                        letterSpacing: -0.32,
                       ),
-                    )
-                    // 1) BOOKLUCK 로고 : 360 * 58 (8.18% of screen height)
-                    // BookluckContainer(
-                    //     bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                    ),
+                  ),
+                ),
+                // Use the mock data for the books
+                ...mockFeedBooks.map((book) {
+                  int index = mockFeedBooks.indexOf(book);
 
-                    // // 2) 명언 박스 : 360 * 122 (17.21% of screen height)
-                    // QuoteContainer(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                  // Check if the current book is the last one in the list
+                  bool isLastItem = index == mockFeedBooks.length - 1;
 
-                    // // 3) 네잎클로버 로고 : 360 *252 (35.54% of screen height)
-                    // FourLeafCloverContainer(
-                    //     bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                  return Container(
+                    height: bodyHeight * 0.3075,
+                    child: Column(
+                      children: [
+                        // 책 표지, 제목, 저자
+                        Container(
+                          height: bodyHeight * 0.0790,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0.0556 * bodyWidth),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: bodyWidth * 0.7778,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: bodyWidth * 0.1111,
+                                        height: bodyHeight * 0.0564,
+                                        child: Center(
+                                          child: Image.asset(
+                                            book['image'],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: bodyWidth * 0.6333,
+                                        height: bodyHeight * 0.0592,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              book['title'],
+                                              style: TextStyle(
+                                                color: Color(0xFF303030),
+                                                fontFamily: 'SUITVariable',
+                                                fontSize: 0.0444 * bodyWidth,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1.5,
+                                                letterSpacing: -0.32,
+                                              ),
+                                            ),
+                                            Text(
+                                              book['author'],
+                                              style: TextStyle(
+                                                color: Color(0xFF303030),
+                                                fontFamily: 'SUITVariable',
+                                                fontSize: 0.0444 * bodyWidth,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1.5,
+                                                letterSpacing: -0.32,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: bodyWidth * 0.0556,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        'assets/images/dots.svg'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
 
-                    // // 4) 0분-30분-1시간 : 360 * 70 (9.87% of screen height)
-                    // ReadingtimeBar(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
-
-                    // // 5) 목표까지 : 360 * 57 (8.04% of screen height)
-                    // GoalCountdown(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
-
-                    // // 6) 독서시작하기 : 360 *80 (11.28% of screen height)
-                    // StartReadingButton(
-                    //     bodyHeight: bodyHeight, bodyWidth: bodyWidth),
-                  ]),
-            )),
-      ),
-      // bottomNavigationBar: BottomMenu(
-      //   bodyHeight: bodyHeight,
-      //   bodyWidth: bodyWidth,
-      //   currentRoute: currentRoute,
-      // ),
+                        // 책 요약 및 기타 정보
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 0.0556 * bodyWidth,
+                              vertical: bodyHeight * 0.0225),
+                          child: Container(
+                            height: bodyHeight * 0.1834,
+                            // color: Colors.green,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: bodyHeight * 0.1410,
+                                  child: Text(
+                                    book['summary'],
+                                    style: TextStyle(
+                                      color: Color(0xFF303030),
+                                      fontFamily: 'SUITVariable',
+                                      fontSize: 0.034 * bodyWidth,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.66,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: bodyHeight * 0.0254,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        book['date'],
+                                        style: TextStyle(
+                                          color: Color(0xFF303030)
+                                              .withOpacity(0.4),
+                                          fontFamily: 'SUITVariable',
+                                          fontSize: 0.0333 * bodyWidth,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.5,
+                                          letterSpacing: -0.32,
+                                        ),
+                                      ),
+                                      Text(
+                                        book['readingTime'],
+                                        style: TextStyle(
+                                          color: Color(0xFF303030)
+                                              .withOpacity(0.4),
+                                          fontFamily: 'SUITVariable',
+                                          fontSize: 0.0333 * bodyWidth,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.5,
+                                          letterSpacing: -0.32,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (!isLastItem)
+                                  Divider(
+                                    color: Color(0xFF303030)
+                                        .withOpacity(0.06), // Line color
+                                    height:
+                                        0.0014 * bodyHeight, // Line thickness
+                                    indent:
+                                        0, // Horizontal space before the line
+                                    endIndent:
+                                        0, // Horizontal space after the line
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
