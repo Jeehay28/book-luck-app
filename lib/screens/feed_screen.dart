@@ -62,6 +62,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         // 책 표지, 제목, 저자
                         Container(
                           height: bodyHeight * 0.0790,
+                          // color: Colors.blue,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 0.0556 * bodyWidth),
@@ -90,34 +91,42 @@ class _FeedScreenState extends State<FeedScreen> {
                                       Container(
                                         width: bodyWidth * 0.6333,
                                         height: bodyHeight * 0.0592,
+                                        // color: Colors.blue,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              book['title'],
-                                              style: TextStyle(
-                                                color: Color(0xFF303030),
-                                                fontFamily: 'SUITVariable',
-                                                fontSize: 0.0444 * bodyWidth,
-                                                fontWeight: FontWeight.w700,
-                                                height: 1.5,
-                                                letterSpacing: -0.32,
+                                            Container(
+                                              height: bodyHeight * 0.033,
+                                              child: Text(
+                                                book['title'],
+                                                style: TextStyle(
+                                                  color: Color(0xFF303030),
+                                                  fontFamily: 'SUITVariable',
+                                                  fontSize: 0.0444 * bodyWidth,
+                                                  fontWeight: FontWeight.w700,
+                                                  height: 1.5,
+                                                  letterSpacing: -0.32,
+                                                ),
                                               ),
                                             ),
-                                            Text(
-                                              book['author'],
-                                              style: TextStyle(
-                                                color: Color(0xFF303030),
-                                                fontFamily: 'SUITVariable',
-                                                fontSize: 0.0444 * bodyWidth,
-                                                fontWeight: FontWeight.w700,
-                                                height: 1.5,
-                                                letterSpacing: -0.32,
-                                              ),
-                                            )
+                                            Container(
+                                                height: bodyHeight * 0.025,
+                                                child: Text(
+                                                  book['author'],
+                                                  style: TextStyle(
+                                                    color: Color(0xFF303030)
+                                                        .withOpacity(0.4),
+                                                    fontFamily: 'SUITVariable',
+                                                    fontSize:
+                                                        0.0333 * bodyWidth,
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 1.5,
+                                                    letterSpacing: -0.32,
+                                                  ),
+                                                ))
                                           ],
                                         ),
                                       ),
