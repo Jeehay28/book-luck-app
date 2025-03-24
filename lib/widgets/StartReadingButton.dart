@@ -26,6 +26,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
   late Timer _timer;
   int _seconds = 300; // Countdown starting at 1 second
   bool _isCountdownStarted = false; // Flag to track countdown status
+  bool _isPaused = false;
 
   // Start countdown
   void _startCountdown({int? previous}) {
@@ -91,6 +92,13 @@ class _StartReadingButtonState extends State<StartReadingButton> {
     final minutesProvider =
         Provider.of<MinutesProvider>(context, listen: false);
     minutesProvider.setMinutes(int.parse(minutes));
+  }
+
+  String _formatTime(int seconds) {
+    final hours = (seconds ~/ 3600).toString().padLeft(2, '0');
+    final minutes = ((seconds % 3600) ~/ 60).toString().padLeft(2, '0');
+    final secs = (seconds % 60).toString().padLeft(2, '0');
+    return "$hours:$minutes:$secs";
   }
 
   void _showPopup(BuildContext context, VoidCallback onConfirm) {
@@ -162,113 +170,110 @@ class _StartReadingButtonState extends State<StartReadingButton> {
 
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
-    // final mins = Provider.of<MinutesProvider>(context).minutes;
-
-    return Container(
-      // height: screenHeight * widget.heightFactor, // Dynamic height
-      height: widget.bodyHeight * 0.1128,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.transparent,
-          width: 1, // Border width
-        ),
-        color: Colors.transparent, // Transparent background
-        borderRadius: BorderRadius.all(Radius.circular(0)),
-      ),
-      child: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF303030), // Button background color
-            fixedSize: Size(0.8889 * widget.bodyWidth,
-                0.0790 * widget.bodyHeight), // Button size
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
+    return Material(
+      color: Colors.transparent, // Ensures ripple effect works
+      child: InkWell(
+        onTap: _isCountdownStarted ? null : _startCountdown,
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          height: widget.bodyHeight * 0.0790,
+          width: widget.bodyWidth * 0.8889,
+          decoration: BoxDecoration(
+            color: Color(0xFF303030), // Always black background
+            borderRadius: BorderRadius.circular(8),
           ),
-          onPressed: _isCountdownStarted
-              ? null
-              : _startCountdown, // Disable button if countdown started
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: widget.bodyWidth * 0.0333),
-                child: Text(
-                  _buttonText,
-                  style: TextStyle(
-                    color: Color(0xFFFFFFFF), // Text color
-                    fontFamily: 'SUITVariable',
-                    fontSize: 0.0500 * widget.bodyWidth, // Text size
-                    fontWeight: FontWeight.w500,
-                    height: 1.44, // Correct height as a ratio to the font size
-                    letterSpacing: -0.36,
-                  ),
-                ),
-              ),
-              _isCountdownStarted
-                  ? Row(
+          child: Center(
+            child: _isCountdownStarted
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: widget.bodyWidth *
+                            0.0333), // Adds 16px margin on left and right)
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ElevatedButton(
-                          onPressed: _resetCountdown,
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: Color(0xFFF82A54),
-                            fixedSize: Size(widget.bodyWidth * 0.1806,
-                                widget.bodyHeight * 0.0451),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                          ),
-                          child: Text(
-                            "종료하기",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: widget.bodyWidth * 0.0389,
-                                fontFamily: 'SUITVariable',
-                                fontWeight: FontWeight.w700,
-                                height: 1.42,
-                                letterSpacing: -0.028),
+                        Text(
+                          _formatTime(_seconds),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: widget.bodyWidth * 0.0500,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'SUITVariable',
+                            height:
+                                1.44, // Correct height as a ratio to the font size
+                            letterSpacing: -0.36,
                           ),
                         ),
-                        SizedBox(
-                            width: widget.bodyWidth *
-                                0.0222), // Add space between buttons
-                        ElevatedButton(
-                          onPressed: _pauseCountdown,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF4A4A4A),
-                            padding: EdgeInsets.zero,
-                            fixedSize: Size(widget.bodyWidth * 0.1806,
-                                widget.bodyHeight * 0.0451),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: _resetCountdown,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFF82A54),
+                                fixedSize: Size(widget.bodyWidth * 0.1806,
+                                    widget.bodyHeight * 0.0451),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              child: Text(
+                                "종료하기",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: widget.bodyWidth * 0.033,
+                                    fontFamily: 'SUITVariable',
+                                    fontWeight: FontWeight.w700,
+                                    // height: 1.42,
+                                    letterSpacing: -0.28),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            _pauseText,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: widget.bodyWidth * 0.0389,
-                                fontFamily: 'SUITVariable',
-                                fontWeight: FontWeight.w700,
-                                height: 1.42,
-                                letterSpacing: -0.028),
-                          ),
-                        ),
+                            SizedBox(width: widget.bodyWidth * 0.0222),
+                            ElevatedButton(
+                              onPressed: _pauseCountdown,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF4A4A4A),
+                                fixedSize: Size(widget.bodyWidth * 0.1806,
+                                    widget.bodyHeight * 0.0451),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              child: Text(
+                                _isPaused ? "종료" : "일시",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: widget.bodyWidth * 0.033,
+                                    fontFamily: 'SUITVariable',
+                                    fontWeight: FontWeight.w700,
+                                    // height: 1.42,
+                                    letterSpacing: -0.28),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  : Padding(
-                      padding:
-                          EdgeInsets.only(right: widget.bodyWidth * 0.0111),
-                      child: SvgPicture.asset('assets/images/right-arrow.svg',
-                          height: widget.bodyHeight * 0.0127,
-                          width: widget.bodyWidth * 0.0444 // Image dimensions
+                    ))
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Text(
+                          "독서 시작하기",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: widget.bodyWidth * 0.0500,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'SUITVariable',
                           ),
-                    )
-            ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: Icon(Icons.arrow_forward, color: Colors.white),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),

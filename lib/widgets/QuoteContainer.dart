@@ -25,19 +25,13 @@ class _QuoteContainerState extends State<QuoteContainer> {
     "phrase": "업데이트된 명언이 없습니다.",
     "name": "업데이트 전까지 조금만 기다려주세요!"
   };
-  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-  // ['모든 것은 시도하는 것에서 시작된다.', "프랜시스 베이컨"],
-  // ['도전이 없으면 변화도 없다.', "프랜시스 베이컨"]
 
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    var books = fetchBooks();
+    fetchBooks();
     _pageController = PageController(initialPage: _currentIndex);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -88,8 +82,12 @@ class _QuoteContainerState extends State<QuoteContainer> {
   }
 
   void _startAutoScroll() {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) async {
       if (!mounted) return;
+
+      // Fetch new quote periodically
+      await fetchBooks();
+
       setState(() {
         _currentIndex = (_currentIndex + 1) % _quotes.length;
         _pageController.animateToPage(
