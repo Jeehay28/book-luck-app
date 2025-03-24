@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:async'; // For Timer
+import 'package:http/http.dart' as http;
 
 class QuoteContainer extends StatefulWidget {
   final double bodyHeight;
@@ -18,21 +20,24 @@ class QuoteContainer extends StatefulWidget {
 class _QuoteContainerState extends State<QuoteContainer> {
   late PageController _pageController;
   int _currentIndex = 0; // Current page index
-  final List<List<String>> _quotes = [
-    ['업데이트된 명언이 없습니다. \n업데이트 전까지 조금만 기다려주세요!', ""],
-    ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-    ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-    ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-    ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
-    ['모든 것은 시도하는 것에서 시작된다.', "프랜시스 베이컨"],
-    ['도전이 없으면 변화도 없다.', "프랜시스 베이컨"]
-  ];
+  Map<String, dynamic> _quotes = {
+    "id": 12,
+    "phrase": "업데이트된 명언이 없습니다.",
+    "name": "업데이트 전까지 조금만 기다려주세요!"
+  };
+  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
+  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
+  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
+  // ['책이란 넓디넓은 시간의 바다를 \n지나가는 배이다.', "프랜시스 베이컨"],
+  // ['모든 것은 시도하는 것에서 시작된다.', "프랜시스 베이컨"],
+  // ['도전이 없으면 변화도 없다.', "프랜시스 베이컨"]
 
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
+    var books = fetchBooks();
     _pageController = PageController(initialPage: _currentIndex);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -49,6 +54,37 @@ class _QuoteContainerState extends State<QuoteContainer> {
     //   _pageController.animateToPage(_currentIndex,
     //       duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
     // });
+  }
+
+  Future<void> fetchBooks() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://43.202.122.137:8080/phrases/getRandomPhrase'),
+        // Uri.parse('https://jsonplaceholder.typicode.com/todos/1'),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print("Quote Success!");
+        // print(jsonDecode(response.body));
+        print(jsonDecode(utf8.decode(response.bodyBytes)));
+
+        setState(() {
+          _quotes = jsonDecode(utf8.decode(response.bodyBytes));
+        });
+
+        // return json.decode(response.body);
+
+        // return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print('Error: $error');
+      throw Exception('Failed to load data');
+    }
   }
 
   void _startAutoScroll() {
@@ -141,10 +177,12 @@ class _QuoteContainerState extends State<QuoteContainer> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              _quotes[index][0],
+                              _quotes['phrase'] ??
+                                  'No phrase available', // Access the 'phrase' key
                               style: TextStyle(
                                 color: Color.fromRGBO(48, 48, 48, 1),
                                 fontSize: 0.0444 * widget.bodyWidth,
+                                // fontSize: 0.0244 * widget.bodyWidth,
                                 fontFamily: 'MabinogiClassic',
                                 fontWeight: FontWeight.w400,
                                 height: 1.4,
@@ -154,7 +192,8 @@ class _QuoteContainerState extends State<QuoteContainer> {
                             ),
                             SizedBox(height: widget.bodyHeight * 0.0113),
                             Text(
-                              _quotes[index][1],
+                              _quotes['name'] ??
+                                  'Unknown author', // Access the 'name' key
                               style: TextStyle(
                                 color: Color.fromRGBO(48, 48, 48, 0)
                                     .withOpacity(0.6),
