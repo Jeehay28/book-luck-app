@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:book_luck_app/providers/minutes_provider.dart';
+import 'package:book_luck_app_demo/providers/minutes_provider.dart';
 
 class ReadingtimeBar extends StatelessWidget {
   final double bodyHeight;
