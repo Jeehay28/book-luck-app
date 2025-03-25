@@ -8,8 +8,8 @@ import 'providers/minutes_provider.dart';
 import 'screens/bookshelf_screen.dart';
 import 'screens/feed_screen.dart';
 import 'screens/mypage_screen.dart';
-import 'package:book_luck_app/widgets/BottomMenu.dart';
-import 'package:book_luck_app/providers/route_provider.dart';
+import 'package:book_luck_app_demo/widgets/BottomMenu.dart';
+import 'package:book_luck_app_demo/providers/route_provider.dart';
 
 void main() {
   runApp(

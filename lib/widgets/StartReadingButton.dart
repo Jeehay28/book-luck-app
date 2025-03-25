@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:provider/provider.dart'; // Import the Provider package
-import 'package:book_luck_app/providers/minutes_provider.dart';
+import 'package:book_luck_app_demo/providers/minutes_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class StartReadingButton extends StatefulWidget {
@@ -239,7 +239,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                 ),
                               ),
                               child: Text(
-                                _isPaused ? "종료" : "일시",
+                                _isPaused ? "종료하기" : "일시정지",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: widget.bodyWidth * 0.033,

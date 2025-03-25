@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:book_luck_app/widgets/StartReadingButton.dart';
-import 'package:book_luck_app/widgets/BookluckContainer.dart';
-import 'package:book_luck_app/widgets/QuoteContainer.dart';
-import 'package:book_luck_app/widgets/FourLeafCloverContainer.dart';
-import 'package:book_luck_app/widgets/ReadingTimeBar.dart';
-import 'package:book_luck_app/widgets/GoalCountdown.dart';
+import 'package:book_luck_app_demo/widgets/StartReadingButton.dart';
+import 'package:book_luck_app_demo/widgets/BookluckContainer.dart';
+import 'package:book_luck_app_demo/widgets/QuoteContainer.dart';
+import 'package:book_luck_app_demo/widgets/FourLeafCloverContainer.dart';
+import 'package:book_luck_app_demo/widgets/ReadingTimeBar.dart';
+import 'package:book_luck_app_demo/widgets/GoalCountdown.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
