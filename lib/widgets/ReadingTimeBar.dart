@@ -15,13 +15,16 @@ class ReadingtimeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final minutes = Provider.of<MinutesProvider>(context).minutes;
+    final goal = Provider.of<MinutesProvider>(context).goal;
 
     print("Minutes: $minutes");
+    print("Goal: $goal");
+
     // Calculate the red percentage (max 100% at 100 minutes)
     final double redPercentage = (minutes / 60);
 
     // Calculate the width of the red portion of the button (in percentage)
-    final double redWidth = redPercentage *
+    final double blackWidth = redPercentage *
         bodyWidth *
         0.8889; // Assuming the width of the button is 320
 
@@ -44,40 +47,73 @@ class ReadingtimeBar extends StatelessWidget {
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Red portion of the button
-                    Container(
-                      width: redWidth,
-                      height: bodyHeight * 0.0282,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF303030),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(4), // Top-left corner radius
-                          bottomLeft:
-                              Radius.circular(4), // Bottom-left corner radius
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: (bodyWidth * 0.8889 - redWidth),
-                      height: bodyHeight * 0.0282,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(48, 48, 48, 0.24),
-                        borderRadius: BorderRadius.only(
-                          topRight:
-                              Radius.circular(4), // Top-left corner radius
-                          bottomRight:
-                              Radius.circular(4), // Bottom-left corner radius
-                          topLeft: redWidth == 0
-                              ? Radius.circular(4)
-                              : Radius.circular(0), // Top-left corner radius
-                          bottomLeft: redWidth == 0
-                              ? Radius.circular(4)
-                              : Radius.circular(0),
-                        ),
-                      ),
-                    ),
-                  ],
+                  children: goal
+                      ? [
+                          Container(
+                            width: bodyWidth * 0.8889,
+
+                            height: bodyHeight * 0.0282,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color(0xFFF03636), // 빨간색
+                                  Color(0xFFF48200), // 주황색
+                                  Color(0xFFFCCF04), // 노란색
+                                  Color(0xFF19B57B), // 초록색
+                                ],
+                                stops: [0.0, 0.345, 0.64, 1.0], // 각각 색 위치 조정
+                              ),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(
+                                    4), // Top-left corner radius
+                                bottomLeft: Radius.circular(
+                                    4), // Bottom-left corner radius
+                                     topRight: Radius.circular(
+                                    4), // Top-left corner radius
+                                bottomRight: Radius.circular(
+                                    4), // Bottom-left corner radius
+                              ),
+                            ),
+                          ),
+                        ]
+                      : [
+                          // Red portion of the button
+                          Container(
+                            width: blackWidth,
+                            height: bodyHeight * 0.0282,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF303030),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(
+                                    4), // Top-left corner radius
+                                bottomLeft: Radius.circular(
+                                    4), // Bottom-left corner radius
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: (bodyWidth * 0.8889 - blackWidth),
+                            height: bodyHeight * 0.0282,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(48, 48, 48, 0.24),
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(
+                                    4), // Top-left corner radius
+                                bottomRight: Radius.circular(
+                                    4), // Bottom-left corner radius
+                                topLeft: blackWidth == 0
+                                    ? Radius.circular(4)
+                                    : Radius.circular(
+                                        0), // Top-left corner radius
+                                bottomLeft: blackWidth == 0
+                                    ? Radius.circular(4)
+                                    : Radius.circular(0),
+                              ),
+                            ),
+                          ),
+                        ],
                 ),
               ),
               Container(

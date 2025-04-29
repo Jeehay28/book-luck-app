@@ -16,6 +16,7 @@ class GoalCountdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final minutes = Provider.of<MinutesProvider>(context).minutes;
+      final goal = Provider.of<MinutesProvider>(context).goal;
 
     return Container(
       height: 0.0804 * bodyHeight, // 8.04% of screen height, 57,
@@ -61,6 +62,7 @@ class GoalCountdown extends StatelessWidget {
                   width: 0.0056 * bodyWidth,
                 ),
                 Text(
+                  goal ? "목표를 달성했어요!" :
                   "목표까지 ${60 - minutes}분 남았어요!", // Add your desired button label here
                   style: TextStyle(
                     color: Color(0xFF303030), // Text color
