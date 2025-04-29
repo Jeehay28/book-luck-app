@@ -61,9 +61,8 @@ class _QuoteContainerState extends State<QuoteContainer> {
       );
 
       if (response.statusCode == 200) {
-        print("Quote Success!");
-        // print(jsonDecode(response.body));
-        print(jsonDecode(utf8.decode(response.bodyBytes)));
+        // print("Quote Success!");
+        // print(jsonDecode(utf8.decode(response.bodyBytes)));
 
         setState(() {
           _quotes = jsonDecode(utf8.decode(response.bodyBytes));

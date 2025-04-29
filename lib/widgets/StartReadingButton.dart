@@ -23,12 +23,13 @@ class _StartReadingButtonState extends State<StartReadingButton> {
   String _buttonText = "독서 시작하기"; // Initial text on button
   String _pauseText = "일시정지";
   late Timer _timer;
-  static const int initSeconds = 300;
+  static const int initSeconds = 3590;
   int _seconds = initSeconds; // Countdown starting at 1 second
   bool _isCountdownStarted = false; // Flag to track countdown status
   bool _isPaused = false;
   bool _isStopped = false;
   int previous = initSeconds;
+  bool _isGoalAchieved = false;
 
   // Start countdown
   void _startCountdown() {
@@ -38,12 +39,26 @@ class _StartReadingButtonState extends State<StartReadingButton> {
           : previous; // Use the passed previous value
       _buttonText = "00:00:00";
       _isCountdownStarted = true; // Start the countdown
+      previous = initSeconds;
+      _isGoalAchieved = false;
+      final goalProvider = Provider.of<MinutesProvider>(context, listen: false);
+      goalProvider.setGoal(_isGoalAchieved);
     });
 
     // print('Starting countdown with previous: $previous');
 
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
+        if (_seconds >= 3600) {
+          timer.cancel();
+          _isCountdownStarted = false;
+          _isGoalAchieved = true;
+          final goalProvider =
+              Provider.of<MinutesProvider>(context, listen: false);
+          goalProvider.setGoal(_isGoalAchieved);
+          return;
+        }
+
         _seconds++;
         // Calculate hours, minutes, and seconds
         final hours = (_seconds ~/ 3600).toString().padLeft(2, '0');
@@ -185,7 +200,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Center(
-              child: _isCountdownStarted
+              child: (_isCountdownStarted || _isPaused)
                   ? Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: widget.bodyWidth *
@@ -207,55 +222,87 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                onPressed: _stopCountdown,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFFF82A54),
-                                  fixedSize: Size(widget.bodyWidth * 0.1806,
-                                      widget.bodyHeight * 0.0451),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  padding: EdgeInsets
-                                      .zero, // Remove internal padding
-                                ),
-                                child: Text(
-                                  "종료하기",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: widget.bodyWidth * 0.033,
-                                      fontFamily: 'SUITVariable',
-                                      fontWeight: FontWeight.w700,
-                                      // height: 1.42,
-                                      letterSpacing: -0.28),
-                                ),
-                              ),
-                              SizedBox(width: widget.bodyWidth * 0.0222),
-                              ElevatedButton(
-                                onPressed: _pauseCountdown,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF4A4A4A),
-                                  fixedSize: Size(widget.bodyWidth * 0.1806,
-                                      widget.bodyHeight * 0.0451),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  padding: EdgeInsets
-                                      .zero, // Remove internal padding
-                                ),
-                                child: Text(
-                                  "일시정지",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: widget.bodyWidth * 0.033,
-                                      fontFamily: 'SUITVariable',
-                                      fontWeight: FontWeight.w700,
-                                      // height: 1.42,
-                                      letterSpacing: -0.28),
-                                ),
-                              ),
-                            ],
+                            children: _isPaused
+                                ? [
+                                    ElevatedButton(
+                                      onPressed: _startCountdown,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(0xFF15B67C),
+                                        fixedSize: Size(
+                                            widget.bodyWidth * 0.1806,
+                                            widget.bodyHeight * 0.0451),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        padding: EdgeInsets
+                                            .zero, // Remove internal padding
+                                      ),
+                                      child: Text(
+                                        "다시읽기",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: widget.bodyWidth * 0.033,
+                                            fontFamily: 'SUITVariable',
+                                            fontWeight: FontWeight.w700,
+                                            // height: 1.42,
+                                            letterSpacing: -0.28),
+                                      ),
+                                    ),
+                                  ]
+                                : [
+                                    ElevatedButton(
+                                      onPressed: _stopCountdown,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(0xFFF82A54),
+                                        fixedSize: Size(
+                                            widget.bodyWidth * 0.1806,
+                                            widget.bodyHeight * 0.0451),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        padding: EdgeInsets
+                                            .zero, // Remove internal padding
+                                      ),
+                                      child: Text(
+                                        "종료하기",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: widget.bodyWidth * 0.033,
+                                            fontFamily: 'SUITVariable',
+                                            fontWeight: FontWeight.w700,
+                                            // height: 1.42,
+                                            letterSpacing: -0.28),
+                                      ),
+                                    ),
+                                    SizedBox(width: widget.bodyWidth * 0.0222),
+                                    ElevatedButton(
+                                      onPressed: _pauseCountdown,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(0xFF4A4A4A),
+                                        fixedSize: Size(
+                                            widget.bodyWidth * 0.1806,
+                                            widget.bodyHeight * 0.0451),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        padding: EdgeInsets
+                                            .zero, // Remove internal padding
+                                      ),
+                                      child: Text(
+                                        "일시정지",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: widget.bodyWidth * 0.033,
+                                            fontFamily: 'SUITVariable',
+                                            fontWeight: FontWeight.w700,
+                                            // height: 1.42,
+                                            letterSpacing: -0.28),
+                                      ),
+                                    ),
+                                  ],
                           )
                         ],
                       ))
