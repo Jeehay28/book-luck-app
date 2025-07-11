@@ -1,17 +1,9 @@
 import 'dart:async'; // For Timer
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class FourLeafCloverContainer extends StatefulWidget {
-  final double bodyHeight;
-  final double bodyWidth;
-
-  const FourLeafCloverContainer({
-    Key? key,
-    required this.bodyHeight,
-    required this.bodyWidth,
-  }) : super(key: key);
-
   @override
   _FourLeafCloverContainerState createState() =>
       _FourLeafCloverContainerState();
@@ -40,9 +32,11 @@ class _FourLeafCloverContainerState extends State<FourLeafCloverContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
+
     return Container(
-      width: widget.bodyWidth,
-      height: widget.bodyHeight * 0.3554, // 35.54% of screen height, 252,
+      height: bodyHeight * 0.3554, // 35.54% of screen height, 252,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.transparent, // Border color
@@ -56,8 +50,8 @@ class _FourLeafCloverContainerState extends State<FourLeafCloverContainer> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(86, 105, 143, 0.04),
-            fixedSize: Size(widget.bodyWidth * 0.8889,
-                widget.bodyHeight * 0.3385), // Button size
+            fixedSize:
+                Size(bodyWidth * 0.8889, bodyHeight * 0.3385), // Button size
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)), // Corners
             ),

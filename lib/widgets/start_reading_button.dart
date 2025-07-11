@@ -2,17 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:book_luck_app_demo/providers/minutes_provider.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class StartReadingButton extends StatefulWidget {
-  final double bodyHeight;
-  final double bodyWidth;
-
-  const StartReadingButton({
-    Key? key,
-    required this.bodyHeight,
-    required this.bodyWidth,
-  }) : super(key: key);
-
   @override
   _StartReadingButtonState createState() => _StartReadingButtonState();
 }
@@ -167,14 +159,17 @@ class _StartReadingButtonState extends State<StartReadingButton> {
 
   @override
   Widget build(BuildContext context) {
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
+
     return Material(
       color: Colors.transparent, // Ensures ripple effect works
       child: InkWell(
         onTap: _isCountdownStarted ? null : _startCountdown,
         borderRadius: BorderRadius.circular(8),
         child: Container(
-          height: widget.bodyHeight * 0.0790,
-          width: widget.bodyWidth * 0.8889,
+          height: bodyHeight * 0.0790,
+          width: bodyWidth * 0.8889,
           decoration: BoxDecoration(
             color: Color(0xFF303030), // Always black background
             borderRadius: BorderRadius.circular(8),
@@ -183,7 +178,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
               child: (_isCountdownStarted || _isPaused)
                   ? Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: widget.bodyWidth *
+                          horizontal: bodyWidth *
                               0.0333), // Adds 16px margin on left and right)
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,7 +187,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                             _formatTime(_seconds),
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: widget.bodyWidth * 0.0500,
+                              fontSize: bodyWidth * 0.0500,
                               fontWeight: FontWeight.w500,
                               // fontFamily: 'SUITVariable',
                               height:
@@ -211,9 +206,8 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFF15B67C),
-                                        fixedSize: Size(
-                                            widget.bodyWidth * 0.1806,
-                                            widget.bodyHeight * 0.0451),
+                                        fixedSize: Size(bodyWidth * 0.1806,
+                                            bodyHeight * 0.0451),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(4),
@@ -225,7 +219,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                         "다시읽기",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: widget.bodyWidth * 0.033,
+                                            fontSize: bodyWidth * 0.033,
                                             // fontFamily: 'SUITVariable',
                                             fontWeight: FontWeight.w700,
                                             // height: 1.42,
@@ -238,9 +232,8 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                       onPressed: _stopCountdown,
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFFF82A54),
-                                        fixedSize: Size(
-                                            widget.bodyWidth * 0.1806,
-                                            widget.bodyHeight * 0.0451),
+                                        fixedSize: Size(bodyWidth * 0.1806,
+                                            bodyHeight * 0.0451),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(4),
@@ -252,21 +245,20 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                         "종료하기",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: widget.bodyWidth * 0.033,
+                                            fontSize: bodyWidth * 0.033,
                                             // fontFamily: 'SUITVariable',
                                             fontWeight: FontWeight.w700,
                                             // height: 1.42,
                                             letterSpacing: -0.28),
                                       ),
                                     ),
-                                    SizedBox(width: widget.bodyWidth * 0.0222),
+                                    SizedBox(width: bodyWidth * 0.0222),
                                     ElevatedButton(
                                       onPressed: _pauseCountdown,
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFF4A4A4A),
-                                        fixedSize: Size(
-                                            widget.bodyWidth * 0.1806,
-                                            widget.bodyHeight * 0.0451),
+                                        fixedSize: Size(bodyWidth * 0.1806,
+                                            bodyHeight * 0.0451),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(4),
@@ -278,7 +270,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                         "일시정지",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: widget.bodyWidth * 0.033,
+                                            fontSize: bodyWidth * 0.033,
                                             // fontFamily: 'SUITVariable',
                                             fontWeight: FontWeight.w700,
                                             // height: 1.42,
@@ -299,7 +291,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                               "독서 시작하기",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: widget.bodyWidth * 0.0500,
+                                fontSize: bodyWidth * 0.0500,
                                 fontWeight: FontWeight.w500,
                                 // fontFamily: 'SUITVariable',
                               ),
