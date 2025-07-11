@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:book_luck_app_demo/widgets/StartReadingButton.dart';
-import 'package:book_luck_app_demo/widgets/BookluckContainer.dart';
-import 'package:book_luck_app_demo/widgets/QuoteContainer.dart';
-import 'package:book_luck_app_demo/widgets/FourLeafCloverContainer.dart';
-import 'package:book_luck_app_demo/widgets/ReadingTimeBar.dart';
-import 'package:book_luck_app_demo/widgets/GoalCountdown.dart';
-import 'package:book_luck_app_demo/extensions/context_extensions.dart';
+import 'package:book_luck_app_demo/widgets/start_reading_button.dart';
+import 'package:book_luck_app_demo/widgets/book_luck.dart';
+import 'package:book_luck_app_demo/widgets/quotes.dart';
+import 'package:book_luck_app_demo/widgets/four_leaf_clover.dart';
+import 'package:book_luck_app_demo/widgets/reading_time_bar.dart';
+import 'package:book_luck_app_demo/widgets/goal_countdown.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'home';
 
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = context.bodyHeight;
-    final bodyWidth = context.bodyWidth;
-
     return Column(
       children: [
         Expanded(
@@ -22,24 +18,22 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 // 1) BOOKLUCK 로고 : 360 * 58 (8.18% of screen height)
-                BookluckContainer(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                BookluckContainer(),
 
                 // 2) 명언 박스 : 360 * 122 (17.21% of screen height)
-                QuoteContainer(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                QuoteContainer(),
 
                 // 3) 네잎클로버 로고 : 360 *252 (35.54% of screen height)
-                FourLeafCloverContainer(
-                    bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                FourLeafCloverContainer(),
 
                 // 4) 0분-30분-1시간 : 360 * 70 (9.87% of screen height)
-                ReadingtimeBar(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                ReadingtimeBar(),
 
                 // 5) 목표까지 : 360 * 57 (8.04% of screen height)
-                GoalCountdown(bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                GoalCountdown(),
 
-                // 6) 독서시작하기 : 360 *80 (11.28% of screen height)
-                StartReadingButton(
-                    bodyHeight: bodyHeight, bodyWidth: bodyWidth),
+                // 6) 독서 시작하기 : 360 *80 (11.28% of screen height)
+                StartReadingButton(),
               ],
             ),
           ),

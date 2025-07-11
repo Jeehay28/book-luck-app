@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:book_luck_app_demo/providers/minutes_provider.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class ReadingtimeBar extends StatelessWidget {
-  final double bodyHeight;
-  final double bodyWidth;
-
-  const ReadingtimeBar({
-    Key? key,
-    required this.bodyHeight,
-    required this.bodyWidth,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
+
     final minutes = Provider.of<MinutesProvider>(context).minutes;
     final goal = Provider.of<MinutesProvider>(context).goal;
 

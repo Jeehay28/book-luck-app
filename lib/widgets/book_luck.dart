@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class BookluckContainer extends StatelessWidget {
-  // final double heightFactor;
-  final double bodyHeight;
-  final double bodyWidth;
-
-  const BookluckContainer(
-      {Key? key, required this.bodyHeight, required this.bodyWidth})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
 
     return Container(
       height: 0.0818 * bodyHeight,

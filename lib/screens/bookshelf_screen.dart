@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:book_luck_app_demo/widgets/BookListContainer.dart';
+import 'package:book_luck_app_demo/widgets/book_list.dart';
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
+import 'package:book_luck_app_demo/styles/app_text_styles.dart';
+import 'package:book_luck_app_demo/styles/app_button_styles.dart';
+import 'package:book_luck_app_demo/utils/constants.dart';
+import 'package:book_luck_app_demo/model/reading_status.dart';
 
 class BookshelfScreen extends StatefulWidget {
   static const String id = 'bookshelf';
@@ -12,252 +15,112 @@ class BookshelfScreen extends StatefulWidget {
 
 class _BookshelfScreenState extends State<BookshelfScreen> {
   String selectedCategory = "전체";
-  String selectedText = '위시리스트';
+  String selectedReadingStatus = '위시리스트';
 
   @override
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
     final bodyWidth = context.bodyWidth;
 
-    List<String> categories = ["전체", "소설", "인문학", "에세이", "과학", "철학"];
+    var categories = kCategories;
+    var readingStatus = kReadingStatus;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
+        // 책장
+        Container(
+            height: bodyHeight * (56 / kDeviceHeight),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Container 1 with specific height
-                Container(
-                  height: 0.0790 * bodyHeight, // 15% of the screen height
-                  // color: Colors
-                  //     .red, // Just for visualization, you can change this to any color
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 0.0556 * bodyWidth, // Left and right padding
-                    ),
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween, // Space between items
-                      crossAxisAlignment: CrossAxisAlignment
-                          .center, // Vertically center content
-
-                      children: [
-                        Text(
-                          '책장',
-                          style: TextStyle(
-                            color: Color(0xFF303030),
-                            // fontFamily: 'SUITVariable',
-                            fontSize: 0.0444 * bodyWidth, // Text size
-                            fontWeight: FontWeight.w700,
-                            height: 1.5,
-                            letterSpacing: -0.32,
-                          ),
-                        ),
-                        SvgPicture.asset(
-                          'assets/images/search.svg', // Replace with your actual image path
-                          // height: 0.0268 * bodyHeight,
-                          width: 0.0528 * bodyWidth,
-                          // Adjust image height based on your needs
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // Container 2 with specific height
-                Container(
-                    height: 0.0677 * bodyHeight, // 10% of the screen height
-                    // color: Colors.blue,
-                    child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal:
-                              0.0708 * bodyWidth, // Left and right padding
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween, // Space between items
-                          crossAxisAlignment: CrossAxisAlignment
-                              .center, // Vertically center content
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedText = '위시리스트';
-                                });
-                              },
-                              child: Container(
-                                height: 0.0677 * bodyHeight,
-                                child: Text(
-                                  "위시리스트",
-                                  style: TextStyle(
-                                    color: selectedText == "위시리스트"
-                                        ? Color(0xFF303030)
-                                        : Color(0xFF303030).withOpacity(0.4),
-                                    // fontFamily: 'SUITVariable',
-                                    fontSize: 0.0444 * bodyWidth, // Text size
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.5,
-                                    letterSpacing: -0.32,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => {
-                                setState(() {
-                                  selectedText = '읽는 중';
-                                })
-                              },
-                              child: Container(
-                                height: 0.0677 * bodyHeight,
-                                child: Text(
-                                  "읽는 중",
-                                  style: TextStyle(
-                                    color: selectedText == "읽는 중"
-                                        ? Color(0xFF303030)
-                                        : Color(0xFF303030).withOpacity(0.4),
-                                    // fontFamily: 'SUITVariable',
-                                    fontSize: 0.0444 * bodyWidth, // Text size
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.5,
-                                    letterSpacing: -0.32,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedText = "다 읽은 책";
-                                });
-                              },
-                              child: Container(
-                                height: 0.0677 * bodyHeight,
-                                child: Text(
-                                  "다 읽은 책",
-                                  style: TextStyle(
-                                    color: selectedText == '다 읽은 책'
-                                        ? Color(0xFF303030)
-                                        : Color(0xFF303030).withOpacity(0.4),
-                                    // fontFamily: 'SUITVariable',
-                                    fontSize: 0.0444 * bodyWidth, // Text size
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.5,
-                                    letterSpacing: -0.32,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ))),
-
-                // Container 3 with specific height
-                Container(
-                    height: 0.0846 * bodyHeight, // 12% of the screen height
-                    // color: Colors.green,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal:
-                            0.0708 * bodyWidth, // Left and right padding
-                      ),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween, // Space between items
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: categories
-                              .map<Widget>((category) => Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 8.0), // Spacing between buttons
-                                    child: OutlinedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          // Select the clicked category and deselect the previous one
-                                          selectedCategory = category;
-                                        });
-                                      }, // Add your action here
-                                      style: OutlinedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              0.0222 * bodyWidth),
-                                          // Rounded edges
-                                        ),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 0.0222 * bodyWidth,
-                                            vertical: 0.0099 * bodyHeight),
-                                        side: BorderSide(
-                                          color: selectedCategory == category
-                                              ? Colors
-                                                  .transparent // No border if selected
-                                              : Color.fromRGBO(48, 48, 48,
-                                                  0.08), // Border color
-                                          width: 1, // Border width
-                                        ),
-                                        backgroundColor: selectedCategory ==
-                                                category
-                                            ? Color(
-                                                0xFF303030) // Background color when selected
-                                            : Colors
-                                                .transparent, // Default background color
-                                      ),
-                                      child: Text(
-                                        category,
-                                        style: TextStyle(
-                                          color: selectedCategory == category
-                                              ? Colors
-                                                  .white // Text color when selected
-                                              : Color(
-                                                  0xFF303030), // Default text color
-                                          // fontFamily: 'SUITVariable',
-                                          fontSize:
-                                              0.0333 * bodyWidth, // Text size
-                                          fontWeight: FontWeight.w700,
-                                          height: 1.5,
-                                          letterSpacing: -0.32,
-                                        ),
-                                      ),
-                                    ),
-                                  ))
-                              .toList(), // ✅ Fix: Convert Iterable to List<Widget>,
-                        ),
-                      ),
-                    )),
-                Container(
-                    height: 0.0733 * bodyHeight, // 8% of the screen height
-                    // color: Colors.orange,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 0.0556 * bodyWidth,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween, // Space between items
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            selectedCategory.isNotEmpty
-                                ? selectedCategory
-                                : '전체 10',
-                            style: TextStyle(
-                              color: Color(0xFF303030),
-                              fontSize: 0.0389 * bodyWidth,
-                              fontWeight: FontWeight.w700,
-                              // fontFamily: 'SUITVariable',
-                              height: 1.5,
-                              letterSpacing: -0.32,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
-                // Container 5 with specific height
-                BookListContainer(),
+                Text('책장', style: kTextStyle16(context)),
+                Icon(Icons.search)
               ],
+            )),
+        // 위시리스트 + 읽는 중 + 다 읽은 책
+        Container(
+            height: bodyHeight * (48 / kDeviceHeight),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: readingStatus
+                  .map((status) => TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedReadingStatus = status;
+                        });
+                      },
+                      child: Text(
+                        status,
+                        style: selectedReadingStatus == status
+                            ? kTextStyle16(
+                                context,
+                              )
+                            : kTextStyle16(context, opacity: 0.2),
+                      )))
+                  .toList(),
+            )),
+
+        // 카테고리: 전체, 소설, 인문학, ...
+        Container(
+          height: bodyHeight * (60 / kDeviceHeight),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          // color: Colors.pink,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal, // 🔑 make it scroll sideways
+            child: Row(
+              children: categories
+                  .map((category) => Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedCategory = category;
+                              });
+                            },
+                            style: category == selectedCategory
+                                ? kButtonActive
+                                : kButtonInactive,
+                            child: Text(
+                              category,
+                              style: category == selectedCategory
+                                  ? kTextStyle12(context, color: Colors.white)
+                                  : kTextStyle12(context),
+                            )),
+                      ))
+                  .toList(),
             ),
           ),
         ),
+
+        // 전체(카테고리) +  10(카운트)
+        Container(
+            height: bodyHeight * (52 / kDeviceHeight),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  selectedCategory,
+                  style: kTextStyle16(context),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  '10',
+                  style: kTextStyle14(context, opacity: 0.4),
+                )
+              ],
+            )),
+        Expanded(
+            child:
+                BookList(ReadingStatusExtension.from(selectedReadingStatus))),
       ],
     );
   }
