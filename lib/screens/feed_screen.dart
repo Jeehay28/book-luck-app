@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:book_luck_app_demo/utils/mockData.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class FeedScreen extends StatefulWidget {
+  static const String id = 'feed';
+
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
@@ -10,16 +13,8 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top // Exclude SafeArea top padding
-        -
-        MediaQuery.of(context)
-            .padding
-            .bottom; // Exclude SafeArea bottom padding
-
-    final bodyWidth = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
-        MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
 
     return Column(
       children: [
@@ -39,7 +34,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       "피드",
                       style: TextStyle(
                         color: Color(0xFF303030),
-                        fontFamily: 'SUITVariable',
+                        // fontFamily: 'SUITVariable',
                         fontSize: 0.0444 * bodyWidth, // Text size
                         fontWeight: FontWeight.w700,
                         height: 1.5,
@@ -104,9 +99,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 book['title'],
                                                 style: TextStyle(
                                                   color: Color(0xFF303030),
-                                                  fontFamily: 'SUITVariable',
+                                                  // fontFamily: 'SUITVariable',
                                                   fontSize: 0.0444 * bodyWidth,
-                                                  fontWeight: FontWeight.w700,
+                                                  // fontWeight: FontWeight.w700,
                                                   height: 1.5,
                                                   letterSpacing: -0.32,
                                                 ),
@@ -119,7 +114,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   style: TextStyle(
                                                     color: Color(0xFF303030)
                                                         .withOpacity(0.4),
-                                                    fontFamily: 'SUITVariable',
+                                                    // fontFamily: 'SUITVariable',
                                                     fontSize:
                                                         0.0333 * bodyWidth,
                                                     fontWeight: FontWeight.w700,
@@ -163,7 +158,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                     book['summary'],
                                     style: TextStyle(
                                       color: Color(0xFF303030),
-                                      fontFamily: 'SUITVariable',
+                                      // fontFamily: 'SUITVariable',
                                       fontSize: 0.034 * bodyWidth,
                                       fontWeight: FontWeight.w400,
                                       height: 1.66,
@@ -183,7 +178,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         style: TextStyle(
                                           color: Color(0xFF303030)
                                               .withOpacity(0.4),
-                                          fontFamily: 'SUITVariable',
+                                          // fontFamily: 'SUITVariable',
                                           fontSize: 0.0333 * bodyWidth,
                                           fontWeight: FontWeight.w500,
                                           height: 1.5,
@@ -195,7 +190,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         style: TextStyle(
                                           color: Color(0xFF303030)
                                               .withOpacity(0.4),
-                                          fontFamily: 'SUITVariable',
+                                          // fontFamily: 'SUITVariable',
                                           fontSize: 0.0333 * bodyWidth,
                                           fontWeight: FontWeight.w500,
                                           height: 1.5,

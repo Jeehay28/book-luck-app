@@ -61,16 +61,25 @@ class _QuoteContainerState extends State<QuoteContainer> {
       );
 
       if (response.statusCode == 200) {
-        // print("Quote Success!");
-        // print(jsonDecode(utf8.decode(response.bodyBytes)));
-
         setState(() {
           _quotes = jsonDecode(utf8.decode(response.bodyBytes));
+          //
+          // String phrase = _quotes['phrase'];
+          // String name = _quotes['name'];
+          //
+          // // 46자 초과 시 잘라냄
+          // if (phrase.length > 40) {
+          //   phrase = phrase.substring(0, 45);
+          // }
+          //
+          // if (name.length > 20) {
+          //   name = name.substring(0, 23);
+          // }
+          // _quotes['phrase'] = phrase;
+          // _quotes['name'] = name;
+          //
+          // print(_quotes);
         });
-
-        // return json.decode(response.body);
-
-        // return json.decode(response.body);
       } else {
         throw Exception('Failed to load data');
       }
@@ -83,8 +92,6 @@ class _QuoteContainerState extends State<QuoteContainer> {
   void _startAutoScroll() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) async {
       if (!mounted) return;
-
-      // Fetch new quote periodically
       await fetchBooks();
 
       setState(() {
@@ -123,93 +130,57 @@ class _QuoteContainerState extends State<QuoteContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.1721 * widget.bodyHeight,
-      // width: 0.8889 * widget.bodyWidth,
+      height: 0.15 * widget.bodyHeight,
+      width: 0.8889 * widget.bodyWidth,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.transparent,
+          // color: Colors.transparent,
           width: 1,
+          color: Color(0x1F303030),
         ),
         color: Colors.transparent,
-        borderRadius: BorderRadius.all(Radius.circular(0)),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          fixedSize: Size(0.911 * widget.bodyWidth, 0.1467 * widget.bodyHeight),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              side: BorderSide(
-                  color: Color.fromRGBO(48, 48, 48, 0.12), width: 1)),
-          elevation: 0,
-        ),
-        onPressed: () {
-          // Call _fetchDataAndNavigate when the button is pressed
-          _fetchDataAndNavigate(context);
-        },
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: widget.bodyHeight * 0.0226,
-              horizontal:
-                  widget.bodyWidth * 0.0556), // Adjust padding as needed
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // SvgPicture.asset(
-              //   'assets/images/warning.svg',
-              //   width: 0.0667 * widget.bodyWidth,
-              //   height: 0.0339 * widget.bodyHeight,
-              //   // fit: BoxFit.contain,
-              // ),
-              // Carousel Text using PageView
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: _quotes.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 0.1016 * widget.bodyHeight,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              _quotes['phrase'] ??
-                                  'No phrase available', // Access the 'phrase' key
-                              style: TextStyle(
-                                color: Color.fromRGBO(48, 48, 48, 1),
-                                fontSize: 0.0444 * widget.bodyWidth,
-                                // fontSize: 0.0244 * widget.bodyWidth,
-                                fontFamily: 'MabinogiClassic',
-                                fontWeight: FontWeight.w400,
-                                height: 1.4,
-                                letterSpacing: -0.0009 * widget.bodyWidth,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: widget.bodyHeight * 0.0113),
-                            Text(
-                              _quotes['name'] ??
-                                  'Unknown author', // Access the 'name' key
-                              style: TextStyle(
-                                color: Color.fromRGBO(48, 48, 48, 0)
-                                    .withOpacity(0.6),
-                                fontSize: 0.0389 * widget.bodyWidth,
-                                fontFamily: 'MabinogiClassic',
-                                fontWeight: FontWeight.w400,
-                                height: 1.4,
-                                letterSpacing: -0.0008 * widget.bodyWidth,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          height: 0.1012 * widget.bodyHeight,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _quotes['phrase'] ??
+                        'No phrase available', // Access the 'phrase' key
+                    style: TextStyle(
+                      color: Color.fromRGBO(48, 48, 48, 1),
+                      fontSize: 0.0444 * widget.bodyWidth,
+                      // fontSize: 0.0244 * widget.bodyWidth,
+                      fontFamily: 'MabinogiClassic',
+                      fontWeight: FontWeight.w400,
+                      height: 1.4,
+                      letterSpacing: -0.0009 * widget.bodyWidth,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: widget.bodyHeight * 0.011),
+                  Text(
+                    _quotes['name'] ??
+                        'Unknown author', // Access the 'name' key
+                    style: TextStyle(
+                      color: Color.fromRGBO(48, 48, 48, 0.6),
+                      fontSize: 0.0389 * widget.bodyWidth,
+                      fontFamily: 'MabinogiClassic',
+                      fontWeight: FontWeight.w400,
+                      height: 1.4,
+                      letterSpacing: -0.0008 * widget.bodyWidth,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -1,13 +1,16 @@
+import 'package:book_luck_app_demo/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
+  static const String id = 'login';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         // Navigate to the '/home' screen when the screen is tapped
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, HomeScreen.id);
       },
       child: Scaffold(
         body: Column(

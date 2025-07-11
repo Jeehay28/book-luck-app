@@ -20,20 +20,23 @@ class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.0987 * bodyHeight, // 9.87% of screen height
+      height: 0.15 * bodyHeight, // 9.87% of screen height
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.transparent,
+        border: Border(
+            top: BorderSide(
+          color: Color(0x1F303030),
           width: 1, // Border width
-        ),
-        color: Colors.transparent, // Transparent background
+        )),
+        // Transparent background
       ),
-      child: Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
         child: Container(
           height: bodyHeight * 0.0705,
           width: bodyWidth * 0.8889,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildMenuItem(
                 iconPath: 'assets/images/home.svg',
@@ -92,11 +95,6 @@ class BottomMenu extends StatelessWidget {
 
         print('ModalRoute.of(context)?.settings.name: $currentRouteName');
 
-        // if (currentRouteName != routeName) {
-        //   print('Route updated to: $routeName');
-        //   onRouteChange(routeName); // Trigger route change callback
-        // }
-
         if (currentRoute != routeName) {
           print('Route updated to: $routeName');
           Provider.of<RouteProvider>(context, listen: false)
@@ -106,13 +104,14 @@ class BottomMenu extends StatelessWidget {
         }
       },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SvgPicture.asset(
             iconPath,
             height: bodyHeight * 0.0339,
             color: isActive ? activeColor : inactiveColor,
           ),
+          SizedBox(height: 5),
           Text(
             label,
             style: TextStyle(

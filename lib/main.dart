@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'screens/landing_page.dart';
 import 'screens/onboarding.dart';
 import 'screens/login_page.dart';
@@ -10,13 +11,24 @@ import 'screens/feed_screen.dart';
 import 'screens/mypage_screen.dart';
 import 'package:book_luck_app_demo/widgets/BottomMenu.dart';
 import 'package:book_luck_app_demo/providers/route_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:book_luck_app_demo/utils/my_page_icons.dart';
+import 'package:book_luck_app_demo/utils/home_icon_icons.dart';
+import 'package:book_luck_app_demo/utils/feed_icon_icons.dart';
+import 'package:book_luck_app_demo/utils/bookshelf_icon_icons.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 👇 Lock the orientation to portrait only
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MinutesProvider()),
-        ChangeNotifierProvider(create: (_) => RouteProvider()),
+        // ChangeNotifierProvider(create: (_) => RouteProvider()),
       ],
       child: MyApp(),
     ),
@@ -34,14 +46,15 @@ class MyApp extends StatelessWidget {
         // primarySwatch: Colors.deepPurple,
         scaffoldBackgroundColor: Colors.white, // Set default background color
       ),
-      home: LandingPage(), // Set this to start from the '/home' route
+      initialRoute: LandingPage.id,
       routes: {
-        '/onboarding': (context) => OnboardingPage(),
-        '/login': (context) => LoginPage(),
-        '/home': (context) => MainScreen(),
-        '/bookshelf': (context) => MainScreen(),
-        '/feed': (context) => MainScreen(),
-        '/mypage': (context) => MainScreen(),
+        LandingPage.id: (context) => LandingPage(),
+        OnboardingPage.id: (context) => OnboardingPage(),
+        LoginPage.id: (context) => LoginPage(),
+        HomeScreen.id: (context) => MainScreen(),
+        BookshelfScreen.id: (context) => MainScreen(),
+        FeedScreen.id: (context) => MainScreen(),
+        MyPageScreen.id: (context) => MainScreen(),
       },
     );
   }
@@ -55,49 +68,43 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String currentRoute = '/home';
+  int _selectedIndex = 0;
 
-  final Map<String, Widget> screens = {
-    '/home': HomeScreen(),
-    '/bookshelf': BookshelfScreen(),
-    '/feed': FeedScreen(),
-    '/mypage': MyPageScreen(),
-  };
+  final List<Widget> _screens = [
+    HomeScreen(),
+    BookshelfScreen(),
+    FeedScreen(),
+    MyPageScreen(),
+  ];
 
-  void updateRoute(String routeName) {
-    print('Route updated to: $routeName');
+  void _onItemTapped(int index) {
     setState(() {
-      currentRoute = routeName; // Update the current route
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get the current route from RouteProvider
-    final currentRoute = Provider.of<RouteProvider>(context).currentRoute;
-
-    final bodyHeight = MediaQuery.of(context).size.height -
-        AppBar().preferredSize.height -
-        // MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom;
-
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.zero,
-          child: screens[currentRoute],
-        ),
-      ),
-      bottomNavigationBar: BottomMenu(
-        bodyHeight: bodyHeight,
-        bodyWidth: MediaQuery.of(context).size.width,
-        currentRoute: currentRoute,
-        onRouteChange: (routeName) {
-          // Use RouteProvider to update the route globally
-          Provider.of<RouteProvider>(context, listen: false)
-              .updateRoute(routeName);
-        },
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: Center(child: _screens.elementAt(_selectedIndex)),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          // showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(HomeIcon.home), label: '홈'),
+            BottomNavigationBarItem(
+                icon: Icon(BookshelfIcon.bookshelf), label: '책장'),
+            BottomNavigationBarItem(icon: Icon(FeedIcon.feed), label: '피드'),
+            BottomNavigationBarItem(
+                icon: Icon(MyPageIcons.my_page), label: '마이 페이지'),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
+        ));
   }
 }

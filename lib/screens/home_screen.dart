@@ -5,18 +5,15 @@ import 'package:book_luck_app_demo/widgets/QuoteContainer.dart';
 import 'package:book_luck_app_demo/widgets/FourLeafCloverContainer.dart';
 import 'package:book_luck_app_demo/widgets/ReadingTimeBar.dart';
 import 'package:book_luck_app_demo/widgets/GoalCountdown.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const String id = 'home';
+
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = MediaQuery.of(context).size.height -
-        AppBar().preferredSize.height -
-        // MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom;
-
-    final bodyWidth = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
-        MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
 
     return Column(
       children: [

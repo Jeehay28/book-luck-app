@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:book_luck_app_demo/providers/minutes_provider.dart';
 
@@ -51,8 +52,10 @@ class ReadingtimeBar extends StatelessWidget {
                       ? [
                           Container(
                             width: bodyWidth * 0.8889,
-
                             height: bodyHeight * 0.0282,
+                            child: SvgPicture.asset(
+                                "assets/images/readingTimeBar.svg",
+                                fit: BoxFit.cover),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
@@ -70,7 +73,7 @@ class ReadingtimeBar extends StatelessWidget {
                                     4), // Top-left corner radius
                                 bottomLeft: Radius.circular(
                                     4), // Bottom-left corner radius
-                                     topRight: Radius.circular(
+                                topRight: Radius.circular(
                                     4), // Top-left corner radius
                                 bottomRight: Radius.circular(
                                     4), // Bottom-left corner radius
@@ -81,36 +84,31 @@ class ReadingtimeBar extends StatelessWidget {
                       : [
                           // Red portion of the button
                           Container(
-                            width: blackWidth,
+                            width: bodyWidth * 0.8889,
                             height: bodyHeight * 0.0282,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF303030),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(
-                                    4), // Top-left corner radius
-                                bottomLeft: Radius.circular(
-                                    4), // Bottom-left corner radius
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: (bodyWidth * 0.8889 - blackWidth),
-                            height: bodyHeight * 0.0282,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(48, 48, 48, 0.24),
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(
-                                    4), // Top-left corner radius
-                                bottomRight: Radius.circular(
-                                    4), // Bottom-left corner radius
-                                topLeft: blackWidth == 0
-                                    ? Radius.circular(4)
-                                    : Radius.circular(
-                                        0), // Top-left corner radius
-                                bottomLeft: blackWidth == 0
-                                    ? Radius.circular(4)
-                                    : Radius.circular(0),
-                              ),
+                            child: Stack(
+                              children: [
+                                // Fill from the left — this goes behind
+                                Container(
+                                  width: (bodyWidth * 0.8889) *
+                                      redPercentage, // 60% fill
+                                  height: bodyHeight * 0.0282,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF08B57E),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(4),
+                                      bottomLeft: Radius.circular(4),
+                                    ),
+                                  ),
+                                ),
+                                // SVG progress bar frame — on top
+                                SvgPicture.asset(
+                                  "assets/images/readingTimeBar.svg",
+                                  width: double.infinity,
+                                  // height: bodyHeight * 0.0282,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -126,7 +124,7 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "0분",
                         style: TextStyle(
-                          fontFamily: 'MabinogiClassic',
+                          // fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
                           color: Color.fromARGB(48, 48, 48, 0).withOpacity(0.6),
@@ -152,7 +150,7 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "1시간",
                         style: TextStyle(
-                          fontFamily: 'MabinogiClassic',
+                          // fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
                           color: Color.fromARGB(48, 48, 48, 0)

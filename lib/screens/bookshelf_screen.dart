@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:book_luck_app_demo/widgets/BookListContainer.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class BookshelfScreen extends StatefulWidget {
+  static const String id = 'bookshelf';
+
   @override
   _BookshelfScreenState createState() => _BookshelfScreenState();
 }
@@ -13,14 +16,8 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = MediaQuery.of(context).size.height -
-        AppBar().preferredSize.height -
-        // MediaQuery.of(context).padding.top -
-        MediaQuery.of(context).padding.bottom;
-
-    final bodyWidth = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
-        MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
 
     List<String> categories = ["전체", "소설", "인문학", "에세이", "과학", "철학"];
 
@@ -50,7 +47,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                           '책장',
                           style: TextStyle(
                             color: Color(0xFF303030),
-                            fontFamily: 'SUITVariable',
+                            // fontFamily: 'SUITVariable',
                             fontSize: 0.0444 * bodyWidth, // Text size
                             fontWeight: FontWeight.w700,
                             height: 1.5,
@@ -97,7 +94,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                                     color: selectedText == "위시리스트"
                                         ? Color(0xFF303030)
                                         : Color(0xFF303030).withOpacity(0.4),
-                                    fontFamily: 'SUITVariable',
+                                    // fontFamily: 'SUITVariable',
                                     fontSize: 0.0444 * bodyWidth, // Text size
                                     fontWeight: FontWeight.w700,
                                     height: 1.5,
@@ -120,7 +117,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                                     color: selectedText == "읽는 중"
                                         ? Color(0xFF303030)
                                         : Color(0xFF303030).withOpacity(0.4),
-                                    fontFamily: 'SUITVariable',
+                                    // fontFamily: 'SUITVariable',
                                     fontSize: 0.0444 * bodyWidth, // Text size
                                     fontWeight: FontWeight.w700,
                                     height: 1.5,
@@ -143,7 +140,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                                     color: selectedText == '다 읽은 책'
                                         ? Color(0xFF303030)
                                         : Color(0xFF303030).withOpacity(0.4),
-                                    fontFamily: 'SUITVariable',
+                                    // fontFamily: 'SUITVariable',
                                     fontSize: 0.0444 * bodyWidth, // Text size
                                     fontWeight: FontWeight.w700,
                                     height: 1.5,
@@ -213,7 +210,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                                                   .white // Text color when selected
                                               : Color(
                                                   0xFF303030), // Default text color
-                                          fontFamily: 'SUITVariable',
+                                          // fontFamily: 'SUITVariable',
                                           fontSize:
                                               0.0333 * bodyWidth, // Text size
                                           fontWeight: FontWeight.w700,
@@ -227,8 +224,6 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                         ),
                       ),
                     )),
-
-                // Container 4 with specific height
                 Container(
                     height: 0.0733 * bodyHeight, // 8% of the screen height
                     // color: Colors.orange,
@@ -249,7 +244,7 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                               color: Color(0xFF303030),
                               fontSize: 0.0389 * bodyWidth,
                               fontWeight: FontWeight.w700,
-                              fontFamily: 'SUITVariable',
+                              // fontFamily: 'SUITVariable',
                               height: 1.5,
                               letterSpacing: -0.32,
                             ),
@@ -257,11 +252,8 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                         ],
                       ),
                     )),
-
                 // Container 5 with specific height
                 BookListContainer(),
-
-                // You can also add other widgets inside these containers, such as buttons, images, etc.
               ],
             ),
           ),

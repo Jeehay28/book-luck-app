@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 
 class MyPageScreen extends StatelessWidget {
+  static const String id = 'mypage';
+
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top // Exclude SafeArea top padding
-        -
-        MediaQuery.of(context)
-            .padding
-            .bottom; // Exclude SafeArea bottom padding
-
-    final bodyWidth = MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.left - // Exclude SafeArea left padding
-        MediaQuery.of(context).padding.right; // Exclude SafeArea right padding
+    final bodyHeight = context.bodyHeight;
+    final bodyWidth = context.bodyWidth;
 
     return Scaffold(
       body: SafeArea(
