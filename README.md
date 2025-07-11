@@ -42,7 +42,7 @@
 
 ### 1️⃣ 저장소 클론
 ```bash
-git clone https://github.com/your-username/book-luck-app.git
+git clone https://github.com/Jeehay28/book-luck-app.git
 ```
 
 <br>
