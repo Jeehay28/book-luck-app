@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:provider/provider.dart'; // Import the Provider package
+import 'package:provider/provider.dart';
 import 'package:book_luck_app_demo/providers/minutes_provider.dart';
 
 class StartReadingButton extends StatefulWidget {
-  // final double heightFactor;
   final double bodyHeight;
   final double bodyWidth;
 
   const StartReadingButton({
     Key? key,
-    // required this.heightFactor
     required this.bodyHeight,
     required this.bodyWidth,
   }) : super(key: key);
@@ -23,7 +21,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
   String _buttonText = "독서 시작하기"; // Initial text on button
   String _pauseText = "일시정지";
   late Timer _timer;
-  static const int initSeconds = 3590;
+  static const int initSeconds = 3580;
   int _seconds = initSeconds; // Countdown starting at 1 second
   bool _isCountdownStarted = false; // Flag to track countdown status
   bool _isPaused = false;
@@ -127,58 +125,40 @@ class _StartReadingButtonState extends State<StartReadingButton> {
           content: Text(content),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: FractionallySizedBox(
-                  alignment: Alignment.center,
-                  widthFactor: 0.4, // Make the width half of the dialog's width
-                  child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(48, 48, 48, 0.24),
-                        borderRadius:
-                            BorderRadius.circular(8), // Set border radius
-                      ),
-                      child: FittedBox(
-                        fit: BoxFit
-                            .scaleDown, // Ensures the text fits inside the button
-                        child: Text(
-                          cancelButtonText,
-                          style: TextStyle(
-                              color: Color(
-                                  0xFF303030), // Set the text color torgb(3, 2, 2)
-                              fontFamily: 'SUITVariable'),
-                        ),
-                      ))),
+              style: TextButton.styleFrom(
+                backgroundColor: Color(0xFFF5F6F8),
+                foregroundColor:
+                    Color(0xFF17253D), //for background color backgroundColor:
+                padding: const EdgeInsets.all(5.0),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                ),
+              ),
+              onPressed: () => Navigator.pop(context, cancelButtonText),
+              child: Text(cancelButtonText),
             ),
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                  onConfirm(); // Call the passed in function (pause)
-                },
-                child: FractionallySizedBox(
-                    alignment: Alignment.center,
-                    widthFactor: 0.4,
-                    child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF82A54), // Set background color
-                          borderRadius:
-                              BorderRadius.circular(8), // Set border radius
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit
-                              .scaleDown, // Ensures the text fits inside the button
-                          child: Text(
-                            confirmButtonText,
-                            style: TextStyle(
-                                color: Colors.white, // Text color
-                                fontFamily: 'SUITVariable'),
-                          ),
-                        )))),
+              style: TextButton.styleFrom(
+                  backgroundColor:
+                      isStopping ? Color(0xFF303030) : Color(0xFFF82A55),
+                  foregroundColor:
+                      Colors.white, //for background color backgroundColor:
+                  padding: const EdgeInsets.all(5.0),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  )),
+              onPressed: () {
+                setState(() {
+                  if (confirmButtonText == "끝낼게요") {
+                    _isStopped = true;
+                  } else {
+                    _isPaused = true;
+                  }
+                });
+                Navigator.pop(context, confirmButtonText);
+              },
+              child: Text(confirmButtonText),
+            ),
           ],
         );
       },
@@ -214,7 +194,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                               color: Colors.white,
                               fontSize: widget.bodyWidth * 0.0500,
                               fontWeight: FontWeight.w500,
-                              fontFamily: 'SUITVariable',
+                              // fontFamily: 'SUITVariable',
                               height:
                                   1.44, // Correct height as a ratio to the font size
                               letterSpacing: -0.36,
@@ -225,7 +205,10 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                             children: _isPaused
                                 ? [
                                     ElevatedButton(
-                                      onPressed: _startCountdown,
+                                      onPressed: () {
+                                        print("isPaused Clicked...");
+                                        _pauseCountdown;
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFF15B67C),
                                         fixedSize: Size(
@@ -243,7 +226,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: widget.bodyWidth * 0.033,
-                                            fontFamily: 'SUITVariable',
+                                            // fontFamily: 'SUITVariable',
                                             fontWeight: FontWeight.w700,
                                             // height: 1.42,
                                             letterSpacing: -0.28),
@@ -270,7 +253,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: widget.bodyWidth * 0.033,
-                                            fontFamily: 'SUITVariable',
+                                            // fontFamily: 'SUITVariable',
                                             fontWeight: FontWeight.w700,
                                             // height: 1.42,
                                             letterSpacing: -0.28),
@@ -296,7 +279,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: widget.bodyWidth * 0.033,
-                                            fontFamily: 'SUITVariable',
+                                            // fontFamily: 'SUITVariable',
                                             fontWeight: FontWeight.w700,
                                             // height: 1.42,
                                             letterSpacing: -0.28),
@@ -318,7 +301,7 @@ class _StartReadingButtonState extends State<StartReadingButton> {
                                 color: Colors.white,
                                 fontSize: widget.bodyWidth * 0.0500,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: 'SUITVariable',
+                                // fontFamily: 'SUITVariable',
                               ),
                             ),
                           ),

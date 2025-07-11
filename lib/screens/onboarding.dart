@@ -1,7 +1,10 @@
+import 'package:book_luck_app_demo/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingPage extends StatefulWidget {
+  static const String id = 'onboarding';
+
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
 }
@@ -140,7 +143,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               onPressed: () {
                 if (_currentPage == _onboardingData.length - 1) {
                   // Navigate to the next page (e.g., Login Page)
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushNamed(context, LoginPage.id);
                 } else {
                   _pageController.nextPage(
                     duration: Duration(milliseconds: 300),

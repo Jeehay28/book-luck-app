@@ -1,0 +1,2 @@
+/Users/user01/Desktop/mobileApp/book-luck-app/android/app/.cxx/Debug/6y3r174g/x86_64/CMakeFiles/edit_cache.dir
+/Users/user01/Desktop/mobileApp/book-luck-app/android/app/.cxx/Debug/6y3r174g/x86_64/CMakeFiles/rebuild_cache.dir
