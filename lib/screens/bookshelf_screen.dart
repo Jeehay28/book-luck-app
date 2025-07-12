@@ -5,6 +5,7 @@ import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/styles/app_button_styles.dart';
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:book_luck_app_demo/model/reading_status.dart';
+import 'package:book_luck_app_demo/screens/book_search_screen.dart';
 
 class BookshelfScreen extends StatefulWidget {
   static const String id = 'bookshelf';
@@ -37,7 +38,12 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('책장', style: kTextStyle16(context)),
-                Icon(Icons.search)
+                GestureDetector(
+                  child: Icon(Icons.search),
+                  onTap: () {
+                    Navigator.pushNamed(context, BookSearchScreen.id);
+                  },
+                )
               ],
             )),
         // 위시리스트 + 읽는 중 + 다 읽은 책

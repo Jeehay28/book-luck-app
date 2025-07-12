@@ -10,6 +10,7 @@ import 'screens/bookshelf_screen.dart';
 import 'screens/feed_screen.dart';
 import 'screens/mypage_screen.dart';
 import 'package:book_luck_app_demo/screens/main_screen.dart';
+import 'package:book_luck_app_demo/screens/book_search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         BookshelfScreen.id: (context) => MainScreen(),
         FeedScreen.id: (context) => MainScreen(),
         MyPageScreen.id: (context) => MainScreen(),
+        BookSearchScreen.id: (context) => BookSearchScreen()
       },
     );
   }

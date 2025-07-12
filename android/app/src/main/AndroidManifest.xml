@@ -2,6 +2,7 @@
     <application
         android:label="book_luck_app"
         android:name="${applicationName}"
+        android:windowSoftInputMode="adjustResize"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
