@@ -66,7 +66,7 @@ flutter run
 <p align="center">
   <img src="./dashboard.png" width="30%">
   <img src="./bookshelf.png" width="30%">
-  <img src="./feed.png" width="30%">
+  <img src="./search.png" width="30%">
 </p>
 
 
