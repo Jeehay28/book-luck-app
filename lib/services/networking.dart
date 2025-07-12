@@ -49,4 +49,24 @@ class NetworkHelper {
       return null;
     }
   }
+
+  Future deleteData() async {
+    try {
+      http.Response response = await http.delete(Uri.parse(url));
+      print(url);
+      if (response.statusCode == 200 || response.statusCode == 400) {
+        final contentType = response.headers['content-type'];
+        if (contentType != null && contentType.contains('application/json')) {
+          print(jsonDecode(response.body));
+          return jsonDecode(response.body);
+        } else {
+          print(response.body);
+          return response.body; // just a plain string
+        }
+      }
+    } catch (err) {
+      print('NetworkHelper POST Exception: $err');
+      return null;
+    }
+  }
 }

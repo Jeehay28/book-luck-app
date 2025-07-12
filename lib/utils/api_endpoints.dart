@@ -8,6 +8,12 @@ class ApiEndpoints {
   static const String getQuotes = '$base/phrases/getPhrases';
 
   // Dynamic URL
-  static String userFavoritesDetails(int userId) =>
+  static String userFavoritesDetails(String userId) =>
       '$base/users/$userId/favorites/details';
+
+  static String deleteBookFromWishlist(String userId, String bookId) =>
+      '$base/users/$userId/favorites/$bookId';
+
+  static String searchBooks(String search) =>
+      '$base/books/getApiBooks?keyword=$search';
 }
