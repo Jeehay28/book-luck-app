@@ -31,29 +31,6 @@ flutter_launcher_icons:
 flutter:
   assets:
     - assets/images/
-#    - assets/images/logo.svg
-#    - assets/images/kakao.svg
-#    - assets/images/apple.svg
-#    - assets/images/bookluck.svg
-#    - assets/images/bookluck_text.svg
-#    - assets/images/mail.svg
-#    - assets/images/right-arrow.svg
-#    - assets/images/lightning.svg
-#    - assets/images/layer_1.svg
-#    - assets/images/layer_2.svg
-#    - assets/images/warning.svg
-#    - assets/images/bookshelf.svg
-#    - assets/images/feed.svg
-#    - assets/images/home.svg
-#    - assets/images/my-page.svg
-#    - assets/images/search.svg
-#    - assets/images/heart.svg
-#    - assets/images/dots.svg
-#    - assets/images/sample-book-00.jpg
-#    - assets/images/sample-book-01.jpg
-#    - assets/images/sample-book-02.jpg
-#    - assets/images/sample-book-03.jpg
-    
 
   fonts:
     - family: DOSIyagiBoldface
@@ -69,7 +46,7 @@ flutter:
 
     - family: MyPageIcon
       fonts:
-        - asset: assets/fonts/MyFlutterApp.ttf
+        - asset: assets/fonts/MyPageIcon.ttf
 
     - family: HomeIcon
       fonts:
@@ -82,5 +59,6 @@ flutter:
     - family: BookshelfIcon
       fonts:
         - asset: assets/fonts/BookshelfIcon.ttf
+
 
   uses-material-design: true

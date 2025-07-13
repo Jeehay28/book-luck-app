@@ -5,7 +5,6 @@ import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/widgets/book_list.dart';
 import 'package:book_luck_app_demo/model/reading_status.dart';
 import 'dart:async'; // For Timer
-import 'package:book_luck_app_demo/screens/bookshelf_screen.dart';
 
 class BookSearchScreen extends StatefulWidget {
   static const String id = 'booksearch';
