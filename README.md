@@ -64,10 +64,10 @@ flutter run
 
 ## 📸 스크린샷
 <p align="center">
-  <img src="./home.png" width="25%">
-  <img src="./bookshelf.png" width="25%">
-  <img src="./modal.png" width="25%">
-  <img src="./search.png" width="25%">
+  <img src="./home.png" width="20%">
+  <img src="./bookshelf.png" width="20%">
+  <img src="./modal.png" width="20%">
+  <img src="./search.png" width="2%">
 </p>
 
 
