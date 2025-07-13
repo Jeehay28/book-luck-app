@@ -67,7 +67,7 @@ flutter run
   <img src="./home.png" width="20%">
   <img src="./bookshelf.png" width="20%">
   <img src="./modal.png" width="20%">
-  <img src="./search.png" width="2%">
+  <img src="./search.png" width="20%">
 </p>
 
 
