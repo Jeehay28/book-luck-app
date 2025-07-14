@@ -1,12 +1,12 @@
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
-import 'package:book_luck_app_demo/widgets/book_item.dart';
 import 'package:flutter/material.dart';
 import 'package:book_luck_app_demo/utils/api_endpoints.dart';
 import 'package:book_luck_app_demo/model/reading_status.dart';
 import 'package:book_luck_app_demo/services/networking.dart';
 import 'package:book_luck_app_demo/widgets/modals/reading_modal_bottom_sheet.dart';
+import 'package:book_luck_app_demo/screens/book_review_list_screen.dart';
 
 class BookListItem extends StatefulWidget {
   final String title;
@@ -116,19 +116,34 @@ class _BookListItemState extends State<BookListItem> {
               GestureDetector(
                   child: Icon(Icons.more_horiz),
                   onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) => SingleChildScrollView(
-                                child: Container(
-                              width: double.infinity,
-                              height: bodyHeight * (375 / kDeviceHeight),
-                              padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom,
-                              ),
-                              child: ReadingModalBottomSheet(
-                                  widget.title, widget.author, widget.image),
-                            )));
+                    if (widget.status == ReadingStatus.wishlist) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) => SingleChildScrollView(
+                                  child: Container(
+                                width: double.infinity,
+                                height: bodyHeight * (375 / kDeviceHeight),
+                                padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                ),
+                                child: ReadingModalBottomSheet(
+                                    widget.title, widget.author, widget.image),
+                              )));
+                    } else if (widget.status == ReadingStatus.reading) {
+                      // Navigator.pushNamed(context, bookReviewList.id);
+                      print('book review list screen');
+
+                      Navigator.pushNamed(
+                        context,
+                        BookReviewListScreen.id,
+                        arguments: {
+                          'title': widget.title,
+                          'author': widget.author,
+                          'image': widget.image,
+                        },
+                      );
+                    }
                   }),
               if (widget.status == ReadingStatus.wishlist)
                 Stack(

@@ -42,8 +42,6 @@ class _BookListState extends State<BookList> {
     print(url);
 
     var bookData = await networkHelper.getData();
-    print("bookData*********");
-    print(bookData);
     if (bookData != null) {
       setState(() {
         _books = bookData.map((json) => Book.fromJson(json)).toList();
