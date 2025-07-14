@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/screens/book_review_write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/landing_page.dart';
@@ -11,6 +12,7 @@ import 'screens/feed_screen.dart';
 import 'screens/mypage_screen.dart';
 import 'package:book_luck_app_demo/screens/main_screen.dart';
 import 'package:book_luck_app_demo/screens/book_search_screen.dart';
+import 'package:book_luck_app_demo/screens/book_review_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,22 +36,48 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Book Luck App',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white, // Set default background color
-      ),
-      // initialRoute: LandingPage.id,
-      initialRoute: HomeScreen.id,
-      routes: {
-        LandingPage.id: (context) => LandingPage(),
-        OnboardingPage.id: (context) => OnboardingPage(),
-        LoginPage.id: (context) => LoginPage(),
-        HomeScreen.id: (context) => MainScreen(),
-        BookshelfScreen.id: (context) => MainScreen(),
-        FeedScreen.id: (context) => MainScreen(),
-        MyPageScreen.id: (context) => MainScreen(),
-        BookSearchScreen.id: (context) => BookSearchScreen()
-      },
-    );
+        title: 'Book Luck App',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white, // Set default background color
+        ),
+        // initialRoute: LandingPage.id,
+        initialRoute: HomeScreen.id,
+        routes: {
+          LandingPage.id: (context) => LandingPage(),
+          OnboardingPage.id: (context) => OnboardingPage(),
+          LoginPage.id: (context) => LoginPage(),
+          HomeScreen.id: (context) => MainScreen(),
+          BookshelfScreen.id: (context) => MainScreen(),
+          FeedScreen.id: (context) => MainScreen(),
+          MyPageScreen.id: (context) => MainScreen(),
+          BookSearchScreen.id: (context) => BookSearchScreen(),
+        },
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case BookReviewWriteScreen.id:
+              final args = settings.arguments as Map<String, String>;
+              return MaterialPageRoute(
+                builder: (context) => BookReviewWriteScreen(
+                  title: args['title']!,
+                  author: args['author']!,
+                  image: args['image']!,
+                ),
+              );
+
+            case BookReviewListScreen.id:
+              final args = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                  builder: (context) => BookReviewListScreen(
+                        title: args['title']!,
+                        author: args['author']!,
+                        image: args['image']!,
+                      ));
+
+            default:
+              return MaterialPageRoute(
+                builder: (context) => LandingPage(),
+              );
+          }
+        });
   }
 }
