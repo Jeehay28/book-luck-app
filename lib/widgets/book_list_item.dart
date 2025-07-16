@@ -7,6 +7,7 @@ import 'package:book_luck_app_demo/model/reading_status.dart';
 import 'package:book_luck_app_demo/services/networking.dart';
 import 'package:book_luck_app_demo/widgets/modals/reading_modal_bottom_sheet.dart';
 import 'package:book_luck_app_demo/screens/book_review_list_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BookListItem extends StatefulWidget {
   final String title;
@@ -114,7 +115,10 @@ class _BookListItemState extends State<BookListItem> {
                 ),
               ),
               GestureDetector(
-                  child: Icon(Icons.more_horiz),
+                  child: Icon(
+                    Icons.more_horiz,
+                    color: Color(0xff303030).withAlpha((0.4 * 255).round()),
+                  ),
                   onTap: () {
                     if (widget.status == ReadingStatus.wishlist) {
                       showModalBottomSheet(
@@ -130,10 +134,8 @@ class _BookListItemState extends State<BookListItem> {
                                 child: ReadingModalBottomSheet(
                                     widget.title, widget.author, widget.image),
                               )));
-                    } else if (widget.status == ReadingStatus.reading) {
-                      // Navigator.pushNamed(context, bookReviewList.id);
-                      print('book review list screen');
-
+                    } else if (widget.status == ReadingStatus.reading ||
+                        widget.status == ReadingStatus.finished) {
                       Navigator.pushNamed(
                         context,
                         BookReviewListScreen.id,
@@ -146,51 +148,30 @@ class _BookListItemState extends State<BookListItem> {
                     }
                   }),
               if (widget.status == ReadingStatus.wishlist)
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Icon(Icons.favorite_border,
-                        color: Colors.black,
-                        size: bodyWidth * (28 / kDeviceWidth)),
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: bodyWidth * (24 / kDeviceWidth),
-                    )
-                  ],
+                SvgPicture.asset(
+                  'assets/images/red_heart.svg',
+                  width: bodyWidth * (24 / kDeviceWidth),
+                  height: bodyHeight * (24 / kDeviceHeight),
                 ),
               if (widget.status == ReadingStatus.search)
                 GestureDetector(
-                  child: Stack(alignment: Alignment.center, children: [
-                    Icon(
-                      Icons.favorite,
-                      color: heart
-                          ? Colors.red
-                          : Color(0xff303030).withAlpha((0.12 * 255).round()),
-                      size: bodyWidth * (24 / kDeviceWidth),
-                    ),
-                    Icon(
-                      Icons.favorite_border,
-                      color: heart
-                          ? Colors.red
-                          : Color(0xff303030).withAlpha((0.5 * 255).round()),
-                      size: bodyWidth * (24 / kDeviceWidth),
-                    ),
-                  ]),
+                  child: SvgPicture.asset(
+                    heart
+                        ? 'assets/images/red_heart.svg'
+                        : 'assets/images/grey_heart.svg',
+                    width: bodyWidth * (24 / kDeviceWidth),
+                    height: bodyHeight * (24 / kDeviceHeight),
+                  ),
                   onTap: () {
                     addToFavorite('1', widget.isbn);
                   },
                 ),
               if (widget.status == ReadingStatus.search)
                 GestureDetector(
-                  child: Stack(
-                    children: [
-                      Icon(
-                        Icons.highlight_off,
-                        color: Color(0xff303030).withAlpha((0.5 * 255).round()),
-                        size: bodyWidth * (24 / kDeviceWidth),
-                      ),
-                    ],
+                  child: SvgPicture.asset(
+                    'assets/images/cancel.svg',
+                    width: bodyWidth * (24 / kDeviceWidth),
+                    height: bodyHeight * (24 / kDeviceHeight),
                   ),
                   onTap: () {
                     deleteFromFavorite('1', widget.isbn);

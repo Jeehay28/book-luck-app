@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/screens/home_screen.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
@@ -84,9 +85,14 @@ class ReadingModalBottomSheet extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          '지금 읽기',
-                          style: kTextStyle14(context),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, HomeScreen.id);
+                          },
+                          child: Text(
+                            '지금 읽기',
+                            style: kTextStyle14(context),
+                          ),
                         )
                       ],
                     ),

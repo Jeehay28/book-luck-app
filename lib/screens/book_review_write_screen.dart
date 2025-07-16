@@ -3,6 +3,7 @@ import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/widgets/book_item.dart';
+import 'package:book_luck_app_demo/widgets/modals/showDialogBox.dart';
 
 class BookReviewWriteScreen extends StatelessWidget {
   static const String id = 'book_review_write';
@@ -53,8 +54,6 @@ class BookReviewWriteScreen extends StatelessWidget {
           child: BookItem(title, image, author),
         ),
 
-        // 책 정보
-
         // 독후감 내용 작성
         Container(
           height: bodyHeight * (392 / kDeviceHeight),
@@ -68,6 +67,8 @@ class BookReviewWriteScreen extends StatelessWidget {
             textAlignVertical: TextAlignVertical.top, // 👉 이 줄 추가!
             decoration: InputDecoration(
               hintText: '독후감을 작성해 주세요.',
+              hintStyle:
+                  kTextStyle14(context, weight: FontWeight.w400, opacity: 0.6),
               alignLabelWithHint: true, // 필수 아님, Label 있을 때 사용
               contentPadding: EdgeInsets.only(top: 20, left: 12, right: 12),
               border: OutlineInputBorder(
@@ -121,24 +122,63 @@ class BookReviewWriteScreen extends StatelessWidget {
         ),
         Container(
           height: bodyHeight * (156 / kDeviceHeight),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: EdgeInsets.symmetric(
+              horizontal: 20, vertical: bodyHeight * (12 / kDeviceHeight)),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('읽은 날짜'), Text('2025년 7월 13일')],
+                children: [
+                  Text(
+                    '읽은 날짜',
+                    style: kTextStyle14(context, opacity: 0.6),
+                  ),
+                  Text(
+                    '2025년 7월 13일',
+                    style: kTextStyle14(context),
+                  )
+                ],
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: bodyHeight * (12 / kDeviceHeight)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('읽은 시간'), Text('50분30초')],
+                children: [
+                  Text(
+                    '읽은 시간',
+                    style: kTextStyle14(context, opacity: 0.6),
+                  ),
+                  Text(
+                    '50분30초',
+                    style: kTextStyle14(context),
+                  )
+                ],
               ),
-              SizedBox(
-                height: 15,
-              ),
-              TextButton(onPressed: null, child: Text('등록'))
+              SizedBox(height: bodyHeight * (12 / kDeviceHeight)),
+              TextButton(
+                onPressed: () {
+                  showDialogBox(
+                      context,
+                      '해당 책을 완독하셨나요?',
+                      '🎉 완독 축하드려요!\n이제 이 책은 당신의 멋진 독서 이력에 당당히 등록됩니다.',
+                      '닫기',
+                      '완독했어요',
+                      Color(0xff303030));
+                },
+                child: Text(
+                  '등록',
+                  style: kTextStyle16(context, color: Colors.white),
+                ),
+                style: TextButton.styleFrom(
+                  backgroundColor: Color(0xff303030),
+                  foregroundColor: Colors.white, // 배경색
+                  minimumSize: Size(bodyWidth * (320 / kDeviceWidth),
+                      bodyHeight * (56 / kDeviceHeight)), // 너비와 높이
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              )
             ],
           ),
         )
