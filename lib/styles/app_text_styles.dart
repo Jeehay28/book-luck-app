@@ -38,3 +38,9 @@ TextStyle kTextStyle18(BuildContext context,
         Color color = const Color(0xFF303030),
         FontWeight weight = FontWeight.w700}) =>
     _baseTextStyle(context, 18, opacity: opacity, color: color, weight: weight);
+
+TextStyle kTextStyle24(BuildContext context,
+        {double opacity = 1.0,
+        Color color = const Color(0xFF303030),
+        FontWeight weight = FontWeight.w700}) =>
+    _baseTextStyle(context, 24, opacity: opacity, color: color, weight: weight);

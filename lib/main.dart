@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/screens/book_review_complete_screen.dart';
 import 'package:book_luck_app_demo/screens/book_review_write_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,17 +41,18 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white, // Set default background color
         ),
-        // initialRoute: LandingPage.id,
-        initialRoute: HomeScreen.id,
+        initialRoute: LandingPage.id,
+        // initialRoute: HomeScreen.id,
         routes: {
           LandingPage.id: (context) => LandingPage(),
           OnboardingPage.id: (context) => OnboardingPage(),
           LoginPage.id: (context) => LoginPage(),
-          HomeScreen.id: (context) => MainScreen(),
-          BookshelfScreen.id: (context) => MainScreen(),
-          FeedScreen.id: (context) => MainScreen(),
-          MyPageScreen.id: (context) => MainScreen(),
+          HomeScreen.id: (context) => MainScreen(initialTab: 0),
+          BookshelfScreen.id: (context) => MainScreen(initialTab: 1),
+          FeedScreen.id: (context) => MainScreen(initialTab: 2),
+          MyPageScreen.id: (context) => MainScreen(initialTab: 3),
           BookSearchScreen.id: (context) => BookSearchScreen(),
+          BookReviewCompleteScreen.id: (context) => BookReviewCompleteScreen()
         },
         onGenerateRoute: (settings) {
           switch (settings.name) {

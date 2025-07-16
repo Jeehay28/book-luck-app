@@ -17,6 +17,13 @@ class BookshelfScreen extends StatefulWidget {
 class _BookshelfScreenState extends State<BookshelfScreen> {
   String selectedCategory = "전체";
   String selectedReadingStatus = '위시리스트';
+  int numberOfBooks = 0;
+
+  void countBooks(int searchResult) {
+    setState(() {
+      numberOfBooks = searchResult;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,14 +126,16 @@ class _BookshelfScreenState extends State<BookshelfScreen> {
                   width: 5,
                 ),
                 Text(
-                  '10',
+                  numberOfBooks.toString(),
                   style: kTextStyle14(context, opacity: 0.4),
                 )
               ],
             )),
         Expanded(
-            child:
-                BookList(ReadingStatusExtension.from(selectedReadingStatus))),
+            child: BookList(
+          ReadingStatusExtension.from(selectedReadingStatus),
+          countBooks: countBooks,
+        )),
       ],
     );
   }

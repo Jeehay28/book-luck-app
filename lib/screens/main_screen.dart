@@ -7,17 +7,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:book_luck_app_demo/utils/home_icon_icons.dart';
 import 'package:book_luck_app_demo/utils/feed_icon_icons.dart';
 import 'package:book_luck_app_demo/utils/bookshelf_icon_icons.dart';
-import 'package:book_luck_app_demo/utils/start_icon_icons.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final int initialTab;
+
+  MainScreen({this.initialTab = 0});
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialTab;
+  }
 
   final List<Widget> _screens = [
     HomeScreen(),
