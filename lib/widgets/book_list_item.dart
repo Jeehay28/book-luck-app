@@ -1,6 +1,7 @@
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
+import 'package:book_luck_app_demo/widgets/modals/search_modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:book_luck_app_demo/utils/api_endpoints.dart';
 import 'package:book_luck_app_demo/model/reading_status.dart';
@@ -14,11 +15,12 @@ class BookListItem extends StatefulWidget {
   final String image;
   final String isbn;
   final String author;
+  final String description;
   final bool favorite;
   final ReadingStatus status;
 
-  BookListItem(this.title, this.image, this.isbn, this.author, this.favorite,
-      this.status);
+  BookListItem(this.title, this.image, this.isbn, this.author, this.description,
+      this.favorite, this.status);
 
   @override
   State<BookListItem> createState() => _BookListItemState();
@@ -85,99 +87,122 @@ class _BookListItemState extends State<BookListItem> {
     return Container(
         height: bodyHeight * (72 / kDeviceHeight),
         width: 360,
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.network(
-                widget.image,
-                width: bodyWidth * (40 / kDeviceWidth),
-                height: bodyHeight * (56 / kDeviceHeight),
-              ),
-              SizedBox(
-                width: bodyWidth * (196 / kDeviceWidth),
-                height: bodyHeight * (46 / kDeviceHeight),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.title,
-                      overflow: TextOverflow.ellipsis,
-                      style: kTextStyle16(context),
+        child: GestureDetector(
+          onTap: () {
+            if (widget.status == ReadingStatus.search) {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) => SingleChildScrollView(
+                          child: Container(
+                        width: double.infinity,
+                        height: bodyHeight * (375 / kDeviceHeight),
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: SearchModalBottomSheet(
+                            widget.title,
+                            widget.author,
+                            widget.image,
+                            widget.description,
+                            widget.isbn),
+                      )));
+            }
+          },
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.network(
+                  widget.image,
+                  width: bodyWidth * (40 / kDeviceWidth),
+                  height: bodyHeight * (56 / kDeviceHeight),
+                ),
+                SizedBox(
+                  width: bodyWidth * (196 / kDeviceWidth),
+                  height: bodyHeight * (46 / kDeviceHeight),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: kTextStyle16(context),
+                      ),
+                      Text(
+                        widget.author,
+                        overflow: TextOverflow.ellipsis,
+                        style: kTextStyle12(context,
+                            opacity: 0.4, weight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                    child: Icon(
+                      Icons.more_horiz,
+                      color: Color(0xff303030).withAlpha((0.4 * 255).round()),
                     ),
-                    Text(
-                      widget.author,
-                      overflow: TextOverflow.ellipsis,
-                      style: kTextStyle12(context,
-                          opacity: 0.4, weight: FontWeight.w500),
-                    )
-                  ],
-                ),
-              ),
-              GestureDetector(
-                  child: Icon(
-                    Icons.more_horiz,
-                    color: Color(0xff303030).withAlpha((0.4 * 255).round()),
-                  ),
-                  onTap: () {
-                    if (widget.status == ReadingStatus.wishlist) {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => SingleChildScrollView(
-                                  child: Container(
-                                width: double.infinity,
-                                height: bodyHeight * (375 / kDeviceHeight),
-                                padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom,
-                                ),
-                                child: ReadingModalBottomSheet(
-                                    widget.title, widget.author, widget.image),
-                              )));
-                    } else if (widget.status == ReadingStatus.reading ||
-                        widget.status == ReadingStatus.finished) {
-                      Navigator.pushNamed(
-                        context,
-                        BookReviewListScreen.id,
-                        arguments: {
-                          'title': widget.title,
-                          'author': widget.author,
-                          'image': widget.image,
-                        },
-                      );
-                    }
-                  }),
-              if (widget.status == ReadingStatus.wishlist)
-                SvgPicture.asset(
-                  'assets/images/red_heart.svg',
-                  width: bodyWidth * (24 / kDeviceWidth),
-                  height: bodyHeight * (24 / kDeviceHeight),
-                ),
-              if (widget.status == ReadingStatus.search)
-                GestureDetector(
-                  child: SvgPicture.asset(
-                    heart
-                        ? 'assets/images/red_heart.svg'
-                        : 'assets/images/grey_heart.svg',
+                    onTap: () {
+                      if (widget.status == ReadingStatus.wishlist) {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) => SingleChildScrollView(
+                                    child: Container(
+                                  width: double.infinity,
+                                  height: bodyHeight * (375 / kDeviceHeight),
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom,
+                                  ),
+                                  child: ReadingModalBottomSheet(widget.title,
+                                      widget.author, widget.image),
+                                )));
+                      } else if (widget.status == ReadingStatus.reading ||
+                          widget.status == ReadingStatus.finished) {
+                        Navigator.pushNamed(
+                          context,
+                          BookReviewListScreen.id,
+                          arguments: {
+                            'title': widget.title,
+                            'author': widget.author,
+                            'image': widget.image,
+                          },
+                        );
+                      }
+                    }),
+                if (widget.status == ReadingStatus.wishlist)
+                  SvgPicture.asset(
+                    'assets/images/red_heart.svg',
                     width: bodyWidth * (24 / kDeviceWidth),
                     height: bodyHeight * (24 / kDeviceHeight),
                   ),
-                  onTap: () {
-                    addToFavorite('1', widget.isbn);
-                  },
-                ),
-              if (widget.status == ReadingStatus.search)
-                GestureDetector(
-                  child: SvgPicture.asset(
-                    'assets/images/cancel.svg',
-                    width: bodyWidth * (24 / kDeviceWidth),
-                    height: bodyHeight * (24 / kDeviceHeight),
+                if (widget.status == ReadingStatus.search)
+                  GestureDetector(
+                    child: SvgPicture.asset(
+                      heart
+                          ? 'assets/images/red_heart.svg'
+                          : 'assets/images/grey_heart.svg',
+                      width: bodyWidth * (24 / kDeviceWidth),
+                      height: bodyHeight * (24 / kDeviceHeight),
+                    ),
+                    onTap: () {
+                      addToFavorite('1', widget.isbn);
+                    },
                   ),
-                  onTap: () {
-                    deleteFromFavorite('1', widget.isbn);
-                    print(widget.isbn);
-                  },
-                ),
-            ]));
+                if (widget.status == ReadingStatus.search)
+                  GestureDetector(
+                    child: SvgPicture.asset(
+                      'assets/images/cancel.svg',
+                      width: bodyWidth * (24 / kDeviceWidth),
+                      height: bodyHeight * (24 / kDeviceHeight),
+                    ),
+                    onTap: () {
+                      deleteFromFavorite('1', widget.isbn);
+                      print(widget.isbn);
+                    },
+                  ),
+              ]),
+        ));
   }
 }
