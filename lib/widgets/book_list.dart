@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/screens/home_screen.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _BookListState extends State<BookList> {
             ),
             TextButton(
                 onPressed: () {
-                  // 지금 읽으러 가기 -> 책 찾기?
+                  Navigator.pushNamed(context, HomeScreen.id);
                 },
                 style: TextButton.styleFrom(
                   backgroundColor:
@@ -142,7 +143,7 @@ class _BookListState extends State<BookList> {
         itemBuilder: (BuildContext context, int index) {
           final book = _books[index];
           return BookListItem(book.title, book.image, book.isbn, book.author,
-              book.favorite, widget.status);
+              book.description, book.favorite, widget.status);
         });
   }
 }
