@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -46,11 +47,11 @@ class ReadingtimeBar extends StatelessWidget {
                   children: goal
                       ? [
                           Container(
-                            width: bodyWidth * 0.8889,
-                            height: bodyHeight * 0.0282,
+                            width: bodyWidth * (320 / kDeviceWidth),
+                            height: bodyHeight * (23.09 / kDeviceHeight),
                             child: SvgPicture.asset(
-                                "assets/images/readingTimeBar.svg",
-                                fit: BoxFit.cover),
+                              "assets/images/readingTimeBar.svg",
+                            ),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.centerLeft,
@@ -96,13 +97,14 @@ class ReadingtimeBar extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                // SVG progress bar frame — on top
+
                                 SvgPicture.asset(
                                   "assets/images/readingTimeBar.svg",
                                   width: double.infinity,
                                   // height: bodyHeight * 0.0282,
                                   fit: BoxFit.cover,
                                 ),
+                                // SVG progress bar frame — on top
                               ],
                             ),
                           ),

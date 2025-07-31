@@ -44,17 +44,12 @@ class GoalCountdown extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                      width: 0.0282 * bodyWidth,
-                      height: 0.0556 * bodyHeight,
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        'assets/images/lightning.svg', // Path to the image
-                        // height: 0.0176 * bodyHeight,
-                        // width: 0.07 * bodyWidth,
-                        // Set the color heret color
-                      ) // Centers the child within the container
-                      ),
+                  SvgPicture.asset(
+                    'assets/images/lightning.svg', // Path to the image
+                    // height: 0.0176 * bodyHeight,
+                    // width: 0.07 * bodyWidth,
+                    // Set the color heret color
+                  ),
                   SizedBox(
                     width: 0.0056 * bodyWidth,
                   ),

@@ -3,6 +3,7 @@ enum ReadingStatus {
   wishlist,
   finished,
   search,
+  select,
 }
 
 extension ReadingStatusExtension on ReadingStatus {
@@ -17,6 +18,8 @@ extension ReadingStatusExtension on ReadingStatus {
         return '다 읽은 책';
       case ReadingStatus.search:
         return '책 찾기';
+      case ReadingStatus.select:
+        return '책 선택하기';
     }
   }
 
@@ -31,6 +34,8 @@ extension ReadingStatusExtension on ReadingStatus {
         return ReadingStatus.finished;
       case '책찾기':
         return ReadingStatus.search;
+      case '책선택하기':
+        return ReadingStatus.select;
       default:
         throw ArgumentError('Unknown reading status: $value');
     }

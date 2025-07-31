@@ -4,6 +4,7 @@ import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/widgets/book_item.dart';
 import 'package:book_luck_app_demo/widgets/modals/showDialogBox.dart';
+import 'package:book_luck_app_demo/screens/book_review_complete_screen.dart';
 
 class BookReviewWriteScreen extends StatelessWidget {
   static const String id = 'book_review_write';
@@ -162,7 +163,9 @@ class BookReviewWriteScreen extends StatelessWidget {
                       '🎉 완독 축하드려요!\n이제 이 책은 당신의 멋진 독서 이력에 당당히 등록됩니다.',
                       '닫기',
                       '완독했어요',
-                      Color(0xff303030));
+                      Color(0xff303030), () {
+                    Navigator.pushNamed(context, BookReviewCompleteScreen.id);
+                  });
                 },
                 child: Text(
                   '등록',

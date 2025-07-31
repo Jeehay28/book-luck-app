@@ -7,6 +7,7 @@ import 'package:book_luck_app_demo/widgets/book_item.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:book_luck_app_demo/widgets/modals/showDialogBox.dart';
 import 'package:book_luck_app_demo/screens/book_review_write_screen.dart';
+import 'package:book_luck_app_demo/screens/book_review_complete_screen.dart';
 
 class ReadingModalBottomSheet extends StatelessWidget {
   final String title;
@@ -41,12 +42,17 @@ class ReadingModalBottomSheet extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       showDialogBox(
-                          context,
-                          '해당 책을 삭제할까요?',
-                          '책을 삭제하면 관련 기록도 함께 사라집니다.\n계속 진행할까요?',
-                          '닫기',
-                          '삭제할게요',
-                          Color(0xfff82a54));
+                        context,
+                        '해당 책을 삭제할까요?',
+                        '책을 삭제하면 관련 기록도 함께 사라집니다.\n계속 진행할까요?',
+                        '닫기',
+                        '삭제할게요',
+                        Color(0xfff82a54),
+                        () {
+                          Navigator.pushNamed(
+                              context, BookReviewCompleteScreen.id);
+                        },
+                      );
                     },
                     child: Container(
                       height: bodyHeight * (56 / kDeviceHeight),
@@ -135,12 +141,17 @@ class ReadingModalBottomSheet extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       showDialogBox(
-                          context,
-                          '해당 책을 완독하셨나요?',
-                          '🎉 완독 축하드려요!\n이제 이 책은 당신의 멋진 독서 이력에 당당히 등록됩니다.',
-                          '닫기',
-                          '완독했어요',
-                          Color(0xff303030));
+                        context,
+                        '해당 책을 완독하셨나요?',
+                        '🎉 완독 축하드려요!\n이제 이 책은 당신의 멋진 독서 이력에 당당히 등록됩니다.',
+                        '닫기',
+                        '완독했어요',
+                        Color(0xff303030),
+                        () {
+                          Navigator.pushNamed(
+                              context, BookReviewCompleteScreen.id);
+                        },
+                      );
                     },
                     child: Container(
                       height: bodyHeight * (56 / kDeviceHeight),

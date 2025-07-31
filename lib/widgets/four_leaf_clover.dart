@@ -1,7 +1,9 @@
 import 'dart:async'; // For Timer
+import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FourLeafCloverContainer extends StatefulWidget {
   @override
@@ -67,8 +69,9 @@ class _FourLeafCloverContainerState extends State<FourLeafCloverContainer> {
                 _showFirstImage
                     ? 'assets/images/layer_1.svg' // First image path
                     : 'assets/images/layer_2.svg', // Second image path
-                // height: widget.bodyHeight * 0.1711,
-                // width: widget.bodyWidth * 0.4167,
+                // 'assets/images/home_clover.gif',
+                // height: bodyHeight * (200 / kDeviceHeight),
+                // width: bodyWidth * (200 / kDeviceWidth),
               ),
             ],
           ),

@@ -5,8 +5,14 @@ import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:book_luck_app_demo/screens/book_review_write_screen.dart';
 
-Future<void> showDialogBox(BuildContext context, String title, String content,
-    String cancel, String confirm, Color backgroundColor) async {
+Future<void> showDialogBox(
+    BuildContext context,
+    String title,
+    String content,
+    String cancel,
+    String confirm,
+    Color backgroundColor,
+    VoidCallback onConfirmPressed) async {
   final bodyHeight = context.bodyHeight;
   final bodyWidth = context.bodyWidth;
 
@@ -75,8 +81,9 @@ Future<void> showDialogBox(BuildContext context, String title, String content,
                     ),
                     TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, BookReviewCompleteScreen.id);
+                          // Navigator.pushNamed(
+                          //     context, BookReviewCompleteScreen.id);
+                          onConfirmPressed();
                         },
                         style: TextButton.styleFrom(
                           // backgroundColor: Color(0xff303030),
