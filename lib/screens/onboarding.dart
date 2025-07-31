@@ -1,4 +1,5 @@
 import 'package:book_luck_app_demo/screens/login_page.dart';
+import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,31 +16,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   final List<Map<String, String>> _onboardingData = [
     {
-      "bigText1": "서비스 설명이 ",
-      "bigText2": "들어가는 영역입니다.",
-      "middleText1": "디스크립션이 들어가는 영역입니다.",
-      "middleText2": "두 줄정도 들어가면 좋습니다.",
+      "bigText1": "Book Luck!",
+      "bigText2": "행운은 책을 여는 순간부터 ",
+      "middleText1": "북럭이와 함께",
+      "middleText2": "행운 가득한 도서 여정을 떠나볼까요?",
       "logo": "assets/images/logo.svg",
     },
     {
-      "bigText1": "기록에 관한 내용이",
-      "bigText2": "들어가는 영역입니다.",
-      "middleText1": "디스크립션이 들어가는 영역입니다.",
-      "middleText2": "두 줄정도 들어가면 좋습니다.",
+      "bigText1": "1분의 마법,",
+      "bigText2": "시작이 가장 멋진 거니까!",
+      "middleText1": "1분만 읽자! 어느새 5분, 10분 금방이에요",
+      "middleText2": "꾸준하면 그게 진짜 내 것!",
       "logo": "assets/images/logo.svg",
     },
     {
-      "bigText1": "타유저 인사이트 내용이",
-      "bigText2": "들어가는 영역입니다.",
-      "middleText1": "디스크립션이 들어가는 영역입니다.",
-      "middleText2": "두 줄정도 들어가면 좋습니다.",
+      "bigText1": "행운을 모으는",
+      "bigText2": "독서친구, 북럭이",
+      "middleText1": "매일 읽고 기록할수록,",
+      "middleText2": "북럭이도 점점 더 밝게 성장해요",
       "logo": "assets/images/logo.svg",
     },
     {
-      "bigText1": "(뱃지, 레벨업) 성취감 내용이 ",
-      "bigText2": "들어가는 영역입니다.",
-      "middleText1": "디스크립션이 들어가는 영역입니다.",
-      "middleText2": "두 줄정도 들어가면 좋습니다.",
+      "bigText1": "환영합니다! ",
+      "bigText2": "북럭이의 친구가 되었어요!",
+      "middleText1": "읽고, 기록하며 당신만의 책장을 만들어 보세요.",
+      "middleText2": "",
       "logo": "assets/images/logo.svg",
     },
   ];
@@ -61,51 +62,36 @@ class _OnboardingPageState extends State<OnboardingPage> {
               itemBuilder: (context, index) {
                 final data = _onboardingData[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Display big text fields
-                      Text(
-                        data["bigText1"]!,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        data["bigText2"]!,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text(data["bigText1"]!,
+                          textAlign: TextAlign.left,
+                          style: kTextStyle24(context)),
+                      Text(data["bigText2"]!,
+                          textAlign: TextAlign.left,
+                          style: kTextStyle24(context)),
                       SizedBox(height: 20),
                       // Display middle text fields
-                      Text(
-                        data["middleText1"]!,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                      Text(
-                        data["middleText2"]!,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey[700],
-                        ),
-                      ),
+                      Text(data["middleText1"]!,
+                          textAlign: TextAlign.left,
+                          style: kTextStyle16(context,
+                              opacity: 0.6, weight: FontWeight.w500)),
+                      Text(data["middleText2"]!,
+                          textAlign: TextAlign.left,
+                          style: kTextStyle16(context,
+                              opacity: 0.6, weight: FontWeight.w500)),
                       SizedBox(height: 30), // Add spacing between text and logo
                       // Display the logo after the text
-                      SvgPicture.asset(
-                        data["logo"]!,
-                        height: 150,
+                      Align(
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          data["logo"]!,
+                          height: 150,
+                        ),
                       ),
                     ],
                   ),

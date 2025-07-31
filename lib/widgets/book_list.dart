@@ -48,6 +48,9 @@ class _BookListState extends State<BookList> {
       case ReadingStatus.search:
         url = ApiEndpoints.searchBooks(widget.keyword ?? "");
         break;
+      case ReadingStatus.select:
+        url = ApiEndpoints.searchBooks(widget.keyword ?? "");
+        break;
     }
 
     NetworkHelper networkHelper = NetworkHelper(url);
