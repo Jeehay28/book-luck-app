@@ -143,8 +143,8 @@ class ReadingModalBottomSheet extends StatelessWidget {
                       showDialogBox(
                         context,
                         '해당 책을 완독하셨나요?',
-                        '🎉 완독 축하드려요!\n이제 이 책은 당신의 멋진 독서 이력에 당당히 등록됩니다.',
-                        '닫기',
+                        "책을 끝까지 읽으셨다면 '완독' 처리로 기록을\n마무리할 수 있어요.",
+                        '덜 읽었어요',
                         '완독했어요',
                         Color(0xff303030),
                         () {

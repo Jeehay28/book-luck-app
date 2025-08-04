@@ -17,7 +17,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final List<Map<String, String>> _onboardingData = [
     {
       "bigText1": "Book Luck!",
-      "bigText2": "행운은 책을 여는 순간부터 ",
+      "bigText2": "행운은 책을 여는 순간부터🍀",
       "middleText1": "북럭이와 함께",
       "middleText2": "행운 가득한 도서 여정을 떠나볼까요?",
       "logo": "assets/images/logo.svg",
@@ -33,7 +33,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       "bigText1": "행운을 모으는",
       "bigText2": "독서친구, 북럭이",
       "middleText1": "매일 읽고 기록할수록,",
-      "middleText2": "북럭이도 점점 더 밝게 성장해요",
+      "middleText2": "북럭이도 점점 더 밝게 성장해요 🌱",
       "logo": "assets/images/logo.svg",
     },
     {

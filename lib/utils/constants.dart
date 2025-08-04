@@ -1,4 +1,5 @@
-const kDeviceHeight = 720;
+// const kDeviceHeight = 720;
+const kDeviceHeight = 751;
 const kDeviceWidth = 360;
 
 const List<String> kCategories = [
