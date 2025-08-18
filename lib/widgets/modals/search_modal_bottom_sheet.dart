@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/services/networking.dart';
 import 'package:book_luck_app_demo/utils/api_endpoints.dart';
+import 'package:book_luck_app_demo/model/book.dart';
 
 class SearchModalBottomSheet extends StatelessWidget {
   final String title;
@@ -14,9 +15,10 @@ class SearchModalBottomSheet extends StatelessWidget {
   final String image;
   final String description;
   final String isbn;
+  final void Function(Book)? onAddRecent;
 
-  SearchModalBottomSheet(
-      this.title, this.author, this.image, this.description, this.isbn);
+  SearchModalBottomSheet(this.title, this.author, this.image, this.description,
+      this.isbn, this.onAddRecent);
 
   @override
   Widget build(BuildContext context) {
@@ -59,30 +61,36 @@ class SearchModalBottomSheet extends StatelessWidget {
           SizedBox(
             height: bodyHeight * (25 / kDeviceHeight),
           ),
-          Container(
-            height: bodyHeight * (56 / kDeviceHeight),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/red_heart.svg',
-                  width: bodyWidth * (24 / kDeviceWidth),
-                  height: bodyHeight * (24 / kDeviceHeight),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    addToFavorite('1', isbn);
-                  },
-                  child: Text(
+          GestureDetector(
+            onTap: () {
+              addToFavorite('1', isbn);
+              this.onAddRecent?.call(Book(
+                  title: this.title,
+                  image: this.image,
+                  isbn: this.isbn,
+                  author: this.author,
+                  description: this.description));
+            },
+            child: Container(
+              height: bodyHeight * (56 / kDeviceHeight),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/red_heart.svg',
+                    width: bodyWidth * (24 / kDeviceWidth),
+                    height: bodyHeight * (24 / kDeviceHeight),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
                     '위시리스트에 추가하기',
                     style: kTextStyle14(context),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
           Container(
