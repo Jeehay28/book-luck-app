@@ -9,6 +9,7 @@ import 'package:book_luck_app_demo/services/networking.dart';
 import 'package:book_luck_app_demo/widgets/modals/reading_modal_bottom_sheet.dart';
 import 'package:book_luck_app_demo/screens/book_review_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../model/book.dart';
 
 class BookListItem extends StatefulWidget {
   final String title;
@@ -18,9 +19,10 @@ class BookListItem extends StatefulWidget {
   final String description;
   final bool favorite;
   final ReadingStatus status;
+  final void Function(Book)? onAddRecent;
 
   BookListItem(this.title, this.image, this.isbn, this.author, this.description,
-      this.favorite, this.status);
+      this.favorite, this.status, this.onAddRecent);
 
   @override
   State<BookListItem> createState() => _BookListItemState();
@@ -28,6 +30,7 @@ class BookListItem extends StatefulWidget {
 
 class _BookListItemState extends State<BookListItem> {
   late bool heart;
+  List<BookListItem> recentlySearchedBooks = [];
 
   @override
   void initState() {
@@ -104,7 +107,8 @@ class _BookListItemState extends State<BookListItem> {
                             widget.author,
                             widget.image,
                             widget.description,
-                            widget.isbn),
+                            widget.isbn,
+                            widget.onAddRecent),
                       )));
             }
           },
@@ -187,6 +191,13 @@ class _BookListItemState extends State<BookListItem> {
                       height: bodyHeight * (24 / kDeviceHeight),
                     ),
                     onTap: () {
+                      widget.onAddRecent?.call(Book(
+                          title: widget.title,
+                          image: widget.image,
+                          isbn: widget.isbn,
+                          author: widget.author,
+                          description: widget.description));
+                      print("onAddRecented called!");
                       addToFavorite('1', widget.isbn);
                     },
                   ),
@@ -199,7 +210,6 @@ class _BookListItemState extends State<BookListItem> {
                     ),
                     onTap: () {
                       deleteFromFavorite('1', widget.isbn);
-                      print(widget.isbn);
                     },
                   ),
               ]),

@@ -18,6 +18,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   final TextEditingController _controller = TextEditingController();
   String inputValues = "";
   String searchKeyword = '';
+  bool searching = false;
   Timer? _debounce;
 
   @override
@@ -33,6 +34,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
       // Only update keyword here (after user stops typing)
       setState(() {
         searchKeyword = value;
+        searching = true;
       });
 
       print(searchKeyword);
@@ -114,7 +116,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
             alignment: Alignment.topLeft, // align inside the container
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
-              '최근 검색한 책',
+              searching ? '검색 결과' : '최근 검색한 책',
               style: kTextStyle14(context, opacity: 0.4),
             ),
           ),

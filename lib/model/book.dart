@@ -3,7 +3,7 @@ class Book {
   final String image;
   final String isbn;
   final String author;
-  String? description;
+  final description;
   bool favorite;
 
   Book({
@@ -11,7 +11,7 @@ class Book {
     required this.image,
     required this.isbn,
     required this.author,
-    this.description,
+    required this.description,
     this.favorite = false,
   });
 

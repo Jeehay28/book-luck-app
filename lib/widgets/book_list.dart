@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/providers/recently_searched_books.dart';
 import 'package:book_luck_app_demo/screens/home_screen.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/utils/constants.dart';
@@ -9,6 +10,7 @@ import 'package:book_luck_app_demo/model/reading_status.dart';
 import 'package:book_luck_app_demo/widgets/book_list_item.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
+import 'package:provider/provider.dart';
 
 const warningText = {
   ReadingStatus.wishlist: '위시리스트에 저장된 책이 없습니다. \n읽고 싶은 책을 저장해 보세요.',
@@ -86,8 +88,20 @@ class _BookListState extends State<BookList> {
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
     final bodyWidth = context.bodyWidth;
+    final recentlySearchedBooks =
+        Provider.of<RecentlySearchedBooksProvider>(context, listen: false);
 
-    if (_books.length == 0) {
+    final numberOfRecentlySearchedBooks =
+        recentlySearchedBooks.numberOfRecentlySearchedBooks();
+
+    void _handleAddRecent(Book b) {
+      recentlySearchedBooks
+          .addRecentlySearchedBooks(b); // uses your current method name
+      debugPrint(
+          'recent total = ${recentlySearchedBooks.getRecentlySearchedBooks().length}');
+    }
+
+    if (_books.length == 0 && numberOfRecentlySearchedBooks == 0) {
       return Container(
         height: bodyHeight * (200 / kDeviceHeight),
         padding: EdgeInsets.symmetric(vertical: 70),
@@ -140,13 +154,31 @@ class _BookListState extends State<BookList> {
       );
     }
 
+    if (numberOfRecentlySearchedBooks != 0 && _books.length == 0) {
+      return ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: recentlySearchedBooks.numberOfRecentlySearchedBooks(),
+          itemBuilder: (BuildContext context, int index) {
+            final book = recentlySearchedBooks[index];
+            return BookListItem(
+                book.title,
+                book.image,
+                book.isbn,
+                book.author,
+                book.description,
+                book.favorite,
+                widget.status,
+                _handleAddRecent);
+          });
+    }
+
     return ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: _books.length,
         itemBuilder: (BuildContext context, int index) {
           final book = _books[index];
           return BookListItem(book.title, book.image, book.isbn, book.author,
-              book.description, book.favorite, widget.status);
+              book.description, book.favorite, widget.status, _handleAddRecent);
         });
   }
 }

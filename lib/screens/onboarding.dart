@@ -2,6 +2,7 @@ import 'package:book_luck_app_demo/screens/login_page.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class OnboardingPage extends StatefulWidget {
   static const String id = 'onboarding';
