@@ -67,6 +67,7 @@ class MyApp extends StatelessWidget {
                   title: args['title']!,
                   author: args['author']!,
                   image: args['image']!,
+                  isbn: args['isbn']!,
                 ),
               );
 
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
                         title: args['title']!,
                         author: args['author']!,
                         image: args['image']!,
+                        isbn: args['isbn']!,
                       ));
 
             default:

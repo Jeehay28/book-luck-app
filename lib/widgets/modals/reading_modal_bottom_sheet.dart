@@ -13,8 +13,9 @@ class ReadingModalBottomSheet extends StatelessWidget {
   final String title;
   final String author;
   final String image;
+  final String isbn;
 
-  ReadingModalBottomSheet(this.title, this.author, this.image);
+  ReadingModalBottomSheet(this.title, this.author, this.image, this.isbn);
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +113,7 @@ class ReadingModalBottomSheet extends StatelessWidget {
                           'title': title,
                           'author': author,
                           'image': image,
+                          'isbn': isbn,
                         },
                       );
                     },

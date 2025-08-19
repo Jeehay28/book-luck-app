@@ -4,6 +4,7 @@ class ApiEndpoints {
 
   static const String getAllBooks = '$base/books/getAllBooks';
   static const String addToFavorites = '$base/books/addToFavorites';
+  static const String recordBooks = '$base/books/record';
   static const String getRandomQuote = '$base8080/phrases/getRandomPhrase';
   static const String getQuotes = '$base/phrases/getPhrases';
 

@@ -13,9 +13,13 @@ class BookReviewListScreen extends StatefulWidget {
   final String title;
   final String image;
   final String author;
+  final String isbn;
 
   BookReviewListScreen(
-      {required this.title, required this.image, required this.author});
+      {required this.title,
+      required this.image,
+      required this.author,
+      required this.isbn});
 
   @override
   State<BookReviewListScreen> createState() => _BookReviewListScreenState();

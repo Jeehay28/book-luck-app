@@ -5,23 +5,58 @@ import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/widgets/book_item.dart';
 import 'package:book_luck_app_demo/widgets/modals/showDialogBox.dart';
 import 'package:book_luck_app_demo/screens/book_review_complete_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:book_luck_app_demo/services/networking.dart';
+import 'package:book_luck_app_demo/utils/api_endpoints.dart';
 
-class BookReviewWriteScreen extends StatelessWidget {
+class BookReviewWriteScreen extends StatefulWidget {
   static const String id = 'book_review_write';
 
   final String title;
   final String image;
   final String author;
+  final String isbn;
 
   BookReviewWriteScreen(
-      {required this.title, required this.image, required this.author});
+      {required this.title,
+      required this.image,
+      required this.author,
+      required this.isbn});
+
+  @override
+  State<BookReviewWriteScreen> createState() => _BookReviewWriteScreenState();
+}
+
+class _BookReviewWriteScreenState extends State<BookReviewWriteScreen> {
+  bool isChecked = false;
+  String review = '';
 
   @override
   Widget build(BuildContext context) {
     final bodyWidth = context.bodyWidth;
     final bodyHeight = context.bodyHeight;
 
-    final bool isChecked = false;
+    Future<void> recordBooks(
+        {int userId = 1,
+        // required String bookId,
+        required int duration,
+        required String review}) async {
+      try {
+        NetworkHelper networkHelper =
+            NetworkHelper(ApiEndpoints.recordBooks, body: {
+          'userId': userId,
+          'status': 'FINISHED',
+          'bookId': widget.isbn,
+          'duration': duration,
+          'endDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          'review': review
+        });
+
+        await networkHelper.postData();
+      } catch (err) {
+        print('Error during recordBooks: $err');
+      }
+    }
 
     return Scaffold(
         body: SafeArea(
@@ -52,7 +87,7 @@ class BookReviewWriteScreen extends StatelessWidget {
         ),
         Container(
           height: bodyHeight * (72 / kDeviceHeight),
-          child: BookItem(title, image, author),
+          child: BookItem(widget.title, widget.image, widget.author),
         ),
 
         // 독후감 내용 작성
@@ -96,7 +131,9 @@ class BookReviewWriteScreen extends StatelessWidget {
               ),
             ),
             onChanged: (newValue) {
-              print(newValue);
+              setState(() {
+                review = newValue;
+              });
             },
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
@@ -112,7 +149,9 @@ class BookReviewWriteScreen extends StatelessWidget {
               Checkbox(
                   value: isChecked,
                   onChanged: (newValue) {
-                    print(newValue);
+                    setState(() {
+                      isChecked = newValue!;
+                    });
                   }),
               Text(
                 '내용 없이 등록',
@@ -135,7 +174,8 @@ class BookReviewWriteScreen extends StatelessWidget {
                     style: kTextStyle14(context, opacity: 0.6),
                   ),
                   Text(
-                    '2025년 7월 13일',
+                    // '2025년 7월 13일',
+                    DateFormat('yyyy년 M월 d일').format(DateTime.now()),
                     style: kTextStyle14(context),
                   )
                 ],
@@ -164,6 +204,11 @@ class BookReviewWriteScreen extends StatelessWidget {
                       '덜 읽었어요',
                       '완독했어요',
                       Color(0xff303030), () {
+                    recordBooks(
+                        userId: 1,
+                        // bookId: '9791190090261',
+                        duration: 180,
+                        review: review);
                     Navigator.pushNamed(context, BookReviewCompleteScreen.id);
                   });
                 },
