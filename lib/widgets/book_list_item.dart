@@ -160,7 +160,7 @@ class _BookListItemState extends State<BookListItem> {
                                         .bottom,
                                   ),
                                   child: ReadingModalBottomSheet(widget.title,
-                                      widget.author, widget.image),
+                                      widget.author, widget.image, widget.isbn),
                                 )));
                       } else if (widget.status == ReadingStatus.reading ||
                           widget.status == ReadingStatus.finished) {

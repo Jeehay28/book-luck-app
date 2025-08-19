@@ -41,6 +41,7 @@ class NetworkHelper {
         if (contentType != null && contentType.contains('application/json')) {
           return jsonDecode(response.body);
         } else {
+          print(response.body);
           return response.body; // just a plain string
         }
       }
