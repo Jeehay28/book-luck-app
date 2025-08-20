@@ -1,3 +1,5 @@
+import 'package:book_luck_app_demo/services/networking.dart';
+import 'package:book_luck_app_demo/utils/api_endpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:book_luck_app_demo/utils/mockData.dart';
@@ -11,6 +13,52 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  List<Map<String, dynamic>> _bookReviews = [];
+
+  Future<void> getReviews(String userId) async {
+    try {
+      var url = ApiEndpoints.getBookReviews(userId);
+      NetworkHelper networkHelper = NetworkHelper(url);
+
+      var result = await networkHelper.getData();
+
+      if (result == null) {
+        print('getReviews: response is null');
+      }
+
+      if (result is List) {
+        final reviews = result
+            .whereType<Map>() // 혹시 섞여있을 타입 걸러주기
+            .map((e) => Map<String, dynamic>.from(e))
+            .toList();
+
+        if (!mounted) return;
+        if (reviews.isNotEmpty) {
+          setState(() {
+            _bookReviews = reviews;
+            print(_bookReviews);
+          });
+        }
+        return;
+      }
+    } catch (err) {
+      print('Error during getReviews: $err');
+    }
+  }
+
+  String formatKrMinSec(int totalSeconds) {
+    final d = Duration(seconds: totalSeconds);
+    final m = d.inMinutes;
+    final s = d.inSeconds.remainder(60);
+    return '$m분 ${s}초';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getReviews('1');
+  }
+
   @override
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
@@ -44,7 +92,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                 ),
                 // Use the mock data for the books
-                ...mockFeedBooks.map((book) {
+                ..._bookReviews.map((book) {
                   int index = mockFeedBooks.indexOf(book);
 
                   // Check if the current book is the last one in the list
@@ -77,7 +125,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         width: bodyWidth * 0.1111,
                                         height: bodyHeight * 0.0564,
                                         child: Center(
-                                          child: Image.asset(
+                                          child: Image.network(
                                             book['image'],
                                             fit: BoxFit.cover,
                                           ),
@@ -128,13 +176,13 @@ class _FeedScreenState extends State<FeedScreen> {
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  width: bodyWidth * 0.0556,
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                        'assets/images/dots.svg'),
-                                  ),
-                                ),
+                                // Container(
+                                //   width: bodyWidth * 0.0556,
+                                //   child: Center(
+                                //     child: SvgPicture.asset(
+                                //         'assets/images/dots.svg'),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -155,7 +203,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                 Container(
                                   height: bodyHeight * 0.1410,
                                   child: Text(
-                                    book['summary'],
+                                    book['review'],
                                     style: TextStyle(
                                       color: Color(0xFF303030),
                                       // fontFamily: 'SUITVariable',
@@ -174,7 +222,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        book['date'],
+                                        book['endDate'],
                                         style: TextStyle(
                                           color: Color(0xFF303030)
                                               .withOpacity(0.4),
@@ -186,7 +234,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         ),
                                       ),
                                       Text(
-                                        book['readingTime'],
+                                        formatKrMinSec(book['duration']),
                                         style: TextStyle(
                                           color: Color(0xFF303030)
                                               .withOpacity(0.4),

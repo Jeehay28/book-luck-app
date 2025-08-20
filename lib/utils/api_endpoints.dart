@@ -17,4 +17,6 @@ class ApiEndpoints {
 
   static String searchBooks(String search) =>
       '$base/books/getApiBooks?keyword=$search';
+
+  static String getBookReviews(String userId) => '$base/users/$userId/records';
 }
