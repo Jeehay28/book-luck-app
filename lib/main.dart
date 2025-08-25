@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
           BookReviewCompleteScreen.id: (context) => BookReviewCompleteScreen()
         },
         onGenerateRoute: (settings) {
+          print(settings);
           switch (settings.name) {
             case BookReviewWriteScreen.id:
               final args = settings.arguments as Map<String, String>;
@@ -73,13 +74,16 @@ class MyApp extends StatelessWidget {
 
             case BookReviewListScreen.id:
               final args = settings.arguments as Map<String, dynamic>;
+              print('book review list screen :');
+              print(args);
               return MaterialPageRoute(
-                  builder: (context) => BookReviewListScreen(
-                        title: args['title']!,
-                        author: args['author']!,
-                        image: args['image']!,
-                        isbn: args['isbn']!,
-                      ));
+                builder: (context) => BookReviewListScreen(
+                  title: args['title']!,
+                  author: args['author']!,
+                  image: args['image']!,
+                  isbn: args['isbn'] ?? "",
+                ),
+              );
 
             default:
               return MaterialPageRoute(

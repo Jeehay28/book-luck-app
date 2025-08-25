@@ -161,10 +161,10 @@ class _BookReviewListScreenState extends State<BookReviewListScreen> {
                               ],
                             ),
                             Container(
-                              width: bodyWidth * (80 / kDeviceWidth),
+                              width: bodyWidth * (71 / kDeviceWidth),
                               height: bodyHeight * (32 / kDeviceHeight),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 13, vertical: 5),
+                                  horizontal: bodyWidth * (8 / kDeviceWidth)),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
@@ -180,8 +180,8 @@ class _BookReviewListScreenState extends State<BookReviewListScreen> {
                                     : null,
                                 icon: SvgPicture.asset(
                                   'assets/images/angle_down.svg',
-                                  width: bodyWidth * (10.67 / kDeviceWidth),
-                                  height: bodyWidth * (6.67 / kDeviceWidth),
+                                  width: bodyWidth * (14 / kDeviceWidth),
+                                  height: bodyWidth * (14 / kDeviceHeight),
                                 ),
                                 iconSize: 0, // set to 0 to avoid interference
 
