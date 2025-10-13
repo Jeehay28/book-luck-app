@@ -13,15 +13,16 @@ class FourLeafCloverContainer extends StatefulWidget {
 
 class _FourLeafCloverContainerState extends State<FourLeafCloverContainer> {
   final List<String> lottieFiles = [
-    'assets/lottie/basic.json',
-    'assets/lottie/dance.json',
-    'assets/lottie/heart.json',
-    'assets/lottie/poppingClover.json',
-    'assets/lottie/rainbow.json',
-    'assets/lottie/reading.json',
-    'assets/lottie/record1.json',
-    'assets/lottie/record2.json',
-    'assets/lottie/sad.json'
+    'assets/lottie/test_lottie_01.json'
+    // 'assets/lottie/basic.json',
+    // 'assets/lottie/dance.json',
+    // 'assets/lottie/heart.json',
+    // 'assets/lottie/poppingClover.json',
+    // 'assets/lottie/rainbow.json',
+    // 'assets/lottie/reading.json',
+    // 'assets/lottie/record1.json',
+    // 'assets/lottie/record2.json',
+    // 'assets/lottie/sad.json'
   ];
   int _currentIndex = 0;
 

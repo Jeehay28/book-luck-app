@@ -30,7 +30,7 @@ Future<void> showBadgeDialogBox(
               vertical: bodyHeight * (12 / kDeviceHeight),
               horizontal: bodyWidth * (20 / kDeviceWidth)),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                   padding: EdgeInsets.zero,
@@ -65,7 +65,7 @@ Future<void> showBadgeDialogBox(
                 ),
               ),
               Container(
-                height: bodyHeight * (100 / kDeviceHeight),
+                height: bodyHeight * (102 / kDeviceHeight),
                 padding: EdgeInsets.zero,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -82,8 +82,7 @@ Future<void> showBadgeDialogBox(
                           foregroundColor: Colors.white, // 배경색
                           minimumSize: Size(bodyWidth * (240 / kDeviceWidth),
                               bodyHeight * (40 / kDeviceHeight)), // 너비와 높이
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -92,7 +91,7 @@ Future<void> showBadgeDialogBox(
                             // '완독했어요'
                             confirm)),
                     SizedBox(
-                      width: bodyWidth * (4 / kDeviceWidth),
+                      height: bodyHeight * (8 / kDeviceHeight),
                     ),
                     TextButton(
                         onPressed: () {
@@ -104,8 +103,7 @@ Future<void> showBadgeDialogBox(
                           foregroundColor: Colors.black, // 배경색
                           minimumSize: Size(bodyWidth * (240 / kDeviceWidth),
                               bodyHeight * (40 / kDeviceHeight)), // 너비와 높이
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
