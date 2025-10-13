@@ -32,7 +32,7 @@ class _BookReviewCompleteScreenState extends State<BookReviewCompleteScreen> {
           '나의 도감 보러가기',
           Color(0xff303030),
           () {
-            print('fdsfsfds');
+            print('북럭이 뱃지');
             ;
           },
         );

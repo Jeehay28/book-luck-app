@@ -17,7 +17,6 @@ class BookItem extends StatelessWidget {
 
     return Container(
         height: bodyHeight * (72 / kDeviceHeight),
-        width: 360,
         child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,10 +30,11 @@ class BookItem extends StatelessWidget {
                 width: 15,
               ),
               SizedBox(
-                width: bodyWidth * (196 / kDeviceWidth),
-                height: bodyHeight * (46 / kDeviceHeight),
+                width: bodyWidth * (268 / kDeviceWidth),
+                height: bodyHeight * (56 / kDeviceHeight),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       title,
