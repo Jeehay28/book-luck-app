@@ -5,10 +5,14 @@ import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
-// import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:flutter/rendering.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../services/networking.dart';
+import '../utils/api_endpoints.dart';
 
 class MyPageScreen extends StatefulWidget {
   static const String id = 'mypage';
@@ -22,6 +26,8 @@ class _MyPageScreenState extends State<MyPageScreen> {
   String selectedTab = '기록';
   final List<String> options = ['최신순', '오래된순'];
   String dropdownValue = '최신순';
+  bool hideIcons = false;
+  List<Map<String, dynamic>> _bookReceipts = [];
 
   Future<bool> _ensureGalleryPermission() async {
     if (Platform.isAndroid) {
@@ -43,6 +49,10 @@ class _MyPageScreenState extends State<MyPageScreen> {
     final ok = await _ensureGalleryPermission();
     if (!ok) return;
 
+    setState(() {
+      hideIcons = true;
+    });
+
     // Make sure the boundary is laid out
     await WidgetsBinding.instance.endOfFrame;
 
@@ -62,6 +72,10 @@ class _MyPageScreenState extends State<MyPageScreen> {
       pngBytes,
       name: 'my_container_image',
     );
+
+    setState(() {
+      hideIcons = false;
+    });
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -100,447 +114,578 @@ class _MyPageScreenState extends State<MyPageScreen> {
     }
   }
 
+  Future<void> _shareRepaintBoundary() async {
+    // Ensure the widget has been laid out this frame
+    await WidgetsBinding.instance.endOfFrame;
+
+    final boundary = _containerKey.currentContext?.findRenderObject()
+        as RenderRepaintBoundary?;
+    if (boundary == null) return;
+
+    final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    if (byteData == null) return;
+
+    final bytes = byteData.buffer.asUint8List();
+    final dir = await getTemporaryDirectory();
+    final path =
+        '${dir.path}/bookluck_${DateTime.now().millisecondsSinceEpoch}.png';
+    final file = File(path);
+    await file.writeAsBytes(bytes);
+
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Shared from BookLuck',
+      subject: 'My Page',
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          backgroundColor: const Color(0xFF3B6CFF),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          content: const Row(
+            children: [
+              Icon(Icons.check_circle, color: Colors.white),
+              SizedBox(width: 12),
+              Text('Image ready to share!',
+                  style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> getReceipts(String userId) async {
+    try {
+      var url = ApiEndpoints.getReceipts(userId);
+      NetworkHelper networkHelper = NetworkHelper(url);
+
+      var result = await networkHelper.getData();
+
+      if (result == null) {
+        print('getReceipts: response is null');
+      }
+
+      if (result is List) {
+        final reviews = result
+            .whereType<Map>() // 혹시 섞여있을 타입 걸러주기
+            .map((e) => Map<String, dynamic>.from(e))
+            .toList();
+
+        if (!mounted) return;
+        if (reviews.isNotEmpty) {
+          setState(() {
+            _bookReceipts = reviews;
+            print(_bookReceipts);
+          });
+        }
+        return;
+      }
+    } catch (err) {
+      print('Error during getReviews: $err');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getReceipts('1');
+  }
+
   @override
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
     final bodyWidth = context.bodyWidth;
 
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-            padding: EdgeInsets.zero, // Add some padding for the sides
-            child: SizedBox(
-              height: bodyHeight,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment:
-                      MainAxisAlignment.start, // Distribute space
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: bodyWidth * (20 / kDeviceWidth),
-                          vertical: bodyHeight * (12 / kDeviceHeight)),
-                      child: Container(
-                        height: bodyHeight * (34 / kDeviceHeight),
-                        width: bodyWidth * (320 / kDeviceWidth),
-                        child: Row(
-                          children: [
-                            Container(
-                              child: SvgPicture.asset(
-                                'assets/images/black_clover.svg',
-                                width: bodyWidth * (16 / kDeviceWidth),
-                                height: bodyHeight * (16 / kDeviceHeight),
-                              ),
-                            ),
-                            SizedBox(
-                              width: bodyWidth * (4 / kDeviceWidth),
-                            ),
-                            Container(
-                              child: SvgPicture.asset(
-                                'assets/images/bookluck_text.svg',
-                                width: bodyWidth * (93 / kDeviceWidth),
-                                height: bodyHeight * (16 / kDeviceHeight),
-                              ),
-                            ),
-                            SizedBox(
-                              width: bodyWidth * (103 / kDeviceWidth),
-                            ),
-                            Container(
-                              width: bodyWidth * (104 / kDeviceWidth),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/images/book_at_mypage.svg',
-                                    width: bodyWidth * (24 / kDeviceWidth),
-                                    height: bodyHeight * (24 / kDeviceHeight),
-                                  ),
-                                  SizedBox(
-                                    width: bodyWidth * (16 / kDeviceWidth),
-                                  ),
-                                  SvgPicture.asset(
-                                    'assets/images/blank_clover.svg',
-                                    width: bodyWidth * (24 / kDeviceWidth),
-                                    height: bodyHeight * (24 / kDeviceHeight),
-                                  ),
-                                  SizedBox(
-                                    width: bodyWidth * (16 / kDeviceWidth),
-                                  ),
-                                  SvgPicture.asset(
-                                    'assets/images/cogwheel.svg',
-                                    width: bodyWidth * (24 / kDeviceWidth),
-                                    height: bodyHeight * (24 / kDeviceHeight),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: bodyWidth * (20 / kDeviceWidth),
-                          vertical: bodyHeight * (16 / kDeviceHeight)),
-                      child: Container(
-                        height: bodyHeight * (20 / kDeviceHeight),
-                        width: bodyWidth * (320 / kDeviceWidth),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
+        body: SafeArea(
+            child: Padding(
+                padding: EdgeInsets.zero, // Add some padding for the sides
+                child: SizedBox(
+                    height: bodyHeight,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment:
+                            MainAxisAlignment.start, // Distribute space
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: bodyWidth * (20 / kDeviceWidth),
+                                vertical: bodyHeight * (12 / kDeviceHeight)),
+                            child: Container(
+                              height: bodyHeight * (34 / kDeviceHeight),
+                              width: bodyWidth * (320 / kDeviceWidth),
                               child: Row(
                                 children: [
-                                  Text(
-                                    '기록 영수증',
-                                    style: kTextStyle14(context),
+                                  Container(
+                                    child: SvgPicture.asset(
+                                      'assets/images/black_clover.svg',
+                                      width: bodyWidth * (16 / kDeviceWidth),
+                                      height: bodyHeight * (16 / kDeviceHeight),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: bodyWidth * (4 / kDeviceWidth),
                                   ),
-                                  Text(
-                                    '21',
-                                    style: kTextStyle14(context, opacity: 0.4),
+                                  Container(
+                                    child: SvgPicture.asset(
+                                      'assets/images/bookluck_text.svg',
+                                      width: bodyWidth * (93 / kDeviceWidth),
+                                      height: bodyHeight * (16 / kDeviceHeight),
+                                    ),
                                   ),
+                                  SizedBox(
+                                    width: bodyWidth * (103 / kDeviceWidth),
+                                  ),
+                                  Container(
+                                    width: bodyWidth * (104 / kDeviceWidth),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/book_at_mypage.svg',
+                                          width:
+                                              bodyWidth * (24 / kDeviceWidth),
+                                          height:
+                                              bodyHeight * (24 / kDeviceHeight),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              bodyWidth * (16 / kDeviceWidth),
+                                        ),
+                                        SvgPicture.asset(
+                                          'assets/images/blank_clover.svg',
+                                          width:
+                                              bodyWidth * (24 / kDeviceWidth),
+                                          height:
+                                              bodyHeight * (24 / kDeviceHeight),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              bodyWidth * (16 / kDeviceWidth),
+                                        ),
+                                        SvgPicture.asset(
+                                          'assets/images/cogwheel.svg',
+                                          width:
+                                              bodyWidth * (24 / kDeviceWidth),
+                                          height:
+                                              bodyHeight * (24 / kDeviceHeight),
+                                        )
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              // width: double.infinity,
-                              height: bodyHeight *
-                                  (32 / kDeviceHeight), // same height you used
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: bodyWidth * (20 / kDeviceWidth),
+                                vertical: bodyHeight * (16 / kDeviceHeight)),
+                            child: Container(
+                              height: bodyHeight * (20 / kDeviceHeight),
+                              width: bodyWidth * (320 / kDeviceWidth),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    width: bodyWidth * (71 / kDeviceWidth),
-                                    height: bodyHeight * (32 / kDeviceHeight),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            bodyWidth * (8 / kDeviceWidth)),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(
-                                          8), // Rounded corners
-                                      border: Border.all(
-                                          color: Color(0xff303030).withAlpha(
-                                              (0.08 * 255)
-                                                  .round())), // Optional border
-                                    ),
-                                    child: DropdownButton<String>(
-                                      isExpanded:
-                                          true, // ✅ prevents internal overflow
-                                      value: options.contains(dropdownValue)
-                                          ? dropdownValue
-                                          : null,
-                                      icon: SvgPicture.asset(
-                                        'assets/images/angle_down.svg',
-                                        width: bodyWidth * (14 / kDeviceWidth),
-                                        height:
-                                            bodyWidth * (14 / kDeviceHeight),
-                                      ),
-                                      iconSize:
-                                          0, // set to 0 to avoid interference
-
-                                      // Selected item style
-                                      dropdownColor: Colors
-                                          .white, // Background color of dropdown items
-                                      underline: SizedBox
-                                          .shrink(), // Remove underline // Dropdown icon
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          dropdownValue = newValue!;
-                                        });
-                                      },
-                                      items: options.map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(
-                                            value,
-                                            style: kTextStyle12(context,
-                                                weight: FontWeight.w600),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: bodyWidth * (8 / kDeviceWidth),
-                                  ),
-                                  SizedBox(
-                                    width: bodyWidth * (32 / kDeviceWidth),
-                                    height: double.infinity,
-                                    child: Container(
-                                      // width: bodyWidth * (32 / kDeviceWidth),
-                                      // height:
-                                      //     bodyHeight * (32 / kDeviceHeight),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                            8), // Rounded corners
-                                        border: Border.all(
-                                            color: Color(0xff303030).withAlpha(
-                                                (0.08 * 255)
-                                                    .round())), // Optional border
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                bodyWidth * (6 / kDeviceWidth)),
-                                        child: SvgPicture.asset(
-                                          'assets/images/magnifying_glass.svg',
-                                          width: bodyWidth *
-                                              (15.83 / kDeviceWidth),
-                                          height: bodyWidth *
-                                              (15.83 / kDeviceWidth),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  // 1 download, share
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: bodyHeight * (8 / kDeviceHeight),
-                    ),
-
-                    // Card
-                    RepaintBoundary(
-                      key: _containerKey,
-                      child: Container(
-                        width: bodyWidth * (281 / kDeviceWidth),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: const Color(0xFFDDDDDD), width: 1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: [
-                            // 1 share download
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: bodyWidth * (20 / kDeviceWidth),
-                                  vertical: bodyHeight * (20 / kDeviceHeight)),
-                              child: Container(
-                                height: bodyHeight * (32 / kDeviceHeight),
-                                width: bodyWidth * (241 / kDeviceWidth),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                        padding: const EdgeInsets.all(8),
-                                        height:
-                                            bodyHeight * (32 / kDeviceHeight),
-                                        width: bodyWidth * (32 / kDeviceWidth),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: const Color(0xFFDDDDDD),
-                                              width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Center(
-                                            child: Text(
-                                          '1',
-                                          style: kTextStyle14(context,
-                                              weight: FontWeight.w700),
-                                        ))),
-                                    Row(
+                                    child: Row(
                                       children: [
-                                        GestureDetector(
-                                          onTap: _saveToGallery,
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8),
-                                            height: bodyHeight *
-                                                (32 / kDeviceHeight),
-                                            width:
-                                                bodyWidth * (32 / kDeviceWidth),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                  color:
-                                                      const Color(0xFFDDDDDD),
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
+                                        Text(
+                                          '기록 영수증',
+                                          style: kTextStyle14(context),
+                                        ),
+                                        SizedBox(
+                                          width: bodyWidth * (4 / kDeviceWidth),
+                                        ),
+                                        Text(
+                                          '21',
+                                          style: kTextStyle14(context,
+                                              opacity: 0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    // width: double.infinity,
+                                    height: bodyHeight *
+                                        (32 /
+                                            kDeviceHeight), // same height you used
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width:
+                                              bodyWidth * (71 / kDeviceWidth),
+                                          height:
+                                              bodyHeight * (32 / kDeviceHeight),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: bodyWidth *
+                                                  (8 / kDeviceWidth)),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                                8), // Rounded corners
+                                            border: Border.all(
+                                                color: Color(0xff303030)
+                                                    .withAlpha((0.08 * 255)
+                                                        .round())), // Optional border
+                                          ),
+                                          child: DropdownButton<String>(
+                                            isExpanded:
+                                                true, // ✅ prevents internal overflow
+                                            value:
+                                                options.contains(dropdownValue)
+                                                    ? dropdownValue
+                                                    : null,
+                                            icon: SvgPicture.asset(
+                                              'assets/images/angle_down.svg',
+                                              width: bodyWidth *
+                                                  (14 / kDeviceWidth),
+                                              height: bodyWidth *
+                                                  (14 / kDeviceHeight),
                                             ),
-                                            child: SvgPicture.asset(
-                                              'assets/images/download_icon.svg',
-                                            ),
+                                            iconSize:
+                                                0, // set to 0 to avoid interference
+
+                                            // Selected item style
+                                            dropdownColor: Colors
+                                                .white, // Background color of dropdown items
+                                            underline: SizedBox
+                                                .shrink(), // Remove underline // Dropdown icon
+                                            onChanged: (String? newValue) {
+                                              setState(() {
+                                                dropdownValue = newValue!;
+                                              });
+                                            },
+                                            items: options.map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: kTextStyle12(context,
+                                                      weight: FontWeight.w600),
+                                                ),
+                                              );
+                                            }).toList(),
                                           ),
                                         ),
                                         SizedBox(
                                           width: bodyWidth * (8 / kDeviceWidth),
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.all(8),
-                                          height:
-                                              bodyHeight * (32 / kDeviceHeight),
+                                        SizedBox(
                                           width:
                                               bodyWidth * (32 / kDeviceWidth),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: const Color(0xFFDDDDDD),
-                                                width: 1),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                          height: double.infinity,
+                                          child: Container(
+                                            // width: bodyWidth * (32 / kDeviceWidth),
+                                            // height:
+                                            //     bodyHeight * (32 / kDeviceHeight),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      8), // Rounded corners
+                                              border: Border.all(
+                                                  color: Color(0xff303030)
+                                                      .withAlpha((0.08 * 255)
+                                                          .round())), // Optional border
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: bodyWidth *
+                                                      (6 / kDeviceWidth)),
+                                              child: SvgPicture.asset(
+                                                'assets/images/magnifying_glass.svg',
+                                                width: bodyWidth *
+                                                    (15.83 / kDeviceWidth),
+                                                height: bodyWidth *
+                                                    (15.83 / kDeviceWidth),
+                                              ),
+                                            ),
                                           ),
-                                          child: SvgPicture.asset(
-                                            'assets/images/share_icon.svg',
+                                        ),
+
+                                        // 1 download, share
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: bodyHeight * (8 / kDeviceHeight),
+                          ),
+
+                          // Card
+                          RepaintBoundary(
+                              key: _containerKey,
+                              child: SingleChildScrollView(
+                                  child: Container(
+                                width: bodyWidth * (281 / kDeviceWidth),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: const Color(0xFFDDDDDD), width: 1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Column(children: [
+                                  // 1 share download
+
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            bodyWidth * (20 / kDeviceWidth),
+                                        vertical:
+                                            bodyHeight * (20 / kDeviceHeight)),
+                                    child: Visibility(
+                                      visible: !hideIcons,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                              padding: const EdgeInsets.all(8),
+                                              height: bodyHeight *
+                                                  (32 / kDeviceHeight),
+                                              width: bodyWidth *
+                                                  (32 / kDeviceWidth),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color:
+                                                        const Color(0xFFDDDDDD),
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Center(
+                                                  child: Text(
+                                                '1',
+                                                style: kTextStyle14(context,
+                                                    weight: FontWeight.w700),
+                                              ))),
+                                          Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: _saveToGallery,
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  height: bodyHeight *
+                                                      (32 / kDeviceHeight),
+                                                  width: bodyWidth *
+                                                      (32 / kDeviceWidth),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    border: Border.all(
+                                                        color: const Color(
+                                                            0xFFDDDDDD),
+                                                        width: 1),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/download_icon.svg',
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: bodyWidth *
+                                                    (8 / kDeviceWidth),
+                                              ),
+                                              GestureDetector(
+                                                onTap: _shareRepaintBoundary,
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  height: bodyHeight *
+                                                      (32 / kDeviceHeight),
+                                                  width: bodyWidth *
+                                                      (32 / kDeviceWidth),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    border: Border.all(
+                                                        color: const Color(
+                                                            0xFFDDDDDD),
+                                                        width: 1),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/share_icon.svg',
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                  ..._bookReceipts.map((receipt) {
+                                    return Column(
+                                      children: [
+                                        // why do I love you
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: bodyWidth *
+                                                  (20 / kDeviceWidth),
+                                              vertical: bodyHeight *
+                                                  (12 / kDeviceHeight)),
+                                          child: Container(
+                                            height: bodyHeight *
+                                                (105 / kDeviceHeight),
+                                            width: bodyWidth *
+                                                (241 / kDeviceWidth),
+                                            child: Column(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/images/black_clover_mypage.svg',
+                                                ),
+                                                Text(
+                                                  '왜 나는 너를 사랑하는가',
+                                                  style: kTextStyle16(context,
+                                                      weight: FontWeight.w800),
+                                                ),
+                                                Text(
+                                                  '알랭 드 보통',
+                                                  style: kTextStyle12(context,
+                                                      weight: FontWeight.w800),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+
+                                        // review summary
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: bodyWidth *
+                                                  (20 / kDeviceWidth)),
+                                          child: Container(
+                                            height: bodyHeight *
+                                                (87 / kDeviceHeight),
+                                            width: bodyWidth *
+                                                (241 / kDeviceWidth),
+                                            child: Text(
+                                                receipt['review'] ??
+                                                    '리뷰가 없습니다.',
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(height: 2)),
+                                          ),
+                                        ),
+
+                                        // bar code
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: bodyHeight *
+                                                  (20 / kDeviceHeight)),
+                                          child: Container(
+                                            height: bodyHeight *
+                                                (92 / kDeviceHeight),
+                                            width: bodyWidth *
+                                                (281 / kDeviceWidth),
+                                            child: Column(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/images/barcode.svg',
+                                                ),
+                                                SizedBox(
+                                                  height: bodyHeight *
+                                                      (12 / kDeviceHeight),
+                                                ),
+                                                Text(
+                                                    '${(receipt['startDate'] as String).replaceAll("-", ".")} - ${(receipt['endDate'] as String).replaceAll("-", ".")} ${(receipt['duration'] / 3600).floor()} HOURS ${((receipt['duration'] % 3600) / 60).floor()} MIN')
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                                    );
+                                  }).toList(),
+                                ]),
+                              ))),
 
-                            // why do I love you
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: bodyWidth * (20 / kDeviceWidth),
-                                  vertical: bodyHeight * (12 / kDeviceHeight)),
-                              child: Container(
-                                height: bodyHeight * (105 / kDeviceHeight),
-                                width: bodyWidth * (241 / kDeviceWidth),
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/images/black_clover_mypage.svg',
+                          SizedBox(
+                            height: bodyHeight * (12 / kDeviceHeight),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: bodyWidth * (20 / kDeviceWidth),
+                                vertical: bodyHeight * (8 / kDeviceHeight)),
+                            child: Container(
+                              height: bodyHeight * (56 / kDeviceHeight),
+                              width: bodyWidth * (320 / kDeviceWidth),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      '이전 기록',
+                                      style: kTextStyle16(context),
                                     ),
-                                    Text(
-                                      '왜 나는 너를 사랑하는가',
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Color(0x56698f)
+                                          .withAlpha((0.06 * 255).round()),
+                                      foregroundColor: Color(0xff303030),
+                                      minimumSize: Size(
+                                          bodyWidth * (156 / kDeviceWidth),
+                                          bodyHeight *
+                                              (56 / kDeviceHeight)), // 너비와 높이
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              bodyWidth * (6 / kDeviceWidth),
+                                          vertical:
+                                              bodyHeight * (8 / kDeviceHeight)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      '다음 기록',
                                       style: kTextStyle16(context,
-                                          weight: FontWeight.w800),
+                                          color: Colors.white),
                                     ),
-                                    Text(
-                                      '알랭 드 보통',
-                                      style: kTextStyle12(context,
-                                          weight: FontWeight.w800),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            // review summary
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: bodyWidth * (20 / kDeviceWidth)),
-                              child: Container(
-                                height: bodyHeight * (87 / kDeviceHeight),
-                                width: bodyWidth * (241 / kDeviceWidth),
-                                child: Text(
-                                    '수많은 가능성 속에서 나를 찾아가는 여정. 작고 사소한 선택이 쌓여 나만의 길을 만든다는 걸 다시 느꼈다. 따뜻하고 단단한 책.',
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(height: 2)),
-                              ),
-                            ),
-
-                            // bar code
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: bodyHeight * (20 / kDeviceHeight)),
-                              child: Container(
-                                height: bodyHeight * (92 / kDeviceHeight),
-                                width: bodyWidth * (281 / kDeviceWidth),
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/images/barcode.svg',
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Color(0xff303030),
+                                      foregroundColor: Colors.white,
+                                      minimumSize: Size(
+                                          bodyWidth * (156 / kDeviceWidth),
+                                          bodyHeight *
+                                              (56 / kDeviceHeight)), // 너비와 높이
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              bodyWidth * (6 / kDeviceWidth),
+                                          vertical:
+                                              bodyHeight * (8 / kDeviceHeight)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
                                     ),
-                                    SizedBox(
-                                      height: bodyHeight * (12 / kDeviceHeight),
-                                    ),
-                                    Text(
-                                        '2025.01.13 - 2025.04.24 6 HOURS 23 MIN')
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
                             ),
-
-                            // buttons
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(
-                      height: bodyHeight * (12 / kDeviceHeight),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: bodyWidth * (20 / kDeviceWidth),
-                          vertical: bodyHeight * (8 / kDeviceHeight)),
-                      child: Container(
-                        height: bodyHeight * (56 / kDeviceHeight),
-                        width: bodyWidth * (320 / kDeviceWidth),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                '이전 기록',
-                                style: kTextStyle16(context),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0x56698f)
-                                    .withAlpha((0.06 * 255).round()),
-                                foregroundColor: Color(0xff303030),
-                                minimumSize: Size(
-                                    bodyWidth * (156 / kDeviceWidth),
-                                    bodyHeight *
-                                        (56 / kDeviceHeight)), // 너비와 높이
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: bodyWidth * (6 / kDeviceWidth),
-                                    vertical: bodyHeight * (8 / kDeviceHeight)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                '다음 기록',
-                                style:
-                                    kTextStyle16(context, color: Colors.white),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0xff303030),
-                                foregroundColor: Colors.white,
-                                minimumSize: Size(
-                                    bodyWidth * (156 / kDeviceWidth),
-                                    bodyHeight *
-                                        (56 / kDeviceHeight)), // 너비와 높이
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: bodyWidth * (6 / kDeviceWidth),
-                                    vertical: bodyHeight * (8 / kDeviceHeight)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ]),
-            )),
-      ),
-    );
+                          ),
+                        ])))));
   }
 }
