@@ -13,6 +13,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../services/networking.dart';
 import '../utils/api_endpoints.dart';
+import 'book_pictorial_book_screen.dart';
 
 class MyPageScreen extends StatefulWidget {
   static const String id = 'mypage';
@@ -261,12 +262,18 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                           width:
                                               bodyWidth * (16 / kDeviceWidth),
                                         ),
-                                        SvgPicture.asset(
-                                          'assets/images/blank_clover.svg',
-                                          width:
-                                              bodyWidth * (24 / kDeviceWidth),
-                                          height:
-                                              bodyHeight * (24 / kDeviceHeight),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(context,
+                                                BookPictorialBookScreen.id);
+                                          },
+                                          child: SvgPicture.asset(
+                                            'assets/images/blank_clover.svg',
+                                            width:
+                                                bodyWidth * (24 / kDeviceWidth),
+                                            height: bodyHeight *
+                                                (24 / kDeviceHeight),
+                                          ),
                                         ),
                                         SizedBox(
                                           width:
@@ -547,7 +554,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                                   (12 / kDeviceHeight)),
                                           child: Container(
                                             height: bodyHeight *
-                                                (105 / kDeviceHeight),
+                                                (120 / kDeviceHeight),
                                             width: bodyWidth *
                                                 (241 / kDeviceWidth),
                                             child: Column(
@@ -556,12 +563,12 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                                   'assets/images/black_clover_mypage.svg',
                                                 ),
                                                 Text(
-                                                  '왜 나는 너를 사랑하는가',
+                                                  receipt['title'] ?? '',
                                                   style: kTextStyle16(context,
                                                       weight: FontWeight.w800),
                                                 ),
                                                 Text(
-                                                  '알랭 드 보통',
+                                                  receipt['author'] ?? '',
                                                   style: kTextStyle12(context,
                                                       weight: FontWeight.w800),
                                                 )

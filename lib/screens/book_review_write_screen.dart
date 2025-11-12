@@ -87,6 +87,7 @@ class _BookReviewWriteScreenState extends State<BookReviewWriteScreen> {
         ),
         Container(
           height: bodyHeight * (72 / kDeviceHeight),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: BookItem(widget.title, widget.image, widget.author),
         ),
 
