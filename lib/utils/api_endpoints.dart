@@ -21,4 +21,7 @@ class ApiEndpoints {
   static String getBookReviews(String userId) => '$base/users/$userId/records';
 
   static String getReceipts(String userId) => '$base/users/$userId/receipt';
+
+  static String getYearlyStats(String userId, int currentYear) =>
+      '$base/users/$userId/records/stats?year=$currentYear';
 }

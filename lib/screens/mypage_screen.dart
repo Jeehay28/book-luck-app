@@ -10,10 +10,11 @@ import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../services/networking.dart';
 import '../utils/api_endpoints.dart';
+import '../widgets/monthly_reading_line_chart.dart';
 import 'book_pictorial_book_screen.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class MyPageScreen extends StatefulWidget {
   static const String id = 'mypage';
@@ -31,23 +32,36 @@ class _MyPageScreenState extends State<MyPageScreen> {
   List<Map<String, dynamic>> _bookReceipts = [];
 
   Future<bool> _ensureGalleryPermission() async {
+    if (Platform.isIOS) {
+      // iOS 시뮬레이터면 그냥 true 반환
+      if (!await _isPhysicalDevice()) return true;
+
+      // 실제 기기
+      try {
+        var addOnly = await Permission.photosAddOnly.request();
+        if (addOnly.isGranted) return true;
+      } catch (e) {
+        debugPrint('photosAddOnly not supported: $e');
+      }
+
+      return false;
+    }
+
     if (Platform.isAndroid) {
-      // Android 13+: this maps to READ_MEDIA_IMAGES
       var status = await Permission.photos.request();
       if (status.isGranted) return true;
 
-      // Android 12 and below
       status = await Permission.storage.request();
       return status.isGranted;
-    } else if (Platform.isIOS) {
-      final status = await Permission.photosAddOnly.request();
-      return status.isGranted;
     }
+
     return true;
   }
 
   Future<void> _saveToGallery() async {
+    print('사진첩에 저장하기 클릭');
     final ok = await _ensureGalleryPermission();
+    print(ok);
     if (!ok) return;
 
     setState(() {
@@ -113,6 +127,12 @@ class _MyPageScreenState extends State<MyPageScreen> {
         ),
       );
     }
+  }
+
+  Future<bool> _isPhysicalDevice() async {
+    final deviceInfo = DeviceInfoPlugin();
+    final iosInfo = await deviceInfo.iosInfo;
+    return iosInfo.isPhysicalDevice ?? true;
   }
 
   Future<void> _shareRepaintBoundary() async {
