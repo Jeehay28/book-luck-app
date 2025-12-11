@@ -1,3 +1,4 @@
+import 'package:book_luck_app_demo/screens/setting_screen.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:book_luck_app_demo/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
   String dropdownValue = '최신순';
   bool hideIcons = false;
   List<Map<String, dynamic>> _bookReceipts = [];
+  int _currentIndex = 0;
 
   Future<bool> _ensureGalleryPermission() async {
     if (Platform.isIOS) {
@@ -224,6 +226,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
     final bodyWidth = context.bodyWidth;
+    final receipt = _bookReceipts[_currentIndex];
 
     return Scaffold(
         body: SafeArea(
@@ -299,12 +302,18 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                           width:
                                               bodyWidth * (16 / kDeviceWidth),
                                         ),
-                                        SvgPicture.asset(
-                                          'assets/images/cogwheel.svg',
-                                          width:
-                                              bodyWidth * (24 / kDeviceWidth),
-                                          height:
-                                              bodyHeight * (24 / kDeviceHeight),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, SettingScreen.id);
+                                          },
+                                          child: SvgPicture.asset(
+                                            'assets/images/cogwheel.svg',
+                                            width:
+                                                bodyWidth * (24 / kDeviceWidth),
+                                            height: bodyHeight *
+                                                (24 / kDeviceHeight),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -335,7 +344,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                           width: bodyWidth * (4 / kDeviceWidth),
                                         ),
                                         Text(
-                                          '21',
+                                          '${_bookReceipts.length}',
                                           style: kTextStyle14(context,
                                               opacity: 0.4),
                                         ),
@@ -453,59 +462,35 @@ class _MyPageScreenState extends State<MyPageScreen> {
                             height: bodyHeight * (8 / kDeviceHeight),
                           ),
 
-                          // Card
+                          // 영수증 Card
                           RepaintBoundary(
                               key: _containerKey,
                               child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
                                   child: Container(
-                                width: bodyWidth * (281 / kDeviceWidth),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: const Color(0xFFDDDDDD), width: 1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(children: [
-                                  // 1 share download
-
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            bodyWidth * (20 / kDeviceWidth),
-                                        vertical:
-                                            bodyHeight * (20 / kDeviceHeight)),
-                                    child: Visibility(
-                                      visible: !hideIcons,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              padding: const EdgeInsets.all(8),
-                                              height: bodyHeight *
-                                                  (32 / kDeviceHeight),
-                                              width: bodyWidth *
-                                                  (32 / kDeviceWidth),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color:
-                                                        const Color(0xFFDDDDDD),
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: Center(
-                                                  child: Text(
-                                                '1',
-                                                style: kTextStyle14(context,
-                                                    weight: FontWeight.w700),
-                                              ))),
-                                          Row(
+                                    width: bodyWidth * (281 / kDeviceWidth),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color(0xFFDDDDDD),
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Column(children: [
+                                      // 1 share download
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                bodyWidth * (20 / kDeviceWidth),
+                                            vertical: bodyHeight *
+                                                (20 / kDeviceHeight)),
+                                        child: Visibility(
+                                          visible: !hideIcons,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              GestureDetector(
-                                                onTap: _saveToGallery,
-                                                child: Container(
+                                              Container(
                                                   padding:
                                                       const EdgeInsets.all(8),
                                                   height: bodyHeight *
@@ -522,130 +507,162 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                                         BorderRadius.circular(
                                                             8),
                                                   ),
-                                                  child: SvgPicture.asset(
-                                                    'assets/images/download_icon.svg',
+                                                  child: Center(
+                                                      child: Text(
+                                                    '${_currentIndex + 1}',
+                                                    style: kTextStyle14(context,
+                                                        weight:
+                                                            FontWeight.w700),
+                                                  ))),
+                                              Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: _saveToGallery,
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      height: bodyHeight *
+                                                          (32 / kDeviceHeight),
+                                                      width: bodyWidth *
+                                                          (32 / kDeviceWidth),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xFFDDDDDD),
+                                                            width: 1),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/download_icon.svg',
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: bodyWidth *
-                                                    (8 / kDeviceWidth),
-                                              ),
-                                              GestureDetector(
-                                                onTap: _shareRepaintBoundary,
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  height: bodyHeight *
-                                                      (32 / kDeviceHeight),
-                                                  width: bodyWidth *
-                                                      (32 / kDeviceWidth),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: const Color(
-                                                            0xFFDDDDDD),
-                                                        width: 1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
+                                                  SizedBox(
+                                                    width: bodyWidth *
+                                                        (8 / kDeviceWidth),
                                                   ),
-                                                  child: SvgPicture.asset(
-                                                    'assets/images/share_icon.svg',
+                                                  GestureDetector(
+                                                    onTap:
+                                                        _shareRepaintBoundary,
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      height: bodyHeight *
+                                                          (32 / kDeviceHeight),
+                                                      width: bodyWidth *
+                                                          (32 / kDeviceWidth),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xFFDDDDDD),
+                                                            width: 1),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/share_icon.svg',
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
+                                                ],
+                                              )
                                             ],
-                                          )
+                                          ),
+                                        ),
+                                      ),
+
+                                      Column(
+                                        children: [
+                                          // why do I love you
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: bodyWidth *
+                                                    (20 / kDeviceWidth),
+                                                vertical: bodyHeight *
+                                                    (12 / kDeviceHeight)),
+                                            child: Container(
+                                              height: bodyHeight *
+                                                  (120 / kDeviceHeight),
+                                              width: bodyWidth *
+                                                  (241 / kDeviceWidth),
+                                              child: Column(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    'assets/images/black_clover_mypage.svg',
+                                                  ),
+                                                  Text(
+                                                    receipt['title'] ?? '',
+                                                    style: kTextStyle16(context,
+                                                        weight:
+                                                            FontWeight.w800),
+                                                  ),
+                                                  Text(
+                                                    receipt['author'] ?? '',
+                                                    style: kTextStyle12(context,
+                                                        weight:
+                                                            FontWeight.w800),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+
+                                          // review summary
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: bodyWidth *
+                                                    (20 / kDeviceWidth)),
+                                            child: Container(
+                                              height: bodyHeight *
+                                                  (87 / kDeviceHeight),
+                                              width: bodyWidth *
+                                                  (241 / kDeviceWidth),
+                                              child: Text(
+                                                  receipt['review'] ??
+                                                      '리뷰가 없습니다.',
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(height: 2)),
+                                            ),
+                                          ),
+
+                                          // bar code
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: bodyHeight *
+                                                    (20 / kDeviceHeight)),
+                                            child: Container(
+                                              height: bodyHeight *
+                                                  (92 / kDeviceHeight),
+                                              width: bodyWidth *
+                                                  (281 / kDeviceWidth),
+                                              child: Column(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    'assets/images/barcode.svg',
+                                                  ),
+                                                  SizedBox(
+                                                    height: bodyHeight *
+                                                        (12 / kDeviceHeight),
+                                                  ),
+                                                  Text(
+                                                      '${(receipt['startDate'] as String).replaceAll("-", ".")} - ${(receipt['endDate'] as String).replaceAll("-", ".")} ${(receipt['duration'] / 3600).floor()} HOURS ${((receipt['duration'] % 3600) / 60).floor()} MIN')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-
-                                  ..._bookReceipts.map((receipt) {
-                                    return Column(
-                                      children: [
-                                        // why do I love you
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: bodyWidth *
-                                                  (20 / kDeviceWidth),
-                                              vertical: bodyHeight *
-                                                  (12 / kDeviceHeight)),
-                                          child: Container(
-                                            height: bodyHeight *
-                                                (120 / kDeviceHeight),
-                                            width: bodyWidth *
-                                                (241 / kDeviceWidth),
-                                            child: Column(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/black_clover_mypage.svg',
-                                                ),
-                                                Text(
-                                                  receipt['title'] ?? '',
-                                                  style: kTextStyle16(context,
-                                                      weight: FontWeight.w800),
-                                                ),
-                                                Text(
-                                                  receipt['author'] ?? '',
-                                                  style: kTextStyle12(context,
-                                                      weight: FontWeight.w800),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-
-                                        // review summary
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: bodyWidth *
-                                                  (20 / kDeviceWidth)),
-                                          child: Container(
-                                            height: bodyHeight *
-                                                (87 / kDeviceHeight),
-                                            width: bodyWidth *
-                                                (241 / kDeviceWidth),
-                                            child: Text(
-                                                receipt['review'] ??
-                                                    '리뷰가 없습니다.',
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(height: 2)),
-                                          ),
-                                        ),
-
-                                        // bar code
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: bodyHeight *
-                                                  (20 / kDeviceHeight)),
-                                          child: Container(
-                                            height: bodyHeight *
-                                                (92 / kDeviceHeight),
-                                            width: bodyWidth *
-                                                (281 / kDeviceWidth),
-                                            child: Column(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/barcode.svg',
-                                                ),
-                                                SizedBox(
-                                                  height: bodyHeight *
-                                                      (12 / kDeviceHeight),
-                                                ),
-                                                Text(
-                                                    '${(receipt['startDate'] as String).replaceAll("-", ".")} - ${(receipt['endDate'] as String).replaceAll("-", ".")} ${(receipt['duration'] / 3600).floor()} HOURS ${((receipt['duration'] % 3600) / 60).floor()} MIN')
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }).toList(),
-                                ]),
-                              ))),
+                                    ]),
+                                  ))),
 
                           SizedBox(
                             height: bodyHeight * (12 / kDeviceHeight),
@@ -662,7 +679,14 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      print(_currentIndex);
+                                      if (_currentIndex > 0) {
+                                        setState(() {
+                                          _currentIndex--;
+                                        });
+                                      }
+                                    },
                                     child: Text(
                                       '이전 기록',
                                       style: kTextStyle16(context),
@@ -686,7 +710,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      print(_currentIndex);
+                                      if (_currentIndex <
+                                          _bookReceipts.length - 1) {
+                                        setState(() {
+                                          _currentIndex++;
+                                        });
+                                      }
+                                    },
                                     child: Text(
                                       '다음 기록',
                                       style: kTextStyle16(context,

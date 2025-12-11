@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'dart:math'; // 👈 max() 쓰려고 필요
@@ -7,6 +9,14 @@ class ReadingData {
   final double hours;
 
   ReadingData(this.date, this.hours);
+
+// JSON → Model
+  factory ReadingData.fromJson(Map<String, dynamic> json) {
+    return ReadingData(
+      json['date'] as String,
+      (json['hours'] as num).toDouble(),
+    );
+  }
 }
 
 class ReadingCapsuleFlChart extends StatelessWidget {

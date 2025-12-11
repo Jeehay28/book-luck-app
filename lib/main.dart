@@ -3,6 +3,7 @@ import 'package:book_luck_app_demo/screens/book_pictorial_book_screen.dart';
 import 'package:book_luck_app_demo/screens/book_review_complete_screen.dart';
 import 'package:book_luck_app_demo/screens/book_review_write_screen.dart';
 import 'package:book_luck_app_demo/screens/book_select_screen.dart';
+import 'package:book_luck_app_demo/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/landing_page.dart';
@@ -58,7 +59,8 @@ class MyApp extends StatelessWidget {
           BookSearchScreen.id: (context) => BookSearchScreen(),
           BookSelectScreen.id: (context) => BookSelectScreen(),
           BookReviewCompleteScreen.id: (context) => BookReviewCompleteScreen(),
-          BookPictorialBookScreen.id: (context) => BookPictorialBookScreen()
+          BookPictorialBookScreen.id: (context) => BookPictorialBookScreen(),
+          SettingScreen.id: (context) => SettingScreen()
         },
         onGenerateRoute: (settings) {
           print(settings);

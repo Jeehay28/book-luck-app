@@ -1,5 +1,6 @@
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 import 'package:book_luck_app_demo/screens/mypage_screen.dart';
+import 'package:book_luck_app_demo/screens/setting_screen.dart';
 import 'package:book_luck_app_demo/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,16 +33,17 @@ class _BookPictorialBookScreenState extends State<BookPictorialBookScreen> {
 
   // List<Map<String, dynamic>> _readingMonthlyData = [];
   List<MonthlyReadingData> _readingMonthlyData = [];
+  List<ReadingData> _readingTimeDataLast7Days = [];
 
-  final readingTimeDataLast7Days = [
-    ReadingData('10.23', 0.8),
-    ReadingData('10.24', 2.3),
-    ReadingData('10.25', 2.5),
-    ReadingData('10.26', 0.4),
-    ReadingData('10.27', 0.3),
-    ReadingData('10.28', 0.0),
-    ReadingData('10.29', 0.0),
-  ];
+  // final readingTimeDataLast7Days = [
+  //   ReadingData('10.23', 0.8),
+  //   ReadingData('10.24', 2.3),
+  //   ReadingData('10.25', 2.5),
+  //   ReadingData('10.26', 0.4),
+  //   ReadingData('10.27', 0.3),
+  //   ReadingData('10.28', 0.0),
+  //   ReadingData('10.29', 0.0),
+  // ];
 
   final readingTimeDataWeekly = [
     ReadingData('일', 0.8),
@@ -52,21 +54,6 @@ class _BookPictorialBookScreenState extends State<BookPictorialBookScreen> {
     ReadingData('금', 0.0),
     ReadingData('토', 0.0),
   ];
-
-  // final readingMonthlyData = [
-  //   MonthlyReadingData(1, 0),
-  //   MonthlyReadingData(2, 5),
-  //   MonthlyReadingData(3, 0),
-  //   MonthlyReadingData(4, 2.5),
-  //   MonthlyReadingData(5, 7.5),
-  //   MonthlyReadingData(6, 15),
-  //   MonthlyReadingData(7, 12.5),
-  //   MonthlyReadingData(8, 7.5),
-  //   MonthlyReadingData(9, 10),
-  //   MonthlyReadingData(10, 12.5),
-  //   MonthlyReadingData(11, 17.5),
-  //   MonthlyReadingData(12, 0),
-  // ];
 
   Future<void> getYearlyStats(String userId, int currentYear) async {
     try {
@@ -115,10 +102,51 @@ class _BookPictorialBookScreenState extends State<BookPictorialBookScreen> {
     }
   }
 
+  Future<void> getWeeklyStats(String userId) async {
+    try {
+      var url = ApiEndpoints.getWeeklyStats(userId);
+      NetworkHelper networkHelper = NetworkHelper(url);
+      var result = await networkHelper.getData();
+
+      if (result == null) {
+        print('getWeeklyStats: response is null');
+        return;
+      }
+
+      print("server raw result: $result");
+
+      if (result is List) {
+        final weeklyStats = result
+            .whereType<Map>()
+            .map((e) => Map<String, dynamic>.from(e))
+            .toList();
+
+        if (!mounted) return;
+
+        if (weeklyStats.isNotEmpty) {
+          // Convert Map → ReadingData
+          final convertedWeeklyStats =
+              weeklyStats.map((map) => ReadingData.fromJson(map)).toList();
+
+          setState(() {
+            _readingTimeDataLast7Days = convertedWeeklyStats;
+          });
+        }
+        return;
+      }
+
+      print(
+          'getWeeklyStats: unexpected response type'); // ← you were hitting this before
+    } catch (err) {
+      print('Error during getYearlyStats: $err');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getYearlyStats('1', DateTime.now().year);
+    getWeeklyStats('1');
   }
 
   @override
@@ -190,10 +218,15 @@ class _BookPictorialBookScreenState extends State<BookPictorialBookScreen> {
                             SizedBox(
                               width: bodyWidth * (16 / kDeviceWidth),
                             ),
-                            SvgPicture.asset(
-                              'assets/images/cogwheel.svg',
-                              width: bodyWidth * (24 / kDeviceWidth),
-                              height: bodyHeight * (24 / kDeviceHeight),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, SettingScreen.id);
+                              },
+                              child: SvgPicture.asset(
+                                'assets/images/cogwheel.svg',
+                                width: bodyWidth * (24 / kDeviceWidth),
+                                height: bodyHeight * (24 / kDeviceHeight),
+                              ),
                             )
                           ],
                         ),
@@ -376,8 +409,8 @@ class _BookPictorialBookScreenState extends State<BookPictorialBookScreen> {
                     Container(
                       height: bodyHeight * (149.33 / kDeviceHeight),
                       width: bodyWidth * (320 / kDeviceWidth),
-                      child:
-                          ReadingCapsuleFlChart(data: readingTimeDataLast7Days),
+                      child: ReadingCapsuleFlChart(
+                          data: _readingTimeDataLast7Days),
                     ),
                   ],
                 ),

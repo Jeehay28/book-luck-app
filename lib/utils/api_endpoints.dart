@@ -24,4 +24,7 @@ class ApiEndpoints {
 
   static String getYearlyStats(String userId, int currentYear) =>
       '$base/users/$userId/records/stats?year=$currentYear';
+
+  static String getWeeklyStats(String userId) =>
+      '$base/users/$userId/records/weekly';
 }
