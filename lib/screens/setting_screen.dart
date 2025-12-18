@@ -1,8 +1,8 @@
 import 'package:book_luck_app_demo/extensions/context_extensions.dart';
 import 'package:book_luck_app_demo/screens/book_pictorial_book_screen.dart';
+import 'package:book_luck_app_demo/widgets/slide_toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../styles/app_text_styles.dart';
 import '../utils/constants.dart';
 import '../widgets/privacy_policy_popup.dart';
@@ -115,9 +115,16 @@ class _SettingScreenState extends State<SettingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '북럭 메시지 받기',
-                        style: kTextStyle16(context, weight: FontWeight.w700),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '북럭 메시지 받기',
+                            style:
+                                kTextStyle16(context, weight: FontWeight.w700),
+                          ),
+                          SlideToggle()
+                        ],
                       ),
                       Text(
                         '하루에 한번 독서 알림을 받아요',

@@ -226,6 +226,13 @@ class _MyPageScreenState extends State<MyPageScreen> {
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
     final bodyWidth = context.bodyWidth;
+    if (_bookReceipts.isEmpty) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     final receipt = _bookReceipts[_currentIndex];
 
     return Scaffold(
