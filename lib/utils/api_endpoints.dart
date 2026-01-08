@@ -27,4 +27,6 @@ class ApiEndpoints {
 
   static String getWeeklyStats(String userId) =>
       '$base/users/$userId/records/weekly';
+
+  static String getBookStamps(String userId) => '$base/users/$userId/badges';
 }

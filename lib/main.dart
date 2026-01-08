@@ -1,5 +1,4 @@
 import 'package:book_luck_app_demo/providers/recently_searched_books.dart';
-import 'package:book_luck_app_demo/screens/book_pictorial_book_screen.dart';
 import 'package:book_luck_app_demo/screens/book_review_complete_screen.dart';
 import 'package:book_luck_app_demo/screens/book_review_write_screen.dart';
 import 'package:book_luck_app_demo/screens/book_select_screen.dart';
@@ -59,7 +58,6 @@ class MyApp extends StatelessWidget {
           BookSearchScreen.id: (context) => BookSearchScreen(),
           BookSelectScreen.id: (context) => BookSelectScreen(),
           BookReviewCompleteScreen.id: (context) => BookReviewCompleteScreen(),
-          BookPictorialBookScreen.id: (context) => BookPictorialBookScreen(),
           SettingScreen.id: (context) => SettingScreen()
         },
         onGenerateRoute: (settings) {
