@@ -23,16 +23,6 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
   int currentPage = 0;
   static const int itemsPerPage = 9;
 
-  final readingTimeDataWeekly = [
-    ReadingData('일', 0.8),
-    ReadingData('월', 2.3),
-    ReadingData('화', 2.5),
-    ReadingData('수', 0.4),
-    ReadingData('목', 0.3),
-    ReadingData('금', 0.0),
-    ReadingData('토', 0.0),
-  ];
-
   List<Map<String, dynamic>> get currentPageItems {
     final startIndex = currentPage * itemsPerPage;
     final endIndex = (startIndex + itemsPerPage < _badgeData.length)
@@ -117,6 +107,7 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
 
           setState(() {
             _readingTimeDataLast7Days = convertedWeeklyStats;
+            print(_readingTimeDataLast7Days);
           });
         }
         return;
@@ -152,6 +143,11 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
     }
   }
 
+  String formatDate(String date) {
+    final parts = date.split('.');
+    return '${parts[0]}월 ${parts[1]}일';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -164,6 +160,7 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
   Widget build(BuildContext context) {
     final bodyHeight = context.bodyHeight;
     final bodyWidth = context.bodyWidth;
+
     return Column(
       children: [
         Padding(
@@ -291,6 +288,7 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
             ),
           ),
         ),
+
         // Bar
         Padding(
           padding:
@@ -301,121 +299,105 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
                 BoxDecoration(color: Color(0xFF56698F).withOpacity(0.04)),
           ),
         ),
-        Container(
-          height: bodyHeight * (257.33 / kDeviceHeight),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SvgPicture.asset(
-                'assets/images/open_book.svg',
-                width: bodyWidth * (24 / kDeviceWidth),
-                height: bodyHeight * (24 / kDeviceHeight),
-              ),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '64',
-                      style: kTextStyle20(context).copyWith(
-                        color:
-                            Color(0xffEA5D29), // <-- highlight only this part
-                      ),
-                    ),
-                    TextSpan(
-                      text: '분의 독서',
-                      style: kTextStyle20(context),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                '최근 7일 독서 기록',
-                style: kTextStyle14(context,
-                    opacity: 0.4, weight: FontWeight.w500),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: bodyHeight * (149.33 / kDeviceHeight),
-                width: bodyWidth * (320 / kDeviceWidth),
-                child: ReadingCapsuleFlChart(data: _readingTimeDataLast7Days),
-              ),
-            ],
-          ),
-        ),
 
         Container(
-            height: bodyHeight * (277.33 / kDeviceHeight),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                      height: bodyHeight * (48 / kDeviceHeight),
-                      width: bodyWidth * (320 / kDeviceWidth),
-                      decoration: BoxDecoration(
-                        color: Color(0xffebeef5),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            height: bodyHeight * (40 / kDeviceHeight),
-                            width: bodyWidth * (152 / kDeviceWidth),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                                child: Text(
-                              '주간',
-                              style: kTextStyle14(context,
-                                  weight: FontWeight.w700),
-                            )),
-                          ),
-                          Container(
-                            height: bodyHeight * (40 / kDeviceHeight),
-                            width: bodyWidth * (152 / kDeviceWidth),
-                            // decoration: BoxDecoration(
-                            //   color: Colors.white,
-                            //   borderRadius: BorderRadius.circular(8),
-                            // ),
-                            child: Center(
-                                child: Text(
-                              '월간',
-                              style: kTextStyle14(context,
-                                  weight: FontWeight.w700),
-                            )),
-                          )
-                        ],
-                      )),
-                  Container(
-                    height: bodyHeight * (189.33 / kDeviceHeight),
-                    width: bodyWidth * (320 / kDeviceWidth),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '최근 7일 독서 기록',
-                                style: kTextStyle16(context,
-                                    weight: FontWeight.w700),
-                              )
-                            ]),
-                        Container(
-                          width: bodyWidth * (320 / kDeviceWidth),
-                          height: bodyHeight * (149.33 / kDeviceHeight),
-                          child: ReadingCapsuleFlChart(
-                              data: readingTimeDataWeekly),
-                        )
-                      ],
+            height: bodyHeight * (302 / kDeviceHeight),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                height: bodyHeight * (302 / kDeviceHeight),
+                width: bodyWidth * (320 / kDeviceWidth),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/open_book.svg',
+                      width: bodyWidth * (24 / kDeviceWidth),
+                      height: bodyHeight * (24 / kDeviceHeight),
                     ),
-                  )
-                ])),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '64',
+                            style: kTextStyle20(context).copyWith(
+                              color: Color(
+                                  0xffEA5D29), // <-- highlight only this part
+                            ),
+                          ),
+                          TextSpan(
+                            text: '분의 독서',
+                            style: kTextStyle20(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      '최근 7일 독서 기록',
+                      style: kTextStyle14(context,
+                          opacity: 0.4, weight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: bodyHeight * (10 / kDeviceHeight),
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: Size(bodyWidth * (32 / bodyWidth),
+                                  bodyHeight * (32 / kDeviceHeight)),
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              side: const BorderSide(
+                                color: Color(0x14303030),
+                              ),
+                            ),
+                            child: const Icon(Icons.chevron_left),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              _readingTimeDataLast7Days.length >= 2
+                                  ? '${formatDate(_readingTimeDataLast7Days[1].date)} '
+                                      '~ ${formatDate(_readingTimeDataLast7Days.last.date)}'
+                                  : '',
+                              style: kTextStyle16(context,
+                                  weight: FontWeight.w700),
+                            ),
+                          ),
+                          Spacer(),
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: Size(bodyWidth * (32 / bodyWidth),
+                                  bodyHeight * (32 / kDeviceHeight)),
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              side: const BorderSide(
+                                color: Color(0x14303030),
+                              ),
+                            ),
+                            child: const Icon(Icons.chevron_right),
+                          ),
+                        ]),
+                    Container(
+                      width: bodyWidth * (320 / kDeviceWidth),
+                      height: bodyHeight * (149.33 / kDeviceHeight),
+                      child: ReadingCapsuleFlChart(
+                          data: _readingTimeDataLast7Days),
+                    )
+                  ],
+                ),
+              )
+            ])),
         Padding(
           padding:
               EdgeInsets.symmetric(vertical: bodyHeight * (12 / kDeviceHeight)),

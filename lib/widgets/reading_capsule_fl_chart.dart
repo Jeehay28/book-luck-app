@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'dart:math'; // 👈 max() 쓰려고 필요
