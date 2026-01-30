@@ -1,50 +1,45 @@
-<svg width="312" height="24" viewBox="0 0 312 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="path-1-outside-1_4117_47472" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24" fill="black">
-<rect fill="white" width="25" height="24"/>
-<path d="M0 2H22.1538V22H0V2Z"/>
-</mask>
-<path d="M0 2H22.1538V22H0V2Z" fill="white"/>
-<path d="M22.1538 2H24.1538V0H22.1538V2ZM22.1538 22V24H24.1538V22H22.1538ZM0 2V4H22.1538V2V0H0V2ZM22.1538 2H20.1538V22H22.1538H24.1538V2H22.1538ZM22.1538 22V20H0V22V24H22.1538V22Z" fill="black" mask="url(#path-1-outside-1_4117_47472)"/>
-<rect width="22.1538" height="6" transform="translate(0 16)" fill="#BCC4CB"/>
-<rect x="23.1538" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="23.1538" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(24.1538 16)" fill="#BCC4CB"/>
-<rect x="47.3076" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="47.3076" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(48.3076 16)" fill="#BCC4CB"/>
-<rect x="71.4614" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="71.4614" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(72.4614 16)" fill="#BCC4CB"/>
-<rect x="95.6152" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="95.6152" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(96.6152 16)" fill="#BCC4CB"/>
-<rect x="119.769" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="119.769" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(120.769 16)" fill="#BCC4CB"/>
-<rect x="143.923" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="143.923" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(144.923 16)" fill="#BCC4CB"/>
-<rect x="168.077" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="168.077" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="6" transform="translate(169.077 16)" fill="#BCC4CB"/>
-<rect x="192.231" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="192.231" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="14" transform="translate(193.231 2)" fill="white"/>
-<rect width="22.1538" height="6" transform="translate(193.231 16)" fill="#BCC4CB"/>
-<rect x="216.385" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="216.385" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="14" transform="translate(217.385 2)" fill="white"/>
-<rect width="22.1538" height="6" transform="translate(217.385 16)" fill="#BCC4CB"/>
-<rect x="240.539" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="240.539" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="14" transform="translate(241.539 2)" fill="white"/>
-<rect width="22.1538" height="6" transform="translate(241.539 16)" fill="#BCC4CB"/>
-<rect x="264.692" y="1" width="24.1538" height="22" fill="white"/>
-<rect x="264.692" y="1" width="24.1538" height="22" stroke="black" stroke-width="2"/>
-<rect width="22.1538" height="14" transform="translate(265.692 2)" fill="white"/>
-<rect width="22.1538" height="6" transform="translate(265.692 16)" fill="#BCC4CB"/>
-<path d="M289.846 2H312V22H289.846V2Z" fill="white"/>
-<path d="M289.846 2V0H287.846V2H289.846ZM289.846 22H287.846V24H289.846V22ZM289.846 2V4H312V2V0H289.846V2ZM312 22V20H289.846V22V24H312V22ZM289.846 22H291.846V2H289.846H287.846V22H289.846Z" fill="black"/>
-<rect width="22.1538" height="14" transform="translate(289.846 2)" fill="white"/>
-<rect width="22.1538" height="6" transform="translate(289.846 16)" fill="#BCC4CB"/>
+<svg width="300" height="24" viewBox="0 0 300 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Outer rounded frame (굵게) -->
+    <rect x="0.5" y="0.5" width="299" height="23" rx="5" ry="5" stroke="black" stroke-width="2"/>
+
+    <!-- Left vertical shade (only left corners rounded) -->
+    <path d="
+    M 1.5 4
+    Q 1.5 1.5 4 1.5
+    L 7.5 1.5
+    L 7.5 22.5
+    L 4 22.5
+    Q 1.5 22.5 1.5 20
+    Z" fill="#BCC4CB"/>
+
+    <!-- Right vertical shade (only right corners rounded) -->
+    <path d="
+    M 298.5 4
+    Q 298.5 1.5 296 1.5
+    L 292.5 1.5
+    L 292.5 22.5
+    L 296 22.5
+    Q 298.5 22.5 298.5 20
+    Z" fill="#BCC4CB"/>
+
+    <!-- Bottom continuous shade -->
+    <rect x="1.5" y="16" width="297" height="6" rx="3" fill="#BCC4CB"/>
+
+    <!-- Vertical separators (13 divisions) -->
+    <g stroke="black" stroke-width="1">
+        <line x1="23.08" y1="1" x2="23.08" y2="23"/>
+        <line x1="46.15" y1="1" x2="46.15" y2="23"/>
+        <line x1="69.23" y1="1" x2="69.23" y2="23"/>
+        <line x1="92.31" y1="1" x2="92.31" y2="23"/>
+        <line x1="115.38" y1="1" x2="115.38" y2="23"/>
+        <line x1="138.46" y1="1" x2="138.46" y2="23"/>
+        <line x1="161.54" y1="1" x2="161.54" y2="23"/>
+        <line x1="184.62" y1="1" x2="184.62" y2="23"/>
+        <line x1="207.69" y1="1" x2="207.69" y2="23"/>
+        <line x1="230.77" y1="1" x2="230.77" y2="23"/>
+        <line x1="253.85" y1="1" x2="253.85" y2="23"/>
+        <line x1="276.92" y1="1" x2="276.92" y2="23"/>
+    </g>
+
 </svg>

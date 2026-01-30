@@ -1,10 +1,21 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:book_luck_app_demo/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
+import 'google_login_web_view.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static const String id = 'login';
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -114,10 +125,14 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Action for Button 3
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const GoogleLoginWebView()),
+                  );
                 },
                 child: Text(
-                  "이메일로 시작하기",
+                  "Google로 시작하기",
                   style: TextStyle(
                     color: Color(0xFF303030), // Text color
                     fontSize: 16,

@@ -12,7 +12,9 @@ class ReadingtimeBar extends StatelessWidget {
     final bodyWidth = context.bodyWidth;
 
     final minutes = Provider.of<MinutesProvider>(context).minutes;
-    final goal = Provider.of<MinutesProvider>(context).goal;
+    final goal = Provider.of<MinutesProvider>(context).isGoalAchieved;
+    // final minutes = 60;
+    // final goal = false;
 
     print("Minutes: $minutes");
     print("Goal: $goal");
@@ -78,13 +80,12 @@ class ReadingtimeBar extends StatelessWidget {
                           ),
                         ]
                       : [
-                          // Red portion of the button
                           Container(
                             width: bodyWidth * 0.8889,
-                            height: bodyHeight * 0.0282,
+                            // height: bodyHeight * 0.0282,
+                            height: bodyHeight * 0.033,
                             child: Stack(
                               children: [
-                                // Fill from the left — this goes behind
                                 Container(
                                   width: (bodyWidth * 0.8889) *
                                       redPercentage, // 60% fill
@@ -97,14 +98,12 @@ class ReadingtimeBar extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
                                 SvgPicture.asset(
                                   "assets/images/readingTimeBar.svg",
                                   width: double.infinity,
                                   // height: bodyHeight * 0.0282,
                                   fit: BoxFit.cover,
                                 ),
-                                // SVG progress bar frame — on top
                               ],
                             ),
                           ),
@@ -121,7 +120,7 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "0분",
                         style: TextStyle(
-                          // fontFamily: 'MabinogiClassic',
+                          fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
                           color: Color.fromARGB(48, 48, 48, 0).withOpacity(0.6),
@@ -147,7 +146,7 @@ class ReadingtimeBar extends StatelessWidget {
                       Text(
                         "1시간",
                         style: TextStyle(
-                          // fontFamily: 'MabinogiClassic',
+                          fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
                           color: Color.fromARGB(48, 48, 48, 0)

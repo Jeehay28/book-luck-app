@@ -11,7 +11,7 @@ class GoalCountdown extends StatelessWidget {
     final bodyWidth = context.bodyWidth;
 
     final minutes = Provider.of<MinutesProvider>(context).minutes;
-    final goal = Provider.of<MinutesProvider>(context).goal;
+    final goal = Provider.of<MinutesProvider>(context).isGoalAchieved;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),

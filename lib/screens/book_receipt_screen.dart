@@ -225,12 +225,11 @@ class _BookReceiptScreenState extends State<BookReceiptScreen> {
     final bodyWidth = context.bodyWidth;
 
     if (_bookReceipts.isEmpty) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
+
     final receipt = _bookReceipts[_currentIndex];
 
     return Column(
