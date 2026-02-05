@@ -49,33 +49,50 @@ class ReadingtimeBar extends StatelessWidget {
                   children: goal
                       ? [
                           Container(
-                            width: bodyWidth * (320 / kDeviceWidth),
-                            height: bodyHeight * (23.09 / kDeviceHeight),
-                            child: SvgPicture.asset(
-                              "assets/images/readingTimeBar.svg",
-                            ),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  Color(0xFFF03636), // 빨간색
-                                  Color(0xFFF48200), // 주황색
-                                  Color(0xFFFCCF04), // 노란색
-                                  Color(0xFF19B57B), // 초록색
-                                ],
-                                stops: [0.0, 0.345, 0.64, 1.0], // 각각 색 위치 조정
-                              ),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(
-                                    4), // Top-left corner radius
-                                bottomLeft: Radius.circular(
-                                    4), // Bottom-left corner radius
-                                topRight: Radius.circular(
-                                    4), // Top-left corner radius
-                                bottomRight: Radius.circular(
-                                    4), // Bottom-left corner radius
-                              ),
+                            width: bodyWidth * 0.8889,
+                            // height: bodyHeight * 0.0282,
+                            height: bodyHeight * 0.033,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: (bodyWidth * 0.8889),
+                                  height: bodyHeight * 0.0282,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [
+                                        Color(0xFFF03636), // 빨간색
+                                        Color(0xFFF48200), // 주황색
+                                        Color(0xFFFCCF04), // 노란색
+                                        Color(0xFF19B57B), // 초록색
+                                      ],
+                                      stops: [
+                                        0.0,
+                                        0.345,
+                                        0.64,
+                                        1.0
+                                      ], // 각각 색 위치 조정
+                                    ),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(
+                                          4), // Top-left corner radius
+                                      bottomLeft: Radius.circular(
+                                          4), // Bottom-left corner radius
+                                      topRight: Radius.circular(
+                                          4), // Top-left corner radius
+                                      bottomRight: Radius.circular(
+                                          4), // Bottom-left corner radius
+                                    ),
+                                  ),
+                                ),
+                                SvgPicture.asset(
+                                  "assets/images/readingTimeBar.svg",
+                                  width: double.infinity,
+                                  // height: bodyHeight * 0.0282,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
                             ),
                           ),
                         ]
@@ -149,9 +166,7 @@ class ReadingtimeBar extends StatelessWidget {
                           fontFamily: 'MabinogiClassic',
                           fontSize:
                               0.0444 * bodyWidth, // Optional: Adjust font size
-                          color: Color.fromARGB(48, 48, 48, 0)
-                            ..withOpacity(0.6),
-                          // Text size
+                          color: Color.fromARGB(48, 48, 48, 0).withOpacity(0.6),
                           fontWeight: FontWeight.w400,
                           height:
                               1.4, // Correct height as a ratio to the font size
