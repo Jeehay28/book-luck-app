@@ -7,6 +7,14 @@ import '../services/networking.dart';
 import '../utils/api_endpoints.dart';
 
 class MinutesProvider extends ChangeNotifier {
+  MinutesProvider() {
+    _init();
+  }
+
+  Future<void> _init() async {
+    await loadInitialReadTime('1');
+  }
+
   Timer? _timer;
 
   // ================= internal state =================

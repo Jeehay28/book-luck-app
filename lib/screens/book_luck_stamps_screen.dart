@@ -143,6 +143,18 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
     }
   }
 
+  String _getBadgeAsset(int index) {
+    final number = index + 1;
+
+    // 9번까지만 실제 아이콘 있음
+    if (number > 9) {
+      return "assets/images/small_clover.svg";
+    }
+
+    final id = number.toString().padLeft(2, '0');
+    return "assets/images/bookluck_stamp_$id.svg";
+  }
+
   String formatDate(String date) {
     final parts = date.split('.');
     return '${parts[0]}월 ${parts[1]}일';
@@ -232,12 +244,17 @@ class _BookLuckStampsScreenState extends State<BookLuckStampsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  isActive
-                                      ? 'assets/images/small_green_clover.svg'
-                                      : 'assets/images/small_clover.svg',
-                                  width: bodyWidth * (62 / kDeviceWidth),
-                                  height: bodyHeight * (62 / kDeviceHeight),
+                                Opacity(
+                                  opacity: isActive ? 1 : 0.2,
+                                  child: SvgPicture.asset(
+                                    _getBadgeAsset(
+                                      currentPage * itemsPerPage +
+                                          rowIndex * 3 +
+                                          rowItems.indexOf(item),
+                                    ),
+                                    width: bodyWidth * (62 / kDeviceWidth),
+                                    height: bodyHeight * (62 / kDeviceHeight),
+                                  ),
                                 ),
                                 const SizedBox(height: 8),
                                 Text(

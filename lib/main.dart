@@ -17,6 +17,10 @@ import 'screens/mypage_screen.dart';
 import 'package:book_luck_app_demo/screens/main_screen.dart';
 import 'package:book_luck_app_demo/screens/book_search_screen.dart';
 import 'package:book_luck_app_demo/screens/book_review_list_screen.dart';
+import 'package:app_links/app_links.dart';
+import 'dart:async';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,12 +39,71 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+// AppLinks 인스턴스 생성 및 스트림 구독 준비
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDeepLink();
+  }
+
+  void _initDeepLink() async {
+    _appLinks = AppLinks();
+
+    // 앱이 꺼져있을 때 딥링크로 들어온 경우 처리 (Initial Link)
+    try {
+      final initialUri = await _appLinks.getInitialLink();
+      if (initialUri != null) {
+        _handleLink(initialUri.toString());
+      }
+    } catch (e) {
+      print("초기 딥링크 에러: $e");
+    }
+
+    // 4. 앱이 켜져있을 때 딥링크가 들어오는 경우 감지 (Stream)
+    _linkSubscription = _appLinks.uriLinkStream.listen(
+      (uri) {
+        _handleLink(uri.toString());
+      },
+      onError: (err) {
+        print("딥링크 스트림 에러: $err");
+      },
+    );
+  }
+
+  void _handleLink(String link) {
+    print("딥링크 수신: $link");
+
+    // 기존 로직 유지
+    if (link.contains("login/success")) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        HomeScreen.id,
+        (route) => false,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    // 구독 해제
+    _linkSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Book Luck App',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white, // Set default background color

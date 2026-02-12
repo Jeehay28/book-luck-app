@@ -1,12 +1,7 @@
-import 'dart:async';
-
-import 'package:app_links/app_links.dart';
 import 'package:book_luck_app_demo/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
-import 'google_login_web_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'login';
@@ -124,13 +119,21 @@ class _LoginPageState extends State<LoginPage> {
                         BorderRadius.all(Radius.circular(8)), // Rounded corners
                   ),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const GoogleLoginWebView()),
+                // onPressed: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const GoogleLoginWebView()),
+                //   );
+                // },
+                onPressed: () async {
+                  await launchUrl(
+                    Uri.parse(
+                        "https://api.bookluck.org/oauth2/authorization/google"),
+                    mode: LaunchMode.externalApplication,
                   );
                 },
+
                 child: Text(
                   "Google로 시작하기",
                   style: TextStyle(
